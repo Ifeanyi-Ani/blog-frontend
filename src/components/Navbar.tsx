@@ -34,14 +34,12 @@ export function Navbar() {
           <NavbarBs.Brand to='/' className='link-light fs-1' as={NavLink}>
             t
           </NavbarBs.Brand>
-          <Form className='d-flex'>
-            <Form.Control
-              type='search'
-              placeholder='Search'
-              className='me-2'
-              aria-label='Search'
-            />
-          </Form>
+          <form>
+            <div className='searchItem'>
+              <i className='bi bi-search'></i>
+              <input type='text' placeholder='Search Tumblr' />
+            </div>
+          </form>
           <Nav className='ms-auto my-2 my-lg-0' style={{ maxHeight: "100px" }}>
             <Stack direction='horizontal' gap={3}>
               <Button variant='info'>Click for frogs</Button>

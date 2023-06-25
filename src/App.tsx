@@ -11,7 +11,7 @@ class App extends React.Component {
     return (
       <>
         <BrowserRouter>
-          <Container fluid className='page-wrapper'>
+          <Container fluid className='page-wrapper p-0'>
             <Navbar />
             <Routes>
               <Route path='/' element={<Home />} />
