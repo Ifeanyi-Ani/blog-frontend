@@ -1,0 +1,95 @@
+.page-wrapper {
+  background-color: #001935;
+  color: #fff;
+  min-height: 100vh;
+}
+.myPrimaryb {
+  background-color: #001935;
+}
+.mySecondaryb {
+  background-color: #122943;
+}
+.navbarbs {
+  border-bottom: 0.005px solid #707272 !important;
+}
+.navbarts {
+  border-top: 0.005px solid #707272;
+}
+.view-cnt i {
+  color: #fff !important;
+  opacity: 0.5;
+  width: 20px;
+  height: 20px;
+}
+.view-cnt i.actv {
+  opacity: 1;
+}
+
+.footer-img img {
+  width: 35px;
+  height: 40px;
+  object-fit: cover;
+}
+.gridView-w {
+  width: 70%;
+}
+.listView-w {
+  width: 50%;
+}
+.gridView {
+  columns: 3;
+}
+.listView {
+  columns: 1;
+}
+.mansoryLayout {
+  width: 100%;
+  margin: 20px auto;
+  column-gap: 20px;
+}
+.gridItem {
+  width: 100%;
+  margin-bottom: 20px;
+  break-inside: avoid;
+}
+.sideBar {
+  width: 25%;
+}
+.imgCon {
+  width: 40px;
+  height: 40px;
+}
+.imgCon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 2px;
+}
+.nameCon {
+  font-weight: 700;
+}
+.act {
+  font-weight: 700;
+}
+.act:hover {
+  text-decoration: underline !important;
+  cursor: pointer;
+}
+.actx {
+  font-weight: 700;
+  color: #acac9e;
+  cursor: pointer;
+}
+.actx:hover {
+  color: #fff;
+}
+.modalPrimary {
+  background-color: #7c5cff;
+  color: #fff;
+}
+.modalBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
