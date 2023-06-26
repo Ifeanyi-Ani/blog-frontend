@@ -9,6 +9,30 @@
 .mySecondaryb {
   background-color: #122943;
 }
+.centerForm {
+  width: 60%;
+  margin: auto;
+}
+.centerForm input {
+  margin-bottom: 30px;
+  background-color: #967dff;
+  color: #fff;
+  border: none;
+  outline: none;
+}
+.centerForm input::placeholder {
+  color: #fff !important;
+}
+.centerForm input:focus {
+  border: 1px solid #fff;
+  box-shadow: unset;
+}
+.centerForm input[type="submit"] {
+  background-color: #fff;
+  font-weight: 700;
+  border-radius: 20px;
+  color: #000;
+}
 .navbarbs {
   border-bottom: 0.005px solid #707272 !important;
 }

@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Container,
   Nav,
-  Form,
   Stack,
   Button,
   Navbar as NavbarBs,
@@ -12,10 +11,12 @@ import { NavLink } from "react-router-dom";
 import googleLogo from "../assets/googleLogo.jpg";
 import appleLogo from "../assets/appleLogo.jpg";
 import emailLogo from "../assets/messLogo.jpg";
+import { SignupWithEmail } from "./SignupWithEmail";
 
 export function Navbar() {
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setisOpen] = useState<boolean>(false);
+  
 
   function handleModal1(val: boolean) {
     setShow(val);
@@ -26,6 +27,10 @@ export function Navbar() {
   function modalAct() {
     setisOpen(true);
     setShow(false);
+  }
+  function handlePrevModal() {
+    setisOpen(false);
+    setShow(true);
   }
   return (
     <>
@@ -91,6 +96,12 @@ export function Navbar() {
           </Stack>
         </Modal.Body>
       </Modal>
+      <SignupWithEmail
+        isOpen={isOpen}
+        handleModal2={() => handleModal2(false)}
+        handlePrevModal={handlePrevModal}
+        closeModal={() => setisOpen(false)}
+      />
     </>
   );
 }
