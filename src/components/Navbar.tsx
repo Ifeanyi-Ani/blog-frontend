@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState } from "react";
 import {
   Container,
@@ -6,17 +7,20 @@ import {
   Button,
   Navbar as NavbarBs,
   Modal,
+  NavDropdown,
 } from "react-bootstrap";
+import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import googleLogo from "../assets/googleLogo.jpg";
 import appleLogo from "../assets/appleLogo.jpg";
 import emailLogo from "../assets/messLogo.jpg";
-import { SignupWithEmail } from "./SignupWithEmail";
+import SignupWithEmail from "./SignupWithEmail";
+import { isLoggedin } from "../redux/user/user.action";
+import { ProfileAction } from "./ProfileAction";
 
-export function Navbar() {
+const Navbar = function ({ hidden, isLoggedin }) {
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setisOpen] = useState<boolean>(false);
-  
 
   function handleModal1(val: boolean) {
     setShow(val);
@@ -32,6 +36,10 @@ export function Navbar() {
     setisOpen(false);
     setShow(true);
   }
+  function handleLogOut(e) {
+    e.stopPropagation();
+    isLoggedin();
+  }
   return (
     <>
       <NavbarBs className='navbarbs'>
@@ -45,14 +53,202 @@ export function Navbar() {
               <input type='text' placeholder='Search Tumblr' />
             </div>
           </form>
-          <Nav className='ms-auto my-2 my-lg-0' style={{ maxHeight: "100px" }}>
-            <Stack direction='horizontal' gap={3}>
-              <Button variant='info'>Click for frogs</Button>
-              <Button variant='success' onClick={() => handleModal1(true)}>
-                Log in
-              </Button>
-            </Stack>
-          </Nav>
+          <NavbarBs.Toggle aria-controls='basic-navbar-nav' />
+          <NavbarBs.Collapse id='basic-navbar-nav'>
+            <Nav
+              className='ms-auto my-2 my-lg-0'
+              style={{ maxHeight: "100px" }}
+            >
+              {hidden ? (
+                <>
+                  <Stack direction='horizontal' gap={3}>
+                    <Button variant='info'>Click for frogs</Button>
+                    <Button
+                      variant='success'
+                      onClick={() => handleModal1(true)}
+                    >
+                      Log in
+                    </Button>
+                  </Stack>
+                </>
+              ) : (
+                <>
+                  <Nav.Link href='#home'>
+                    <i className='bi bi-house-fill'></i>
+                  </Nav.Link>
+                  <Nav.Link href='#link'>
+                    <i className='bi bi-compass'></i>
+                  </Nav.Link>
+                  <Nav.Link href='#link'>
+                    <i className='bi bi-gift-fill'></i>
+                  </Nav.Link>
+                  <Nav.Link href='#link'>
+                    <i className='bi bi-envelope-fill'></i>
+                  </Nav.Link>
+                  <Nav.Link href='#link'>
+                    <i className='bi bi-emoji-laughing-fill'></i>
+                  </Nav.Link>
+                  <Nav.Link href='#link'>
+                    <i className='bi bi-lightning-charge-fill'></i>
+                  </Nav.Link>
+                  <NavDropdown
+                    title={<i className='bi bi-person-fill'></i>}
+                    id='basic-nav-dropdown'
+                    className='dropDownConfig'
+                  >
+                    <NavDropdown.Item as={Button} className='secBreak'>
+                      <div>Account</div>
+                      <div
+                        role='button'
+                        className='btnConfig'
+                        onClick={e => handleLogOut(e)}
+                      >
+                        Log out
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Likes
+                      </div>
+                      <div>2</div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Following
+                      </div>
+                      <div>31</div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Settings
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Domains
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Go Ad-Free
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Payments & purchase
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Gifts
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        What's new
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Help
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Keyboard shortcuts
+                      </div>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      href='#action/3.2'
+                      className='d-flex justify-content-between'
+                    >
+                      <div className='leftCol'>
+                        <div className='offSetImg'>
+                          <i className='bi bi-gift-fill'></i>
+                        </div>
+                        Change palette
+                      </div>
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item href='#action/3.3' className='secBreak'>
+                      <div>Blogs</div>
+                      <div role='button'>+New</div>
+                    </NavDropdown.Item>
+
+                    <NavDropdown.Item href='#action/3.4'>
+                      <div className='offSetImg'>
+                        <i className='bi bi-gift-fill'></i>
+                      </div>
+                      <ProfileAction />
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                  <Nav.Link href='#link'>
+                    <i className='bi bi-pencil-fill'></i>
+                  </Nav.Link>
+                </>
+              )}
+            </Nav>
+          </NavbarBs.Collapse>
         </Container>
       </NavbarBs>
       <Modal centered show={show} onHide={() => handleModal1(false)}>
@@ -104,4 +300,11 @@ export function Navbar() {
       />
     </>
   );
-}
+};
+const mapStateToProps = ({ isLoggedin: { hidden } }) => ({
+  hidden,
+});
+const mapDispatchToProps = dispatch => ({
+  isLoggedin: () => dispatch(isLoggedin()),
+});
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

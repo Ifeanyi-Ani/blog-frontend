@@ -1,13 +1,10 @@
-import { Button, Card, Col, Row, Stack } from "react-bootstrap";
+import { Button, Stack } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
 import { useState } from "react";
-import avater from "../assets/avater.jpg";
-import shareLogo from "../assets/share.jpg";
-import reloadLogo from "../assets/reload.jpg";
-import likeLogo from "../assets/likes.jpg";
-import content1 from "../assets/content1.png";
+
 import { CardInfo } from "../components/CardInfo";
 import theme from "../assets/theme.jpg";
+import PostList from "../components/PostList";
 
 export function Home() {
   const [toggle, setToggle] = useState<boolean>(false);
@@ -60,7 +57,8 @@ export function Home() {
             toggle == true ? "gridView" : "listView"
           }`}
         >
-          <div className='gridItem'>
+          <PostList />
+          {/* <div className='gridItem'>
             <Card>
               <Card.Header
                 style={{
@@ -147,86 +145,9 @@ export function Home() {
                 </Stack>
               </Card.Footer>
             </Card>
-          </div>
-          <div className='gridItem'>
-            <Card>
-              <Card.Header
-                style={{
-                  position: "relative",
-                  borderBottom: "none",
-                  paddingLeft: "55px",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "30px",
-                    transform: "translate(-50%, -50%)",
-                    width: "35px",
-                    height: "35px",
-                  }}
-                  role='button'
-                >
-                  <img
-                    src={avater}
-                    alt='avater'
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-                <span role='button'>todayontumblr </span>
-                <span className='text-primary' role='button'>
-                  follow
-                </span>
-                <div
-                  role='button'
-                  className='d-flex justify-content-center align-items-center fs-4'
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "2px",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  ...
-                </div>
-              </Card.Header>
-              <Card.Body>
-                <Card.Title></Card.Title>
-                <Card.Img src={content1} alt='content' />
+          </div> */}
 
-                <Card.Text>
-                  <div className='d-flex gap-1 flex-wrap'>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                  </div>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
-                <div
-                  className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-                  role='button'
-                >
-                  2,440 notes
-                </div>
-                <Stack
-                  className='footer-img ms-auto gap-3'
-                  direction='horizontal'
-                >
-                  <img src={shareLogo} alt='logo' role='button' />
-                  <img src={reloadLogo} alt='logo' role='button' />
-                  <img src={likeLogo} alt='logo' role='button' />
-                </Stack>
-              </Card.Footer>
-            </Card>
-          </div>
-          <div className='gridItem'>
+          {/* <div className='gridItem'>
             <Card>
               <Card.Header
                 style={{
@@ -576,7 +497,7 @@ export function Home() {
                 </Stack>
               </Card.Footer>
             </Card>
-          </div>
+         */}
         </div>
       </main>
       <SideBar

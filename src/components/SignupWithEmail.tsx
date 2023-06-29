@@ -1,17 +1,21 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Form, Modal } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { isLoggedin } from "../redux/user/user.action";
 import { useMutistepForm } from "./useMutistepForm";
 import { UserFromEmail } from "./UserFromEmail";
 import { UserFormPassword } from "./UserFormPassword";
 import { UserFormBithYear } from "./UserFormBithYear";
 import { useState } from "react";
 import { UserFormUsername } from "./UserFormUsername";
-// import { ContextData } from "../context/ContextData";
+
 type SignupWithEmailProp = {
   isOpen: any;
   handleModal2: any;
   handlePrevModal: any;
   closeModal: any;
+  isLoggedin: any;
 };
 type FormData = {
   email: string;
@@ -27,12 +31,13 @@ const INITIAL_DATA: FormData = {
   dob: "",
   username: "",
 };
-export function SignupWithEmail({
+const SignupWithEmail = ({
   isOpen,
   handleModal2,
   handlePrevModal,
   closeModal,
-}: SignupWithEmailProp) {
+  isLoggedin,
+}: SignupWithEmailProp) => {
   const [data, setData] = useState(INITIAL_DATA);
   function updateFields(fields: Partial<FormData>) {
     setData(prev => {
@@ -52,8 +57,8 @@ export function SignupWithEmail({
   function handleSubmit(e: any) {
     e.preventDefault();
     if (!isLastStep) return next();
+    isLoggedin();
     closeModal();
-    console.log(data);
   }
   return (
     <Modal
@@ -109,4 +114,8 @@ export function SignupWithEmail({
       </Modal.Body>
     </Modal>
   );
-}
+};
+const mapDispatchToProps = (dispatch: any) => ({
+  isLoggedin: () => dispatch(isLoggedin()),
+});
+export default connect(null, mapDispatchToProps)(SignupWithEmail);

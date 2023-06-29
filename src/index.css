@@ -49,6 +49,56 @@
 .navbar {
   padding: unset;
 }
+.navbar i {
+  color: hsl(0, 0%, 80%);
+  font-size: large;
+}
+.dropDownConfig .dropdown-menu {
+  left: -300% !important;
+  width: 250px;
+  overflow-y: scroll;
+  padding-top: 0;
+  font-size: 14px;
+  font-weight: 200 !important;
+}
+.dropDownConfig .dropdown-item {
+  position: relative;
+  padding-left: 40px;
+  pointer-events: none;
+}
+.btnConfig {
+  pointer-events: all;
+}
+.dropDownConfig .dropdown-item:active {
+  color: unset !important;
+  background-color: unset !important;
+}
+.dropDownConfig .dropdown-item:hover {
+  background-color: #eaeaea !important;
+}
+.dropDownConfig .nameCon {
+  font-weight: unset !important;
+}
+.offSetImg {
+  position: absolute;
+  left: 10px;
+  top: 2px;
+}
+.offSetImg i {
+  color: #4d4a4a;
+}
+.secBreak {
+  display: flex;
+  justify-content: space-between;
+  background-color: #eaeaea;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 16px;
+  font-weight: 400;
+}
+.secBreak:hover {
+  background-color: #eaeaea;
+}
 .searchItem i {
   color: hsl(0, 0%, 80%);
   font-weight: 600;
