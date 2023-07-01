@@ -9,6 +9,7 @@ import likeLogo from "../assets/likes.jpg";
 import content1 from "../assets/content1.png";
 import { Card, Stack } from "react-bootstrap";
 import UserHeader from "./UserHeader";
+import Avater from "./Avater";
 
 class PostList extends React.Component {
   componentDidMount(): void {
@@ -21,6 +22,7 @@ class PostList extends React.Component {
           this.props.posts.map((post, idx) => {
             return (
               <div className='gridItem' key={idx}>
+                <Avater />
                 <Card>
                   <UserHeader userId={post.userId} />
                   <Card.Body>

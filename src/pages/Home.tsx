@@ -1,19 +1,23 @@
 import { Button, Stack } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
 import { useState } from "react";
-
+import { connect } from "react-redux";
+import { isLoggedin } from "../redux/user/user.action";
 import { CardInfo } from "../components/CardInfo";
 import theme from "../assets/theme.jpg";
 import PostList from "../components/PostList";
+import CreatePostContainer from "../components/CreatePostContainer";
 
-export function Home() {
+const Home = function ({ hidden }) {
   const [toggle, setToggle] = useState<boolean>(false);
   function handleToggle(val: boolean) {
     setToggle(val);
   }
   return (
-    <div className='d-flex justify-content-center gap-3 pt-3'>
+    <div className='d-flex justify-content-center gap-3 pt-3 homeHead'>
       <main className={`${toggle === true ? "gridView-w" : "listView-w"}`}>
+        {console.log(hidden)}
+        {hidden ? null : <CreatePostContainer />}
         <Stack direction='horizontal' gap={3}>
           <Button variant='outline' className='text-light'>
             Today
@@ -146,358 +150,6 @@ export function Home() {
               </Card.Footer>
             </Card>
           </div> */}
-
-          {/* <div className='gridItem'>
-            <Card>
-              <Card.Header
-                style={{
-                  position: "relative",
-                  borderBottom: "none",
-                  paddingLeft: "55px",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "30px",
-                    transform: "translate(-50%, -50%)",
-                    width: "35px",
-                    height: "35px",
-                  }}
-                  role='button'
-                >
-                  <img
-                    src={avater}
-                    alt='avater'
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-                <span role='button'>todayontumblr </span>
-                <span className='text-primary' role='button'>
-                  follow
-                </span>
-                <div
-                  role='button'
-                  className='d-flex justify-content-center align-items-center fs-4'
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "2px",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  ...
-                </div>
-              </Card.Header>
-              <Card.Body>
-                <Card.Title>My Little Pony.</Card.Title>
-                <Card.Img></Card.Img>
-                <Card.Text>
-                  My Little Pony, My Little Pony... You'll have to excuse us if
-                  we forget the rest of the lyrics, but truth be told, our
-                  memory isn't what it used to be here in old age. Why, we
-                  remember the very first My Little Pony when it hit stores way
-                  back yonder in 1981 with the release of My Pretty Pony. We
-                  remember it like it was yesterday, in fact—racing to the local
-                  toy shop, with its red and white striped drapery that hung
-                  over its entrance, and an assortment of figures, globes, and
-                  mmlp friendodel cars in the shop window. We, collectively,
-                  will never forget those first moments when we, as a collective
-                  Tumblr staff, emerged into the store and lay our eyes on My
-                  Pretty Pony for the first time. It was a magnificent creation,
-                  a ten-inch-tall hard plastic figurine, standing in its box
-                  like a benevolent being, that could wiggle its ears, swish its
-                  tail, and wink one eye. Wink one eye! Would you believe it. Of
-                  course, things have changed a little since 1981. There have
-                  been various generations of #mlp, not to mention television
-                  series and films. There is now, in fact, a whole fandom
-                  community here on Tumblr dedicated to these petit plastic
-                  Equidae.
-                  <div className='d-flex gap-1 flex-wrap'>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                  </div>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
-                <div
-                  className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-                  role='button'
-                >
-                  2,440 notes
-                </div>
-                <Stack
-                  className='footer-img ms-auto gap-3'
-                  direction='horizontal'
-                >
-                  <img src={shareLogo} alt='logo' role='button' />
-                  <img src={reloadLogo} alt='logo' role='button' />
-                  <img src={likeLogo} alt='logo' role='button' />
-                </Stack>
-              </Card.Footer>
-            </Card>
-          </div>
-          <div className='gridItem'>
-            <Card>
-              <Card.Header
-                style={{
-                  position: "relative",
-                  borderBottom: "none",
-                  paddingLeft: "55px",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "30px",
-                    transform: "translate(-50%, -50%)",
-                    width: "35px",
-                    height: "35px",
-                  }}
-                  role='button'
-                >
-                  <img
-                    src={avater}
-                    alt='avater'
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-                <span role='button'>todayontumblr </span>
-                <span className='text-primary' role='button'>
-                  follow
-                </span>
-                <div
-                  role='button'
-                  className='d-flex justify-content-center align-items-center fs-4'
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "2px",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  ...
-                </div>
-              </Card.Header>
-              <Card.Body>
-                <Card.Title>Wednesday, June 21.</Card.Title>
-                <Card.Img></Card.Img>
-                <Card.Text>
-                  Well, well, well. Well. Well, well. Well, well, well, well,
-                  well, well, well, well, well, well, well, well, well. Well.
-                  Weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeell. Well well. Well well
-                  well well well. Well, well. Wait. Where are our manners? What
-                  we mean to say, of course, is well-come! A warmest, heartiest
-                  greetin' to you. We heard rumors of a bit of a kerfuffle, a
-                  bit of squibblin'-squabblin', a bit of bother down at The Old
-                  Mill. And by The Old Mill, of course, we mean those good folks
-                  over at #reddit, a nearby settlement, who seem to be havin' a
-                  bit of trouble with somethin' this that or other. Now, we's
-                  the types to mind our own business—other
-                  <div className='d-flex gap-1 flex-wrap'>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                  </div>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
-                <div
-                  className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-                  role='button'
-                >
-                  2,440 notes
-                </div>
-                <Stack
-                  className='footer-img ms-auto gap-3'
-                  direction='horizontal'
-                >
-                  <img src={shareLogo} alt='logo' role='button' />
-                  <img src={reloadLogo} alt='logo' role='button' />
-                  <img src={likeLogo} alt='logo' role='button' />
-                </Stack>
-              </Card.Footer>
-            </Card>
-          </div>
-          <div className='gridItem'>
-            <Card>
-              <Card.Header
-                style={{
-                  position: "relative",
-                  borderBottom: "none",
-                  paddingLeft: "55px",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "30px",
-                    transform: "translate(-50%, -50%)",
-                    width: "35px",
-                    height: "35px",
-                  }}
-                  role='button'
-                >
-                  <img
-                    src={avater}
-                    alt='avater'
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-                <span role='button'>todayontumblr </span>
-                <span className='text-primary' role='button'>
-                  follow
-                </span>
-                <div
-                  role='button'
-                  className='d-flex justify-content-center align-items-center fs-4'
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "2px",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  ...
-                </div>
-              </Card.Header>
-              <Card.Body>
-                <Card.Title></Card.Title>
-                <Card.Img src={content1} alt='content' />
-
-                <Card.Text>
-                  <div className='d-flex gap-1 flex-wrap'>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                  </div>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
-                <div
-                  className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-                  role='button'
-                >
-                  2,440 notes
-                </div>
-                <Stack
-                  className='footer-img ms-auto gap-3'
-                  direction='horizontal'
-                >
-                  <img src={shareLogo} alt='logo' role='button' />
-                  <img src={reloadLogo} alt='logo' role='button' />
-                  <img src={likeLogo} alt='logo' role='button' />
-                </Stack>
-              </Card.Footer>
-            </Card>
-          </div>
-          <div className='gridItem'>
-            <Card>
-              <Card.Header
-                style={{
-                  position: "relative",
-                  borderBottom: "none",
-                  paddingLeft: "55px",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "30px",
-                    transform: "translate(-50%, -50%)",
-                    width: "35px",
-                    height: "35px",
-                  }}
-                  role='button'
-                >
-                  <img
-                    src={avater}
-                    alt='avater'
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-                <span role='button'>todayontumblr </span>
-                <span className='text-primary' role='button'>
-                  follow
-                </span>
-                <div
-                  role='button'
-                  className='d-flex justify-content-center align-items-center fs-4'
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "2px",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  ...
-                </div>
-              </Card.Header>
-              <Card.Body>
-                <Card.Title>Wednesday, June 21.</Card.Title>
-                <Card.Img></Card.Img>
-                <Card.Text>
-                  Well, well, well. Well. Well, well. Well, well, well, well,
-                  well, well, well, well, well, well, well, well, well. Well.
-                  Weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeell. Well well. Well well
-                  well well well. Well, well. Wait. Where are our manners? What
-                  we mean to say, of course, is well-come! A warmest, heartiest
-                  greetin' to you. We heard rumors of a bit of a kerfuffle, a
-                  bit of squibblin'-squabblin', a bit of bother down at The Old
-                  Mill. And by The Old Mill, of course, we mean those good folks
-                  over at #reddit, a nearby settlement, who seem to be havin' a
-                  bit of trouble with somethin' this that or other. Now, we's
-                  the types to mind our own business—other
-                  <div className='d-flex gap-1 flex-wrap'>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                  </div>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
-                <div
-                  className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-                  role='button'
-                >
-                  2,440 notes
-                </div>
-                <Stack
-                  className='footer-img ms-auto gap-3'
-                  direction='horizontal'
-                >
-                  <img src={shareLogo} alt='logo' role='button' />
-                  <img src={reloadLogo} alt='logo' role='button' />
-                  <img src={likeLogo} alt='logo' role='button' />
-                </Stack>
-              </Card.Footer>
-            </Card>
-         */}
         </div>
       </main>
       <SideBar
@@ -519,4 +171,8 @@ export function Home() {
       </SideBar>
     </div>
   );
-}
+};
+const mapDispatchToProps = ({ isLoggedin: { hidden } }) => ({
+  hidden,
+});
+export default connect(mapDispatchToProps)(Home);

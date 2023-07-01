@@ -29,12 +29,11 @@ export function SideBar({
 
       <div className='text-light navbarbs fs-3 nameCon mt-3 p-2'>{header}</div>
 
-      <Container fluid className='mt-3'>
+      <Container fluid className='mt-3 footerStick'>
         <div className='text-light'>{title}</div>
-        <iframe src={Src} style={{ width: "100%", height: "600px" }}></iframe>
+        <iframe src={Src} style={{ width: "200%", height: "500px" }}></iframe>
+        <Footer />
       </Container>
-
-      <Footer />
     </div>
   );
 }

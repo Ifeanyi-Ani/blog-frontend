@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
-import avater from "../assets/avater.jpg";
 import { fetchPostUser } from "../redux/posts/posts.action";
 
 class UserHeader extends Component {
@@ -20,28 +19,8 @@ class UserHeader extends Component {
               borderBottom: "none",
               paddingLeft: "55px",
             }}
+            className='cardHeader'
           >
-            <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "30px",
-                transform: "translate(-50%, -50%)",
-                width: "35px",
-                height: "35px",
-              }}
-              role='button'
-            >
-              <img
-                src={avater}
-                alt='avater'
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </div>
             <span role='button'> {user.name}</span>
             <span className='text-primary' role='button'>
               follow

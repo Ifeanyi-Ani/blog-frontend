@@ -16,9 +16,11 @@ import appleLogo from "../assets/appleLogo.jpg";
 import emailLogo from "../assets/messLogo.jpg";
 import SignupWithEmail from "./SignupWithEmail";
 import { isLoggedin } from "../redux/user/user.action";
+import { postModal } from "../redux/modals/modals.actions";
 import { ProfileAction } from "./ProfileAction";
+import CreatePost from "./CreatePost";
 
-const Navbar = function ({ hidden, isLoggedin }) {
+const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setisOpen] = useState<boolean>(false);
 
@@ -42,7 +44,7 @@ const Navbar = function ({ hidden, isLoggedin }) {
   }
   return (
     <>
-      <NavbarBs className='navbarbs'>
+      <NavbarBs className='navbarbs position-sticky top-0 w-100 myPrimaryb maxZ'>
         <Container>
           <NavbarBs.Brand to='/' className='link-light fs-1' as={NavLink}>
             t
@@ -242,7 +244,11 @@ const Navbar = function ({ hidden, isLoggedin }) {
                       <ProfileAction />
                     </NavDropdown.Item>
                   </NavDropdown>
-                  <Nav.Link href='#link'>
+                  <Nav.Link
+                    role='button'
+                    className='btnConfig bg-info px-3 rounded-1'
+                    onClick={postModal}
+                  >
                     <i className='bi bi-pencil-fill'></i>
                   </Nav.Link>
                 </>
@@ -298,13 +304,29 @@ const Navbar = function ({ hidden, isLoggedin }) {
         handlePrevModal={handlePrevModal}
         closeModal={() => setisOpen(false)}
       />
+
+      <Modal
+        centered
+        show={hideModal}
+        onHide={postModal}
+        className='modalSecon'
+      >
+        <Modal.Body className='modalSecon text-center'>
+          <CreatePost />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
-const mapStateToProps = ({ isLoggedin: { hidden } }) => ({
+const mapStateToProps = ({
+  isLoggedin: { hidden },
+  toggleModal: { hideModal },
+}) => ({
   hidden,
+  hideModal,
 });
 const mapDispatchToProps = dispatch => ({
   isLoggedin: () => dispatch(isLoggedin()),
+  postModal: () => dispatch(postModal()),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
