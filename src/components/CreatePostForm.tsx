@@ -1,27 +1,73 @@
-// import React from "react";
+/* eslint-disable react-refresh/only-export-components */
+import React, { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
-// import { connect } from "react-redux";
-// import { togglePostForm } from "../redux/modals/modals.actions";
-import React, { useState } from "react";
-import Select from "react-select";
+import { connect } from "react-redux";
+import Select, { ValueType } from "react-select";
+import { createPost } from "../redux/posts/posts.action";
 
-const CreatePostForm = ({ hideCreateForm, togglePostForm }) => {
-  const [options, setOptions] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+type CategoryOption = {
+  value: string;
+  label: string;
+};
 
-  const handleInputChange = inputValue => {
+type CreatePostFormProps = {
+  hideCreateForm: boolean;
+  togglePostForm: () => void;
+  createPost: (post: InitProps) => void;
+};
+
+type InitProps = {
+  title: string;
+  body: string;
+  image: string;
+  category: CategoryOption[];
+};
+
+const INIT_STATE: InitProps = {
+  title: "",
+  body: "",
+  image: "",
+  category: [],
+};
+
+const CreatePostForm: React.FC<CreatePostFormProps> = ({
+  hideCreateForm,
+  togglePostForm,
+  createPost,
+}) => {
+  const [post, setPost] = useState<InitProps>(INIT_STATE);
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const handleClose = () => {
+    setPost(INIT_STATE);
+    togglePostForm();
+  };
+  const handleInputChange = (inputValue: string) => {
     setInputValue(inputValue);
   };
-  console.log(inputValue);
-  const handleKeyDown = event => {
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && inputValue) {
-      const newOption = { value: inputValue.toLowerCase(), label: inputValue };
-      setOptions([...options, newOption]);
+      const newOption: CategoryOption = {
+        value: inputValue.toLowerCase(),
+        label: inputValue,
+      };
+      setPost(prevState => ({
+        ...prevState,
+        category: [...prevState.category, newOption],
+      }));
       setInputValue("");
       event.preventDefault(); // Prevents form submission
     }
   };
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log(post);
+    createPost(post);
+  };
+
   return (
     <Modal
       centered
@@ -37,46 +83,61 @@ const CreatePostForm = ({ hideCreateForm, togglePostForm }) => {
             <div className='nameCon'>i-ani</div>
             <div className='icons'></div>
           </div>
-          <Form>
+          <Form onSubmit={handleSubmit}>
             <Form.Group>
-              <Form.Control type='text' placeholder='Title' />
+              <Form.Control
+                type='text'
+                placeholder='Title'
+                value={post.title}
+                onChange={e => setPost({ ...post, title: e.target.value })}
+              />
             </Form.Group>
             <Form.Group>
               <textarea
                 name=''
                 id=''
-                cols='30'
-                rows='10'
+                cols={30}
+                rows={10}
                 className='textareas'
                 placeholder='Go ahead, put anything'
+                value={post.body}
+                onChange={e => setPost({ ...post, body: e.target.value })}
               ></textarea>
             </Form.Group>
             <Form.Group>
-              <Form.Control type='file' />
+              <Form.Control
+                type='file'
+                value={post.image}
+                onChange={e => setPost({ ...post, image: e.target.value })}
+              />
             </Form.Group>
             <Form.Group>
               <Select
                 isMulti
                 menuIsOpen={false}
                 placeholder='#add tags to help people find your post'
-                value={options}
-                options={options}
-                onChange={value => setOptions(value)}
+                value={post.category}
+                options={post.category}
+                onChange={(selectedOptions: ValueType<CategoryOption, true>) =>
+                  setPost({
+                    ...post,
+                    category: selectedOptions as CategoryOption[],
+                  })
+                }
                 onInputChange={handleInputChange}
                 onKeyDown={handleKeyDown}
                 isSearchable
               />
-              {console.log(options)}
             </Form.Group>
 
             <Form.Group className='actionCrt'>
-              <button type='button' onClick={togglePostForm}>
+              <button type='button' onClick={handleClose}>
                 Close
               </button>
               <Form.Select role='button'>
                 <option>For Everyone</option>
               </Form.Select>
-              <button type='button'>Post now</button>
+              <button type='submit'>Post now</button>
             </Form.Group>
           </Form>
         </div>
@@ -84,10 +145,5 @@ const CreatePostForm = ({ hideCreateForm, togglePostForm }) => {
     </Modal>
   );
 };
-// const mapStateToProps = ({ toggleModal: { hideCreateForm } }) => {
-//   hideCreateForm;
-// };
-// const mapDispatchToProps = dispatch => ({
-//   togglePostForm: () => dispatch(togglePostForm()),
-// });
-export default CreatePostForm;
+
+export default connect(null, { createPost })(CreatePostForm);

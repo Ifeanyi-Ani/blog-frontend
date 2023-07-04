@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
-import { fetchPostUser } from "../redux/posts/posts.action";
+import { fetchPost } from "../redux/posts/posts.action";
 
 class UserHeader extends Component {
   componentDidMount(): void {
-    this.props.fetchPostUser(this.props.userId);
+    this.props.fetchPost(this.props.userId);
   }
   render() {
     const { user } = this.props;
@@ -46,4 +46,4 @@ class UserHeader extends Component {
 const mapStateToProps = (state, ownProps) => {
   return { user: state.users.find(user => user.id === ownProps.userId) };
 };
-export default connect(mapStateToProps, { fetchPostUser })(UserHeader);
+export default connect(mapStateToProps, { fetchPost })(UserHeader);

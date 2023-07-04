@@ -15,11 +15,13 @@ class PostList extends React.Component {
   componentDidMount(): void {
     this.props.fetchPosts();
   }
+
   render() {
+    console.log(this.props.posts);
     return (
       <>
         {this.props.posts ? (
-          this.props.posts.map((post, idx) => {
+          this.props.posts.data.posts.map((post, idx) => {
             return (
               <div className='gridItem' key={idx}>
                 <Avater />
@@ -66,7 +68,7 @@ class PostList extends React.Component {
   }
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = state => {
   return { posts: state.posts.posts };
 };
 export default connect(mapStateToProps, { fetchPosts })(PostList);
