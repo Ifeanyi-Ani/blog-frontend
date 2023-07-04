@@ -1,5 +1,5 @@
 const INIT_STATE = {
-  hidden: false,
+  hidden: true,
 };
 const userReducer = (state = INIT_STATE, action: any) => {
   switch (action.type) {

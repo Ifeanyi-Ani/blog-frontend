@@ -19,10 +19,12 @@ import { isLoggedin } from "../redux/user/user.action";
 import { postModal } from "../redux/modals/modals.actions";
 import { ProfileAction } from "./ProfileAction";
 import CreatePost from "./CreatePost";
+import LoginForm from "./LoginForm";
 
 const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setisOpen] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
 
   function handleModal1(val: boolean) {
     setShow(val);
@@ -36,11 +38,16 @@ const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
   }
   function handlePrevModal() {
     setisOpen(false);
+    setShowLogin(false);
     setShow(true);
   }
   function handleLogOut(e) {
     e.stopPropagation();
     isLoggedin();
+  }
+  function handleShowLogin() {
+    setShow(false);
+    setShowLogin(true);
   }
   return (
     <>
@@ -292,8 +299,13 @@ const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
               </div>
               <div className='nameCon'>Continue with email</div>
             </Button>
-            <div className='text-warning' style={{ cursor: "pointer" }}>
-              Coming from Twitter? Sign up
+            <div
+              className='text-warning'
+              style={{ cursor: "pointer" }}
+              role='button'
+              onClick={handleShowLogin}
+            >
+              have an account already? login
             </div>
           </Stack>
         </Modal.Body>
@@ -304,7 +316,11 @@ const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
         handlePrevModal={handlePrevModal}
         closeModal={() => setisOpen(false)}
       />
-
+      <LoginForm
+        showLogin={showLogin}
+        handleModal2={() => setShowLogin(false)}
+        handlePrevModal={handlePrevModal}
+      />
       <Modal
         centered
         show={hideModal}

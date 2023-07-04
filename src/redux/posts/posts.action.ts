@@ -1,6 +1,6 @@
 import _ from "lodash";
+import baseUrl from "../../apis/baseUrl";
 
-import posts from "../../apis/posts";
 import {
   FETCH_POST,
   FETCH_POSTS,
@@ -13,7 +13,7 @@ import { Dispatch } from "redux";
 export const fetchPosts = () => {
   return async (dispatch: Dispatch) => {
     try {
-      const response = await posts.get("/posts");
+      const response = await baseUrl.get("/posts");
       dispatch({
         type: FETCH_POSTS,
         payload: response.data,
@@ -26,7 +26,7 @@ export const fetchPosts = () => {
 
 export const createPost = (data: any) => async (dispatch: Dispatch) => {
   try {
-    const response = await posts.post("/posts", data);
+    const response = await baseUrl.post("/posts", data);
     dispatch({
       type: CREATE_POST,
       payload: response.data,
@@ -38,7 +38,7 @@ export const createPost = (data: any) => async (dispatch: Dispatch) => {
 
 export const fetchPost = (id: any) => async (dispatch: Dispatch) => {
   try {
-    const response = await posts.get(`/posts/${id}`);
+    const response = await baseUrl.get(`/posts/${id}`);
     dispatch({ type: FETCH_POST, payload: response.data });
   } catch (err) {
     console.log(err);
@@ -47,7 +47,7 @@ export const fetchPost = (id: any) => async (dispatch: Dispatch) => {
 
 export const editPost = (id: any, data: any) => async (dispatch: Dispatch) => {
   try {
-    const response = await posts.patch(`/posts/${id}`, data);
+    const response = await baseUrl.patch(`/posts/${id}`, data);
     dispatch({ type: EDIT_POST, payload: response.data });
   } catch (err) {
     console.log(err);
@@ -56,7 +56,7 @@ export const editPost = (id: any, data: any) => async (dispatch: Dispatch) => {
 
 export const deletePost = (id: any) => async (dispatch: Dispatch) => {
   try {
-    const response = await posts.delete(`/posts/${id}`);
+    const response = await baseUrl.delete(`/posts/${id}`);
     dispatch({ type: DELETE_POST, payload: response.data });
   } catch (err) {
     console.log(err);

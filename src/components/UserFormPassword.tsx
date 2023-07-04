@@ -1,14 +1,14 @@
 import { Form } from "react-bootstrap";
 type UserData = {
   password: string;
-  confirm_password: string;
+  passwordConfirm: string;
 };
 type UserFormPasswordProps = UserData & {
   updateFields: (fields: Partial<UserData>) => void;
 };
 export function UserFormPassword({
   password,
-  confirm_password,
+  passwordConfirm,
   updateFields,
 }: UserFormPasswordProps) {
   return (
@@ -31,8 +31,8 @@ export function UserFormPassword({
           type='password'
           placeholder='Repeat password'
           required
-          value={confirm_password}
-          onChange={e => updateFields({ confirm_password: e.target.value })}
+          value={passwordConfirm}
+          onChange={e => updateFields({ passwordConfirm: e.target.value })}
         />
       </Form.Group>
     </>
