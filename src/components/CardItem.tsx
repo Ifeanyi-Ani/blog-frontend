@@ -55,13 +55,11 @@ export function CardItem() {
       <Card.Body className='p-0'>
         <Card.Title>Wednesday, June 21.</Card.Title>
         <Card.Img src={content1} alt='content' />
-        <Card.Text className='ps-3'>
-          <div className='d-flex gap-1 flex-wrap'>
-            <span>#today on tumblr</span>
-            <span>#tubme</span>
-            <span>#today on tumblr</span>
-            <span>#tubme</span>
-          </div>
+        <Card.Text className='ps-3 d-flex gap-1 flex-wrap'>
+          <span>#today on tumblr</span>
+          <span>#tubme</span>
+          <span>#today on tumblr</span>
+          <span>#tubme</span>
         </Card.Text>
       </Card.Body>
       <Card.Footer style={{ borderTop: "none" }} className='d-flex'>

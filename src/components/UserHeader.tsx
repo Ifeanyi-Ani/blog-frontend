@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
-import { fetchPost } from "../redux/posts/posts.action";
+import { fetchUser } from "../redux/user/user.action";
+// import { fetchPost } from "../redux/posts/posts.action";
 
 class UserHeader extends Component {
-  componentDidMount(): void {
-    this.props.fetchPost(this.props.userId);
-  }
+  // componentDidMount(): void {
+  //   this.props.fetchUser(this.props.userId);
+  // }
   render() {
-    const { user } = this.props;
-
+    const { userId } = this.props;
     return (
       <>
-        {user ? (
+        {userId ? (
           <Card.Header
             style={{
               position: "relative",
@@ -21,8 +21,8 @@ class UserHeader extends Component {
             }}
             className='cardHeader'
           >
-            <span role='button'> {user.name}</span>
-            <span className='text-primary' role='button'>
+            <span role='button'> {userId.username}</span>
+            <span className='text-primary ms-1' role='button'>
               follow
             </span>
             <div
@@ -43,7 +43,6 @@ class UserHeader extends Component {
     );
   }
 }
-const mapStateToProps = (state, ownProps) => {
-  return { user: state.users.find(user => user.id === ownProps.userId) };
-};
-export default connect(mapStateToProps, { fetchPost })(UserHeader);
+
+// export default connect(null, { fetchUser })(UserHeader);
+export default UserHeader;

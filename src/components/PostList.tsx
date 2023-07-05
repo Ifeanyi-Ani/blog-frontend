@@ -17,7 +17,6 @@ class PostList extends React.Component {
   }
 
   render() {
-    console.log(this.props.posts);
     return (
       <>
         {this.props.posts ? (
@@ -31,13 +30,11 @@ class PostList extends React.Component {
                     <Card.Title>{post.title}</Card.Title>
                     <Card.Img src={content1} alt='content' />
                     {post.body}
-                    <Card.Text>
-                      <div className='d-flex gap-1 flex-wrap'>
-                        <span>#today on tumblr</span>
-                        <span>#tubme</span>
-                        <span>#today on tumblr</span>
-                        <span>#tubme</span>
-                      </div>
+                    <Card.Text className='d-flex gap-1 flex-wrap'>
+                      <span>#today on tumblr</span>
+                      <span>#tubme</span>
+                      <span>#today on tumblr</span>
+                      <span>#tubme</span>
                     </Card.Text>
                   </Card.Body>
                   <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
