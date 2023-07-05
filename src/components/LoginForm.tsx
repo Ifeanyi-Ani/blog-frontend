@@ -2,25 +2,18 @@ import React from "react";
 import { Form, Modal } from "react-bootstrap";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { signIn } from "../redux/user/user.action";
-import { isLoggedin } from "../redux/user/user.action";
+import { auth } from "../redux/user/user.action";
+import { SIGN_IN } from "../redux/user/user.type";
 
 const INIT_STATE = {
   email: "",
   password: "",
 };
-const LoginForm = ({
-  showLogin,
-  handleModal2,
-  handlePrevModal,
-  signIn,
-  isLoggedin,
-}) => {
+const LoginForm = ({ showLogin, handleModal2, handlePrevModal, auth }) => {
   const [formData, setFormData] = useState(INIT_STATE);
   function handleSubmit(e) {
     e.preventDefault();
-    signIn(formData);
-    isLoggedin();
+    auth(formData, SIGN_IN);
     handleModal2();
   }
   return (
@@ -76,7 +69,6 @@ const LoginForm = ({
   );
 };
 const mapDispatchToProps = {
-  signIn,
-  isLoggedin,
+  auth,
 };
 export default connect(null, mapDispatchToProps)(LoginForm);

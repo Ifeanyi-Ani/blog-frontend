@@ -21,7 +21,7 @@ class PostList extends React.Component {
     return (
       <>
         {this.props.posts ? (
-          this.props.posts.data.posts.map((post, idx) => {
+          [...this.props.posts.data.posts].reverse().map((post, idx) => {
             return (
               <div className='gridItem' key={idx}>
                 <Avater />

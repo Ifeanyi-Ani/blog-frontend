@@ -1,10 +1,10 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import Select, { ValueType } from "react-select";
 import { createPost } from "../redux/posts/posts.action";
+import { fetchPosts } from "../redux/posts/posts.action";
 
 type CategoryOption = {
   value: string;
@@ -14,7 +14,6 @@ type CategoryOption = {
 type CreatePostFormProps = {
   hideCreateForm: boolean;
   togglePostForm: () => void;
-  createPost: (post: InitProps) => void;
 };
 
 type InitProps = {
@@ -22,20 +21,23 @@ type InitProps = {
   body: string;
   image: string;
   category: CategoryOption[];
+  userId: string;
 };
 
-const INIT_STATE: InitProps = {
-  title: "",
-  body: "",
-  image: "",
-  category: [],
-};
-
-const CreatePostForm: React.FC<CreatePostFormProps> = ({
+const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
   hideCreateForm,
   togglePostForm,
   createPost,
+  currentUser,
+  fetchPosts,
 }) => {
+  const INIT_STATE: InitProps = {
+    title: "",
+    body: "",
+    image: "",
+    category: [],
+    userId: currentUser?.data?.user?._id || "",
+  };
   const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
 
@@ -43,11 +45,12 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
     setPost(INIT_STATE);
     togglePostForm();
   };
+
   const handleInputChange = (inputValue: string) => {
     setInputValue(inputValue);
   };
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter" && inputValue) {
       const newOption: CategoryOption = {
         value: inputValue.toLowerCase(),
@@ -62,10 +65,12 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
     }
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: React.FormEvent, cb) => {
     e.preventDefault();
-    console.log(post);
     createPost(post);
+    fetchPosts();
+    setPost(INIT_STATE);
+    togglePostForm();
   };
 
   return (
@@ -89,7 +94,9 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
                 type='text'
                 placeholder='Title'
                 value={post.title}
-                onChange={e => setPost({ ...post, title: e.target.value })}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPost({ ...post, title: e.target.value })
+                }
               />
             </Form.Group>
             <Form.Group>
@@ -101,14 +108,18 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
                 className='textareas'
                 placeholder='Go ahead, put anything'
                 value={post.body}
-                onChange={e => setPost({ ...post, body: e.target.value })}
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                  setPost({ ...post, body: e.target.value })
+                }
               ></textarea>
             </Form.Group>
             <Form.Group>
               <Form.Control
                 type='file'
                 value={post.image}
-                onChange={e => setPost({ ...post, image: e.target.value })}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setPost({ ...post, image: e.target.value })
+                }
               />
             </Form.Group>
             <Form.Group>
@@ -146,4 +157,15 @@ const CreatePostForm: React.FC<CreatePostFormProps> = ({
   );
 };
 
-export default connect(null, { createPost })(CreatePostForm);
+const mapStateToProps = state => ({
+  currentUser: state.user.currentUser,
+});
+const mapDispatchToProps = {
+  createPost,
+  fetchPosts,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type ReduxProps = ConnectedProps<typeof connector>;
+
+export default connector(CreatePostForm);

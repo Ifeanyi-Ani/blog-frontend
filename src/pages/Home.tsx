@@ -2,13 +2,12 @@ import { Button, Stack } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { isLoggedin } from "../redux/user/user.action";
 import { CardInfo } from "../components/CardInfo";
 import theme from "../assets/theme.jpg";
 import PostList from "../components/PostList";
 import CreatePostContainer from "../components/CreatePostContainer";
 
-const Home = function ({ hidden }) {
+const Home = function ({ currentUser }) {
   const [toggle, setToggle] = useState<boolean>(false);
   function handleToggle(val: boolean) {
     setToggle(val);
@@ -16,8 +15,7 @@ const Home = function ({ hidden }) {
   return (
     <div className='d-flex justify-content-center gap-3 pt-3 homeHead'>
       <main className={`${toggle === true ? "gridView-w" : "listView-w"}`}>
-        {console.log(hidden)}
-        {hidden ? null : <CreatePostContainer />}
+        {!currentUser ? null : <CreatePostContainer />}
         <Stack direction='horizontal' gap={3}>
           <Button variant='outline' className='text-light'>
             Today
@@ -62,94 +60,6 @@ const Home = function ({ hidden }) {
           }`}
         >
           <PostList />
-          {/* <div className='gridItem'>
-            <Card>
-              <Card.Header
-                style={{
-                  position: "relative",
-                  borderBottom: "none",
-                  paddingLeft: "55px",
-                }}
-              >
-                <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "30px",
-                    transform: "translate(-50%, -50%)",
-                    width: "35px",
-                    height: "35px",
-                  }}
-                  role='button'
-                >
-                  <img
-                    src={avater}
-                    alt='avater'
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                </div>
-                <span role='button'>todayontumblr </span>
-                <span className='text-primary' role='button'>
-                  follow
-                </span>
-                <div
-                  role='button'
-                  className='d-flex justify-content-center align-items-center fs-4'
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    right: "2px",
-                    transform: "translate(-50%, -50%)",
-                  }}
-                >
-                  ...
-                </div>
-              </Card.Header>
-              <Card.Body>
-                <Card.Title>Wednesday, June 21.</Card.Title>
-                <Card.Img></Card.Img>
-                <Card.Text>
-                  Well, well, well. Well. Well, well. Well, well, well, well,
-                  well, well, well, well, well, well, well, well, well. Well.
-                  Weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeell. Well well. Well well
-                  well well well. Well, well. Wait. Where are our manners? What
-                  we mean to say, of course, is well-come! A warmest, heartiest
-                  greetin' to you. We heard rumors of a bit of a kerfuffle, a
-                  bit of squibblin'-squabblin', a bit of bother down at The Old
-                  Mill. And by The Old Mill, of course, we mean those good folks
-                  over at #reddit, a nearby settlement, who seem to be havin' a
-                  bit of trouble with somethin' this that or other. Now, we's
-                  the types to mind our own business—other
-                  <div className='d-flex gap-1 flex-wrap'>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                    <span>#today on tumblr</span>
-                    <span>#tubme</span>
-                  </div>
-                </Card.Text>
-              </Card.Body>
-              <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
-                <div
-                  className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-                  role='button'
-                >
-                  2,440 notes
-                </div>
-                <Stack
-                  className='footer-img ms-auto gap-3'
-                  direction='horizontal'
-                >
-                  <img src={shareLogo} alt='logo' role='button' />
-                  <img src={reloadLogo} alt='logo' role='button' />
-                  <img src={likeLogo} alt='logo' role='button' />
-                </Stack>
-              </Card.Footer>
-            </Card>
-          </div> */}
         </div>
       </main>
       <SideBar
@@ -172,7 +82,7 @@ const Home = function ({ hidden }) {
     </div>
   );
 };
-const mapDispatchToProps = ({ isLoggedin: { hidden } }) => ({
-  hidden,
+const mapDispatchToProps = ({ user: { currentUser } }) => ({
+  currentUser,
 });
 export default connect(mapDispatchToProps)(Home);

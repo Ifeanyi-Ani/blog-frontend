@@ -9,7 +9,8 @@ import { UserFormPassword } from "./UserFormPassword";
 import { UserFormBithYear } from "./UserFormBithYear";
 import { useState } from "react";
 import { UserFormUsername } from "./UserFormUsername";
-import { signUp } from "../redux/user/user.action";
+import { auth } from "../redux/user/user.action";
+import { SIGN_UP } from "../redux/user/user.type";
 
 type FormData = {
   email: string;
@@ -39,8 +40,8 @@ const SignupWithEmail = ({
   handleModal2,
   handlePrevModal,
   closeModal,
-  isLoggedin,
-  signUp,
+  // isLoggedin,
+  auth,
 }: SignupWithEmailProp) => {
   const [data, setData] = useState(INITIAL_DATA);
 
@@ -61,8 +62,8 @@ const SignupWithEmail = ({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isLastStep) return next();
-    signUp(data);
-    isLoggedin();
+    auth(data, SIGN_UP);
+    // isLoggedin();
     closeModal();
   }
 
@@ -123,8 +124,8 @@ const SignupWithEmail = ({
 };
 
 const mapDispatchToProps = {
-  isLoggedin,
-  signUp,
+  // isLoggedin,
+  auth,
 };
 
 export default connect(null, mapDispatchToProps)(SignupWithEmail);

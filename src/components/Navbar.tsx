@@ -15,13 +15,13 @@ import googleLogo from "../assets/googleLogo.jpg";
 import appleLogo from "../assets/appleLogo.jpg";
 import emailLogo from "../assets/messLogo.jpg";
 import SignupWithEmail from "./SignupWithEmail";
-import { isLoggedin } from "../redux/user/user.action";
 import { postModal } from "../redux/modals/modals.actions";
 import { ProfileAction } from "./ProfileAction";
 import CreatePost from "./CreatePost";
 import LoginForm from "./LoginForm";
+import { auth } from "../redux/user/user.action";
 
-const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
+const Navbar = function ({ postModal, hideModal, currentUser }) {
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setisOpen] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -43,7 +43,7 @@ const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
   }
   function handleLogOut(e) {
     e.stopPropagation();
-    isLoggedin();
+    //TODO set the currentUser to null
   }
   function handleShowLogin() {
     setShow(false);
@@ -68,7 +68,7 @@ const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
               className='ms-auto my-2 my-lg-0'
               style={{ maxHeight: "100px" }}
             >
-              {hidden ? (
+              {!currentUser ? (
                 <>
                   <Stack direction='horizontal' gap={3}>
                     <Button variant='info'>Click for frogs</Button>
@@ -335,14 +335,14 @@ const Navbar = function ({ hidden, isLoggedin, postModal, hideModal }) {
   );
 };
 const mapStateToProps = ({
-  isLoggedin: { hidden },
   toggleModal: { hideModal },
+  user: { currentUser },
 }) => ({
-  hidden,
   hideModal,
+  currentUser,
 });
 const mapDispatchToProps = dispatch => ({
-  isLoggedin: () => dispatch(isLoggedin()),
   postModal: () => dispatch(postModal()),
+  auth,
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

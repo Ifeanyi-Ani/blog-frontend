@@ -8,26 +8,64 @@ import {
   SIGN_IN,
   SIGN_UP,
 } from "./user.type";
-export const isLoggedin = () => ({
-  type: "TOGGLE_HIDDEN",
-});
-
-export const signUp = data => async dispatch => {
+export const auth = (data, actionType) => async dispatch => {
   try {
-    const response = await baseUrl.post(`/auth/signup`, data);
+    let response;
+    if (actionType === SIGN_UP) {
+      response = await baseUrl.post(`/auth/signup`, data);
+      dispatch({
+        type: actionType,
+        payload: response.data,
+      });
+    } else if (actionType === SIGN_IN) {
+      response = await baseUrl.post(`/auth/login`, data);
+      dispatch({
+        type: SIGN_IN,
+        payload: response.data,
+      });
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const fetchUsers = () => async dispatch => {
+  try {
+    const response = await baseUrl.get("/users/");
     dispatch({
-      type: SIGN_UP,
+      type: FETCH_USERS,
       payload: response.data,
     });
   } catch (err) {
     console.log(err);
   }
 };
-export const signIn = data => async dispatch => {
+export const fetchUser = id => async dispatch => {
   try {
-    const response = await baseUrl.post(`/auth/login`, data);
+    const response = await baseUrl.get(`/users/${id}`);
     dispatch({
-      type: SIGN_IN,
+      type: FETCH_USER,
+      payload: response.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const editUser = (data, id) => async dispatch => {
+  try {
+    const response = await baseUrl.patch(`/users/${id}`, data);
+    dispatch({
+      type: EDIT_USER,
+      payload: response.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const deleteUser = id => async dispatch => {
+  try {
+    const response = await baseUrl.delete(`/users/${id}`);
+    dispatch({
+      type: DELETE_USER,
       payload: response.data,
     });
   } catch (err) {

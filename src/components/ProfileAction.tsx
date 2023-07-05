@@ -1,14 +1,20 @@
 import { Container, Stack } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 export function ProfileAction() {
   return (
     <Container>
       <Stack direction='vertical' gap={2}>
         <div className='d-flex justify-content-between align-items-center nameCon'>
-          <div>
+          <Link
+            className='btnConfig text-decoration-none text-dark'
+            to={`/blog/j`}
+            role='button'
+            onClick={e => e.stopPropagation()}
+          >
             <span>i-ani</span> <br />
             <span style={{ color: "#acac9e" }}>untitled</span>
-          </div>
+          </Link>
         </div>
         <div className='d-flex justify-content-between align-items-center nameCon'>
           <div>Posts</div>

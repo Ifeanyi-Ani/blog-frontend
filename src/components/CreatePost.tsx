@@ -61,7 +61,6 @@ const CreatePost = ({ hideForm, togglePostForm }) => {
         hideCreateForm={hideForm}
         togglePostForm={togglePostForm}
       />
-      {console.log(hideForm, togglePostForm)}
     </>
   );
 };

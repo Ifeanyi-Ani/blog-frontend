@@ -17,6 +17,14 @@ const userApiReducer = (state = INIT_STATE, action) => {
       return { ...state, currentUser: action.payload };
     case SIGN_IN:
       return { ...state, currentUser: action.payload };
+    case FETCH_USERS:
+      return { ...state, data: action.payload };
+    case FETCH_USER:
+      return { ...state, data: action.payload };
+    case EDIT_USER:
+      return { ...state, data: action.payload };
+    case DELETE_USER:
+      return { ...state, data: action.payload };
     default:
       return state;
   }
