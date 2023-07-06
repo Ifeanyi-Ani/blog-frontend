@@ -1,18 +1,18 @@
 import { Container, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-export function ProfileAction() {
+const ProfileAction = ({ username }) => {
   return (
     <Container>
       <Stack direction='vertical' gap={2}>
         <div className='d-flex justify-content-between align-items-center nameCon'>
           <Link
             className='btnConfig text-decoration-none text-dark'
-            to={`/blog/j`}
+            to={`/blog/${username}`}
             role='button'
-            onClick={e => e.stopPropagation()}
           >
-            <span>i-ani</span> <br />
+            <span className='text-light'>{username}</span> <br />
             <span style={{ color: "#acac9e" }}>untitled</span>
           </Link>
         </div>
@@ -47,4 +47,5 @@ export function ProfileAction() {
       </Stack>
     </Container>
   );
-}
+};
+export default ProfileAction;

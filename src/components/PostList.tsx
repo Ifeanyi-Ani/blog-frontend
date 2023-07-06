@@ -7,9 +7,9 @@ import shareLogo from "../assets/share.jpg";
 import reloadLogo from "../assets/reload.jpg";
 import likeLogo from "../assets/likes.jpg";
 import content1 from "../assets/content1.png";
-import { Card, Stack } from "react-bootstrap";
-import UserHeader from "./UserHeader";
+
 import Avater from "./Avater";
+import { PostCard } from "./PostCard";
 
 class PostList extends React.Component {
   componentDidMount(): void {
@@ -24,36 +24,15 @@ class PostList extends React.Component {
             return (
               <div className='gridItem' key={idx}>
                 <Avater />
-                <Card>
-                  <UserHeader userId={post.userId} />
-                  <Card.Body>
-                    <Card.Title>{post.title}</Card.Title>
-                    <Card.Img src={content1} alt='content' />
-                    {post.body}
-                    <Card.Text className='d-flex gap-1 flex-wrap'>
-                      <span>#today on tumblr</span>
-                      <span>#tubme</span>
-                      <span>#today on tumblr</span>
-                      <span>#tubme</span>
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
-                    <div
-                      className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-                      role='button'
-                    >
-                      2,440 notes
-                    </div>
-                    <Stack
-                      className='footer-img ms-auto gap-3'
-                      direction='horizontal'
-                    >
-                      <img src={shareLogo} alt='logo' role='button' />
-                      <img src={reloadLogo} alt='logo' role='button' />
-                      <img src={likeLogo} alt='logo' role='button' />
-                    </Stack>
-                  </Card.Footer>
-                </Card>
+                <PostCard
+                  userId={post.userId}
+                  title={post.title}
+                  body={post.body}
+                  src={content1}
+                  shareLogo={shareLogo}
+                  reloadLogo={reloadLogo}
+                  likeLogo={likeLogo}
+                />
               </div>
             );
           })

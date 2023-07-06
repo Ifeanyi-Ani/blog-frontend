@@ -172,7 +172,7 @@
   display: grid;
   grid-template-columns: 0.1fr 2fr;
 }
-.listView .cardHeader {
+.listView .card_Header {
   padding-left: 5px !important;
 }
 .listView .avaterCon {
@@ -296,4 +296,93 @@
   border: none;
   font-weight: 500;
   padding: 8px 20px;
+}
+.recentOrders {
+  display: grid;
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 7px 25px rgba(214, 17, 17, 0.08);
+  border-radius: 20px;
+}
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.cardHeader h2 {
+  font-weight: 600;
+  color: #122943;
+}
+.cardHeader .btn {
+  padding: 5px 10px;
+  background: #001935;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 6px;
+}
+.dashDtx {
+  padding: 20px;
+  align-items: flex-start;
+  /* margin-top: 10px; */
+}
+.dashDtx table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+.dashDtx table thead td {
+  font-weight: 600;
+}
+.dashDtx .recentOrders table tr {
+  color: #122943;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+.dashDtx .recentOrders table tr:last-child {
+  border-bottom: none;
+}
+.dashDtx .recentOrders table tbody tr:hover {
+  background: #001935;
+  color: #fff;
+}
+.dashDtx .recentOrders table tr td {
+  padding: 10px;
+}
+.dashDtx .recentOrders table tr td:last-child {
+  text-align: end;
+}
+.dashDtx .recentOrders table tr td:nth-child(2) {
+  text-align: end;
+}
+.dashDtx .recentOrders table tr td:nth-child(3) {
+  text-align: center;
+}
+.recentCustomers {
+  display: grid;
+  padding: 20px;
+  background: #fff;
+  box-shadow: 0 40px 25px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+}
+
+.recentCustomers table tr td {
+  padding: 12px 10px;
+}
+.recentCustomers table tr td h4 {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.2rem;
+}
+.recentCustomers table tr td h4 span {
+  font-size: 14px;
+  color: #122943;
+}
+.recentCustomers table tr:hover {
+  background: #001935;
+  color: #fff;
+}
+.recentCustomers table tr:hover td h4 span {
+  color: #fff;
+}
+.prodControl .card {
+  cursor: text;
 }

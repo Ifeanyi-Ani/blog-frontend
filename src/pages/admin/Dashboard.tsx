@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { fetchPosts } from "../../redux/posts/posts.action";
 import { useEffect } from "react";
+import { fetchUsers } from "../../redux/user/user.action";
 
-const Dashboard: React.FC = ({ posts, fetchPosts }) => {
+const Dashboard: React.FC = ({ posts, fetchPosts, fetchUsers }) => {
   // Fetch dashboard data from an API or Redux store
   useEffect(() => {
     fetchPosts();
-  }, [fetchPosts]);
+    fetchUsers();
+  }, [fetchPosts, fetchUsers]);
   // const totalPosts = 10;
   const totalUsers = 5;
   // console.log(posts.data.posts.category);
@@ -31,7 +33,7 @@ const Dashboard: React.FC = ({ posts, fetchPosts }) => {
           </Card.Body>
         </Card>
       </Stack>
-      <Row>
+      <Row className='dashDtx'>
         <Col md={8}>
           <div className='recentOrders'>
             <div className='cardHeader'>
@@ -111,5 +113,6 @@ const Dashboard: React.FC = ({ posts, fetchPosts }) => {
 const mapStateToProps = ({ posts: { posts } }) => ({ posts });
 const mapDispatchToProps = {
   fetchPosts,
+  fetchUsers,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Container from "react-bootstrap/esm/Container";
 import Home from "./pages/Home";
-import { Preview } from "./pages/Preview";
+import Preview from "./pages/Preview";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminNav from "./pages/admin/AdminNav";
 import Users from "./pages/admin/Users";
@@ -20,7 +20,7 @@ class App extends React.Component {
             <Navbar />
             <Routes>
               <Route path='/' element={<Home />} />
-              <Route path='/blog/:id' element={<Preview />} />
+              <Route path='/blog/:username' element={<Preview />} />
               <Route path='/admin' element={<AdminNav />}>
                 <Route index element={<Dashboard />} />
                 <Route path='posts' element={<Posts />} />

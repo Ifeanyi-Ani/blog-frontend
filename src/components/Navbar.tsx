@@ -16,10 +16,11 @@ import appleLogo from "../assets/appleLogo.jpg";
 import emailLogo from "../assets/messLogo.jpg";
 import SignupWithEmail from "./SignupWithEmail";
 import { postModal } from "../redux/modals/modals.actions";
-import { ProfileAction } from "./ProfileAction";
+import ProfileAction from "./ProfileAction";
 import CreatePost from "./CreatePost";
 import LoginForm from "./LoginForm";
 import { auth } from "../redux/user/user.action";
+import baseUrl from "../apis/baseUrl";
 
 const Navbar = function ({ postModal, hideModal, currentUser }) {
   const [show, setShow] = useState<boolean>(false);
@@ -41,9 +42,14 @@ const Navbar = function ({ postModal, hideModal, currentUser }) {
     setShowLogin(false);
     setShow(true);
   }
-  function handleLogOut(e) {
-    e.stopPropagation();
-    //TODO set the currentUser to null
+  async function handleLogOut(e) {
+    try {
+      e.stopPropagation();
+      //TODO set the currentUser to null
+      await baseUrl.get("/auth/logout");
+    } catch (err) {
+      console.error(err);
+    }
   }
   function handleShowLogin() {
     setShow(false);
@@ -248,7 +254,9 @@ const Navbar = function ({ postModal, hideModal, currentUser }) {
                       <div className='offSetImg'>
                         <i className='bi bi-gift-fill'></i>
                       </div>
-                      <ProfileAction />
+                      <ProfileAction
+                        username={currentUser.data.user.username}
+                      />
                     </NavDropdown.Item>
                   </NavDropdown>
                   <Nav.Link

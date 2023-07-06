@@ -2,12 +2,8 @@ import React, { Component } from "react";
 import { Card } from "react-bootstrap";
 import { connect } from "react-redux";
 import { fetchUser } from "../redux/user/user.action";
-// import { fetchPost } from "../redux/posts/posts.action";
 
 class UserHeader extends Component {
-  // componentDidMount(): void {
-  //   this.props.fetchUser(this.props.userId);
-  // }
   render() {
     const { userId } = this.props;
     return (
@@ -19,7 +15,7 @@ class UserHeader extends Component {
               borderBottom: "none",
               paddingLeft: "55px",
             }}
-            className='cardHeader'
+            className='card_Header'
           >
             <span role='button'> {userId.username}</span>
             <span className='text-primary ms-1' role='button'>
@@ -44,5 +40,4 @@ class UserHeader extends Component {
   }
 }
 
-// export default connect(null, { fetchUser })(UserHeader);
 export default UserHeader;
