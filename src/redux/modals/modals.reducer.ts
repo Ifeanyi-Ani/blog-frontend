@@ -1,6 +1,9 @@
+import { adminModal } from "./modals.actions";
+
 const INIT_STATE = {
   hideModal: false,
   hideForm: false,
+  adModal: false,
 };
 const modalsReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
@@ -12,6 +15,8 @@ const modalsReducer = (state = INIT_STATE, action) => {
         hideForm: !state.hideForm,
         hideModal: false,
       };
+    case "ADMIN_MODAL":
+      return { ...state, adModal: !state.adModal };
     default:
       return state;
   }

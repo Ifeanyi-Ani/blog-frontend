@@ -62,6 +62,12 @@ const SignupWithEmail = ({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isLastStep) return next();
+    // const formData = new FormData();
+    // formData.append("email", data.email);
+    // formData.append("password", data.password);
+    // formData.append("passwordConfirm", data.passwordConfirm);
+    // formData.append("dob", data.dob);
+    // formData.append("username", data.username);
     auth(data, SIGN_UP);
     // isLoggedin();
     closeModal();

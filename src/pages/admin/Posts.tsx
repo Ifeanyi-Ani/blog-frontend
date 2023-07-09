@@ -13,47 +13,51 @@ import { Button } from "react-bootstrap";
 const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
   useEffect(() => {
     fetchPosts();
-  }, [posts]);
-  function handleDelete(id) {
+  }, [fetchPosts]);
+  function handleDelete(id, cb) {
     deletePost(id);
-    fetchPosts();
+    cb();
   }
   return (
     <div>
       <h1>Posts</h1>
       <div className='mansoryLayout gridView'>
         {posts ? (
-          [...posts.data.posts].reverse().map((post, idx) => {
-            return (
-              <div className='gridItem' key={idx}>
-                <Avater />
-                <PostCard
-                  userId={post.userId}
-                  title={post.title}
-                  body={post.body}
-                  src={content1}
-                  shareLogo={shareLogo}
-                  reloadLogo={reloadLogo}
-                  likeLogo={likeLogo}
-                >
-                  <Button
-                    className='position-absolute top-0, bg-warning border-0'
-                    style={{
-                      right: "30px",
-                      cursor: "pointer",
-                      pointerEvents: "all",
-                      zIndex: "1000",
-                    }}
-                    onClick={() => handleDelete(post._id)}
+          posts.data.posts.length ? (
+            [...posts.data.posts].reverse().map((post, idx) => {
+              return (
+                <div className='gridItem' key={idx}>
+                  <Avater />
+                  <PostCard
+                    userId={post.userId}
+                    title={post.title}
+                    body={post.body}
+                    src={content1}
+                    shareLogo={shareLogo}
+                    reloadLogo={reloadLogo}
+                    likeLogo={likeLogo}
                   >
-                    <i className='bi bi-trash-fill'></i>
-                  </Button>
-                </PostCard>
-              </div>
-            );
-          })
+                    <Button
+                      className='position-absolute top-0, bg-warning border-0'
+                      style={{
+                        right: "30px",
+                        cursor: "pointer",
+                        pointerEvents: "all",
+                        zIndex: "1000",
+                      }}
+                      onClick={() => handleDelete(post._id, fetchPosts)}
+                    >
+                      <i className='bi bi-trash-fill'></i>
+                    </Button>
+                  </PostCard>
+                </div>
+              );
+            })
+          ) : (
+            <div>No user have created a post yet</div>
+          )
         ) : (
-          <div>loading</div>
+          <div>post is loading</div>
         )}
       </div>
     </div>

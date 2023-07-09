@@ -182,6 +182,14 @@
   margin-top: 20px;
   /* transform: translate(-50%, -50%); */
 }
+.post {
+  color: #fff;
+  gap: 10px;
+}
+.post i {
+  font-size: 30px;
+  color: red;
+}
 .createPost {
   display: grid;
   grid-template-columns: 0.1fr 2fr;
@@ -297,7 +305,7 @@
   font-weight: 500;
   padding: 8px 20px;
 }
-.recentOrders {
+.recentPosts {
   display: grid;
   background: #fff;
   padding: 20px;
@@ -333,30 +341,30 @@
 .dashDtx table thead td {
   font-weight: 600;
 }
-.dashDtx .recentOrders table tr {
+.dashDtx .recentPosts table tr {
   color: #122943;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
-.dashDtx .recentOrders table tr:last-child {
+.dashDtx .recentPosts table tr:last-child {
   border-bottom: none;
 }
-.dashDtx .recentOrders table tbody tr:hover {
+.dashDtx .recentPosts table tbody tr:hover {
   background: #001935;
   color: #fff;
 }
-.dashDtx .recentOrders table tr td {
+.dashDtx .recentPosts table tr td {
   padding: 10px;
 }
-.dashDtx .recentOrders table tr td:last-child {
+.dashDtx .recentPosts table tr td:last-child {
   text-align: end;
 }
-.dashDtx .recentOrders table tr td:nth-child(2) {
+.dashDtx .recentPosts table tr td:nth-child(2) {
   text-align: end;
 }
-.dashDtx .recentOrders table tr td:nth-child(3) {
+.dashDtx .recentPosts table tr td:nth-child(3) {
   text-align: center;
 }
-.recentCustomers {
+.recentUsers {
   display: grid;
   padding: 20px;
   background: #fff;
@@ -364,25 +372,68 @@
   border-radius: 20px;
 }
 
-.recentCustomers table tr td {
+.recentUsers table tr td {
+  color: #001935;
   padding: 12px 10px;
 }
-.recentCustomers table tr td h4 {
+.recentUsers table tr td h4 {
   font-size: 16px;
   font-weight: 500;
   line-height: 1.2rem;
 }
-.recentCustomers table tr td h4 span {
+.recentUsers table tr td h4 span {
   font-size: 14px;
   color: #122943;
 }
-.recentCustomers table tr:hover {
+.recentUsers table tr:hover {
   background: #001935;
   color: #fff;
 }
-.recentCustomers table tr:hover td h4 span {
+.recentUsers table tr:hover td h4 {
   color: #fff;
 }
-.prodControl .card {
-  cursor: text;
+.recentUsers table tr:hover td h4 span {
+  color: #eaeaea;
+}
+
+.ttable {
+  width: 98%;
+  margin: auto;
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.theader {
+  width: 98%;
+  margin: auto;
+}
+.theader h2 {
+  text-transform: uppercase;
+}
+.ttable thead {
+  text-transform: uppercase;
+  font-size: 18px;
+  text-align: left;
+  background-color: #001935;
+}
+.ttable tr th {
+  padding: 10px 0;
+}
+.ttable tbody tr td {
+  font-size: 16px;
+  padding: 10px 0;
+}
+.ttable tbody tr:nth-child(odd) {
+  background-color: rgba(255, 71, 46, 0.4);
+  color: rgba(0, 0, 0);
+}
+.buttonBx {
+  display: flex;
+  gap: 30px;
+}
+.buttonBx svg {
+  cursor: pointer;
+}
+.buttonBx svg:hover {
+  color: #122943;
 }

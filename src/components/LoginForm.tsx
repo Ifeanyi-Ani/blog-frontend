@@ -9,10 +9,20 @@ const INIT_STATE = {
   email: "",
   password: "",
 };
-const LoginForm = ({ showLogin, handleModal2, handlePrevModal, auth }) => {
+const LoginForm = ({
+  currentUser,
+  showLogin,
+  handleModal2,
+  handlePrevModal,
+  auth,
+}) => {
   const [formData, setFormData] = useState(INIT_STATE);
   function handleSubmit(e) {
     e.preventDefault();
+    // const data = new FormData();
+    // data.append("email", formData.email);
+    // data.append("password", formData.password);
+    // console.log(data, formData);
     auth(formData, SIGN_IN);
     handleModal2();
   }
@@ -37,7 +47,11 @@ const LoginForm = ({ showLogin, handleModal2, handlePrevModal, auth }) => {
       </Modal.Header>
 
       <Modal.Body className='modalPrimary'>
-        <Form className='centerForm' onSubmit={handleSubmit}>
+        <Form
+          className='centerForm'
+          onSubmit={handleSubmit}
+          encType='multipart/form-data'
+        >
           <Form.Group>
             <Form.Control
               type='email'
@@ -68,6 +82,7 @@ const LoginForm = ({ showLogin, handleModal2, handlePrevModal, auth }) => {
     </Modal>
   );
 };
+const mapStateToProps = ({ user: { currentUser } }) => ({ currentUser });
 const mapDispatchToProps = {
   auth,
 };

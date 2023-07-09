@@ -6,7 +6,7 @@ import { fetchPosts } from "../../redux/posts/posts.action";
 import { useEffect } from "react";
 import { fetchUsers } from "../../redux/user/user.action";
 
-const Dashboard: React.FC = ({ posts, fetchPosts, fetchUsers }) => {
+const Dashboard: React.FC = ({ posts, fetchPosts, fetchUsers, data }) => {
   // Fetch dashboard data from an API or Redux store
   useEffect(() => {
     fetchPosts();
@@ -18,8 +18,8 @@ const Dashboard: React.FC = ({ posts, fetchPosts, fetchUsers }) => {
 
   return (
     <div>
-      <h1>Overview</h1>
-      <Stack direction='horizontal' gap={3}>
+      <h1 className='ps-3'>Overview</h1>
+      <Stack direction='horizontal' gap={3} style={{ padding: "20px" }}>
         <Card>
           <Card.Body>
             <Card.Title>Total Posts</Card.Title>
@@ -29,16 +29,16 @@ const Dashboard: React.FC = ({ posts, fetchPosts, fetchUsers }) => {
         <Card>
           <Card.Body>
             <Card.Title>Total Users</Card.Title>
-            <Card.Text>{totalUsers}</Card.Text>
+            <Card.Text>{data ? data.results : "calculating..."}</Card.Text>
           </Card.Body>
         </Card>
       </Stack>
       <Row className='dashDtx'>
         <Col md={8}>
-          <div className='recentOrders'>
+          <div className='recentPosts'>
             <div className='cardHeader'>
               <h2>Recent Products</h2>
-              <Link to='/admin/product' className='btn'>
+              <Link to='/admin/posts' className='btn'>
                 View All
               </Link>
             </div>
@@ -81,27 +81,32 @@ const Dashboard: React.FC = ({ posts, fetchPosts, fetchUsers }) => {
           </div>
         </Col>
         <Col md={4}>
-          <div className='recentCustomers'>
+          <div className='recentUsers'>
             <div className='cardHeader'>
               <h2>Recent Users</h2>
             </div>
 
             <table>
               <tbody>
-                {/* {user.length ? [...user].reverse().slice(0, 10).map((data, idx) => ( */}
-                <tr key={"idx"}>
-                  <td>
-                    <h4>
-                      data.name
-                      <br /> <span>data.email</span>
-                    </h4>
-                  </td>
-                </tr>
-                {/* )) : ( */}
-                <tr>
-                  <td>user list is empty</td>
-                </tr>
-                {/* )} */}
+                {data ? (
+                  [...data.data.user]
+                    .reverse()
+                    .slice(0, 10)
+                    .map(data => (
+                      <tr key={data._id}>
+                        <td>
+                          <h4>
+                            {data.username}
+                            <br /> <span>{data.email}</span>
+                          </h4>
+                        </td>
+                      </tr>
+                    ))
+                ) : (
+                  <tr>
+                    <td>user list is empty</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -110,7 +115,10 @@ const Dashboard: React.FC = ({ posts, fetchPosts, fetchUsers }) => {
     </div>
   );
 };
-const mapStateToProps = ({ posts: { posts } }) => ({ posts });
+const mapStateToProps = ({ posts: { posts }, user: { data } }) => ({
+  posts,
+  data,
+});
 const mapDispatchToProps = {
   fetchPosts,
   fetchUsers,

@@ -19,7 +19,7 @@ type CreatePostFormProps = {
 type InitProps = {
   title: string;
   body: string;
-  image: string;
+  image: any;
   category: CategoryOption[];
   userId: string;
 };
@@ -67,12 +67,18 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
 
   const handleSubmit = (e: React.FormEvent, cb) => {
     e.preventDefault();
-    createPost(post);
+    const formData = new FormData();
+    formData.append("title", post.title);
+    formData.append("body", post.body);
+    formData.append("image", post.image, post.image.name);
+    formData.append("category", JSON.stringify(post.category));
+    formData.append("userId", post.userId);
+    console.log([...formData.entries()]);
+    createPost(formData);
     fetchPosts();
     setPost(INIT_STATE);
     togglePostForm();
   };
-
   return (
     <Modal
       centered
@@ -88,7 +94,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
             <div className='nameCon'>i-ani</div>
             <div className='icons'></div>
           </div>
-          <Form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} enctype='multipart/form-data'>
             <Form.Group>
               <Form.Control
                 type='text'
@@ -116,15 +122,14 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
             <Form.Group>
               <Form.Control
                 type='file'
-                value={post.image}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setPost({ ...post, image: e.target.value })
+                  setPost({ ...post, image: e.target.files[0] })
                 }
               />
             </Form.Group>
             <Form.Group>
               <Select
-                isMulti
+                isMulti={true}
                 menuIsOpen={false}
                 placeholder='#add tags to help people find your post'
                 value={post.category}

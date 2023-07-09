@@ -8,6 +8,8 @@ import {
   SIGN_IN,
   SIGN_UP,
 } from "./user.type";
+import jwt from "jwt-decode";
+import Cookies from "universal-cookie";
 export const auth = (data, actionType) => async dispatch => {
   try {
     let response;
@@ -18,14 +20,18 @@ export const auth = (data, actionType) => async dispatch => {
         payload: response.data,
       });
     } else if (actionType === SIGN_IN) {
-      response = await baseUrl.post(`/auth/login`, data);
+      response = await baseUrl.post(`/auth/login`, data, {
+        headers: {
+          Authorization: `Bearer ${response?.data?.token}`,
+        },
+      });
       dispatch({
         type: SIGN_IN,
         payload: response.data,
       });
     }
   } catch (err) {
-    console.log(err.response.data);
+    console.log(err?.response?.data);
   }
 };
 export const fetchUsers = () => async dispatch => {

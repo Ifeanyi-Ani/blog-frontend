@@ -1,48 +1,85 @@
 import React, { useEffect } from "react";
 import { Table } from "react-bootstrap";
-import { fetchUsers, deleteUser } from "../../redux/user/user.action";
 import { connect } from "react-redux";
+import { fetchUsers, deleteUser } from "../../redux/user/user.action";
+import { RootState } from "../../redux";
 
-const Users: React.FC = ({ fetchUsers, deleteUser }) => {
+interface UsersProps {
+  data: {
+    data: {
+      user: {
+        _id: string;
+        username: string;
+        role: string;
+        email: string;
+      }[];
+    };
+  };
+  fetchUsers: () => void;
+  deleteUser: (id: string) => void;
+}
+
+const Users: React.FC<UsersProps> = ({ data, fetchUsers, deleteUser }) => {
   useEffect(() => {
-    fetchUsers;
+    fetchUsers();
   }, [fetchUsers]);
+
+  function handleDelete(id: string, cb: () => void) {
+    deleteUser(id);
+    cb();
+  }
+
   return (
     <div>
       <h1>Users</h1>
-      <Table striped bordered>
-        <thead>
+      <Table striped bordered className='ttable'>
+        <thead className='theader'>
           <tr>
             <th>S/N</th>
-            <th>Name</th>
-            <th>Phone</th>
+            <th>Username</th>
+            <th>Role</th>
             <th>Email</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {/* {user.map((data, idx) => ( */}
-          <tr key={"idx"}>
-            <td>{"idx + 1"}</td>
-            <td>{"data.name"}</td>
-            <td>{"data.phone"}</td>
-            <td>{"data.email"}</td>
-            <td className='buttonBx'>
-              {/* <IoPencil role='button' />
-                <IoTrashOutline
-                  role='button'
-                  // onClick={() => handleUserDel(data._id, data.name, getUsers)}
-                /> */}
-            </td>
-          </tr>
-          {/* ))} */}
+          {data && data.data && data.data.user ? (
+            data.data.user.length ? (
+              [...data.data.user].reverse().map((userData, idx) => (
+                <tr key={userData._id}>
+                  <td>{idx + 1}</td>
+                  <td>{userData.username}</td>
+                  <td>{userData.role}</td>
+                  <td>{userData.email}</td>
+                  <td className='buttonBx'>
+                    <i
+                      className='bi bi-trash-fill'
+                      role='button'
+                      onClick={() => handleDelete(userData._id, fetchUsers)}
+                    ></i>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td>There are no registered users...</td>
+              </tr>
+            )
+          ) : (
+            <tr>
+              <td>Loading users...</td>
+            </tr>
+          )}
         </tbody>
       </Table>
     </div>
   );
 };
+
+const mapStateToProps = (state: RootState) => ({ data: state.user.data });
 const mapDispatchToProps = {
   fetchUsers,
   deleteUser,
 };
-export default connect(null, mapDispatchToProps)(Users);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users);
