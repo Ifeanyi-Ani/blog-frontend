@@ -1,26 +1,31 @@
-/* eslint-disable react-refresh/only-export-components */
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component, ReactNode } from "react";
+import { connect, ConnectedProps } from "react-redux";
+import { RootState } from "../redux/store";
 import { fetchPosts } from "../redux/posts/posts.action";
 
 import shareLogo from "../assets/share.jpg";
 import reloadLogo from "../assets/reload.jpg";
 import likeLogo from "../assets/likes.jpg";
-import content1 from "../assets/content1.png";
 
 import Avater from "./Avater";
-import { PostCard } from "./PostCard";
+import PostCard from "./PostCard";
 
-class PostList extends React.Component {
-  componentDidMount(): void {
+type PostListProps = ConnectedProps<typeof connector>;
+
+class PostList extends Component<PostListProps> {
+  componentDidMount() {
     this.props.fetchPosts();
   }
 
   render() {
+    const { posts } = this.props;
+
     return (
       <>
-        {this.props.posts ? (
-          [...this.props.posts.data.posts].reverse().map((post, idx) => {
+        {posts ? (
+          [...posts.data.posts].reverse().map((post, idx) => {
+            const imageUrl = `http://localhost:4000/img/posts/${post.image}`; // Update the URL here
+
             return (
               <div className='gridItem' key={idx}>
                 <Avater />
@@ -28,10 +33,10 @@ class PostList extends React.Component {
                   userId={post.userId}
                   title={post.title}
                   body={post.body}
-                  src={content1}
+                  src={imageUrl}
                   shareLogo={shareLogo}
                   reloadLogo={reloadLogo}
-                  likeLogo={likeLogo}
+                  xx
                 />
               </div>
             );
@@ -44,7 +49,10 @@ class PostList extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { posts: state.posts.posts };
-};
-export default connect(mapStateToProps, { fetchPosts })(PostList);
+const mapStateToProps = (state: RootState) => ({
+  posts: state.posts.posts,
+});
+
+const connector = connect(mapStateToProps, { fetchPosts });
+
+export default connector(PostList);

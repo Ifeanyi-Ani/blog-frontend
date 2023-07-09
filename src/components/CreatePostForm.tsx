@@ -65,7 +65,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent, cb) => {
+  const handleSubmit = async (e: React.FormEvent, cb) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", post.title);
@@ -74,8 +74,8 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
     formData.append("category", JSON.stringify(post.category));
     formData.append("userId", post.userId);
     console.log([...formData.entries()]);
-    createPost(formData);
-    fetchPosts();
+    await createPost(formData);
+    cb();
     setPost(INIT_STATE);
     togglePostForm();
   };
@@ -94,7 +94,10 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
             <div className='nameCon'>i-ani</div>
             <div className='icons'></div>
           </div>
-          <Form onSubmit={handleSubmit} enctype='multipart/form-data'>
+          <Form
+            onSubmit={e => handleSubmit(e, fetchPosts)}
+            enctype='multipart/form-data'
+          >
             <Form.Group>
               <Form.Control
                 type='text'

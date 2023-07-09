@@ -3,7 +3,7 @@ import reloadLogo from "../../assets/reload.jpg";
 import likeLogo from "../../assets/likes.jpg";
 import content1 from "../../assets/content1.png";
 import shareLogo from "../../assets/share.jpg";
-import { PostCard } from "../../components/PostCard";
+import PostCard from "../../components/PostCard";
 import Avater from "../../components/Avater";
 import { connect } from "react-redux";
 import { fetchPosts, deletePost } from "../../redux/posts/posts.action";

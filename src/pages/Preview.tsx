@@ -1,5 +1,4 @@
 import { Card, Container, Stack } from "react-bootstrap";
-import avater from "../assets/avater.jpg";
 
 import shareLogo from "../assets/share.jpg";
 import reloadLogo from "../assets/reload.jpg";
@@ -12,7 +11,7 @@ import CreatePostContainer from "../components/CreatePostContainer";
 import { connect } from "react-redux";
 import { fetchUser } from "../redux/user/user.action";
 import { useEffect } from "react";
-import { PostCard } from "../components/PostCard";
+import PostCard from "../components/PostCard";
 
 const Preview = ({ currentUser, fetchUser, data }) => {
   useEffect(() => {
@@ -36,7 +35,6 @@ const Preview = ({ currentUser, fetchUser, data }) => {
                       src={content1}
                       shareLogo={shareLogo}
                       reloadLogo={reloadLogo}
-                      likeLogo={likeLogo}
                       userId={post.userId}
                     />
                   </div>

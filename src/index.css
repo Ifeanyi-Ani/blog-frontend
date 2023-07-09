@@ -437,3 +437,12 @@
 .buttonBx svg:hover {
   color: #122943;
 }
+
+.commentItem {
+  position: relative;
+}
+.delBtn {
+  position: absolute;
+  top: 0px;
+  right: 2px;
+}

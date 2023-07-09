@@ -1,8 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { Form, Modal } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
 import { connect, ConnectedProps } from "react-redux";
-import { isLoggedin } from "../redux/user/user.action";
 import { useMutistepForm } from "./useMutistepForm";
 import { UserFromEmail } from "./UserFromEmail";
 import { UserFormPassword } from "./UserFormPassword";
@@ -62,12 +60,6 @@ const SignupWithEmail = ({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isLastStep) return next();
-    // const formData = new FormData();
-    // formData.append("email", data.email);
-    // formData.append("password", data.password);
-    // formData.append("passwordConfirm", data.passwordConfirm);
-    // formData.append("dob", data.dob);
-    // formData.append("username", data.username);
     auth(data, SIGN_UP);
     // isLoggedin();
     closeModal();
@@ -118,7 +110,11 @@ const SignupWithEmail = ({
       </Modal.Header>
 
       <Modal.Body className='modalPrimary'>
-        <Form className='centerForm' onSubmit={handleSubmit}>
+        <Form
+          className='centerForm'
+          onSubmit={handleSubmit}
+          enctype='multipart/form-data'
+        >
           {step}
           <Form.Group>
             <Form.Control type='submit' value='Next ⇛' />
