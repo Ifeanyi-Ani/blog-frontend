@@ -160,6 +160,7 @@
   width: 100%;
   margin: 20px auto;
   column-gap: 20px;
+  padding: 30px;
 }
 .mansoryLayout .avaterCon {
   position: absolute;
@@ -305,11 +306,20 @@
   font-weight: 500;
   padding: 8px 20px;
 }
+.navAdmin {
+  color: #fff;
+  text-decoration: none;
+  margin-right: 10px;
+  padding: 10px;
+}
+.navAdmin:hover {
+  background-color: #122943;
+}
 .recentPosts {
   display: grid;
-  background: #fff;
+  background: #122943;
   padding: 20px;
-  box-shadow: 0 7px 25px rgba(214, 17, 17, 0.08);
+  box-shadow: 0 7px 25px rgba(75, 39, 12, 0.3);
   border-radius: 20px;
 }
 .cardHeader {
@@ -319,15 +329,20 @@
 }
 .cardHeader h2 {
   font-weight: 600;
-  color: #122943;
+  color: #fff;
 }
-.cardHeader .btn {
+.cardHeader .btn,
+.btnAdmin button {
   padding: 5px 10px;
-  background: #001935;
+  background: #4b270c;
   text-decoration: none;
   color: #fff;
   border-radius: 6px;
+  border: none;
 }
+/* .btnAdmin button {
+
+} */
 .dashDtx {
   padding: 20px;
   align-items: flex-start;
@@ -337,13 +352,20 @@
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
+  border-radius: 20px !important;
 }
+
 .dashDtx table thead td {
   font-weight: 600;
 }
-.dashDtx .recentPosts table tr {
-  color: #122943;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+.dashDtx table tr:nth-child(even) {
+  background-color: #4b270c;
+  color: #fff !important;
+}
+.dashDtx table tr:nth-child(odd) {
+  background-color: #fff;
+  color: #4b270c;
 }
 .dashDtx .recentPosts table tr:last-child {
   border-bottom: none;
@@ -352,7 +374,7 @@
   background: #001935;
   color: #fff;
 }
-.dashDtx .recentPosts table tr td {
+.dashDtx table tr td {
   padding: 10px;
 }
 .dashDtx .recentPosts table tr td:last-child {
@@ -364,18 +386,19 @@
 .dashDtx .recentPosts table tr td:nth-child(3) {
   text-align: center;
 }
+.cardDash .card-body {
+  background-color: #122943;
+  color: #fff;
+  text-align: center;
+}
 .recentUsers {
   display: grid;
   padding: 20px;
-  background: #fff;
-  box-shadow: 0 40px 25px rgba(0, 0, 0, 0.08);
+  background: #122943;
+  box-shadow: 0 7px 25px rgba(75, 39, 12, 0.3);
   border-radius: 20px;
 }
 
-.recentUsers table tr td {
-  color: #001935;
-  padding: 12px 10px;
-}
 .recentUsers table tr td h4 {
   font-size: 16px;
   font-weight: 500;
@@ -383,7 +406,6 @@
 }
 .recentUsers table tr td h4 span {
   font-size: 14px;
-  color: #122943;
 }
 .recentUsers table tr:hover {
   background: #001935;

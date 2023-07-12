@@ -31,7 +31,7 @@ export const auth = (data, actionType) => async dispatch => {
       });
     }
   } catch (err) {
-    console.log(err?.response?.data);
+    alert(err?.response?.data.msg);
   }
 };
 export const fetchUsers = () => async dispatch => {
@@ -42,10 +42,10 @@ export const fetchUsers = () => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    console.log(err.response.data);
+    alert(err.response.data.msg);
   }
 };
-export const fetchUser = id => async dispatch => {
+export const fetchUser = (id: any) => async dispatch => {
   try {
     const response = await baseUrl.get(`/users/${id}`);
     dispatch({
@@ -53,7 +53,7 @@ export const fetchUser = id => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    console.log(err.response.data);
+    alert(err.response.data.msg);
   }
 };
 export const editUser = (data, id) => async dispatch => {
@@ -64,7 +64,7 @@ export const editUser = (data, id) => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    console.log(err.response.data);
+    alert(err.response.data.msg);
   }
 };
 export const deleteUser = id => async dispatch => {
@@ -75,6 +75,6 @@ export const deleteUser = id => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    console.log(err.response.data);
+    alert(err.response.data.msg);
   }
 };

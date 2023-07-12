@@ -5,7 +5,6 @@ import { fetchPosts } from "../redux/posts/posts.action";
 
 import shareLogo from "../assets/share.jpg";
 import reloadLogo from "../assets/reload.jpg";
-import likeLogo from "../assets/likes.jpg";
 
 import Avater from "./Avater";
 import PostCard from "./PostCard";
@@ -36,7 +35,8 @@ class PostList extends Component<PostListProps> {
                   src={imageUrl}
                   shareLogo={shareLogo}
                   reloadLogo={reloadLogo}
-                  xx
+                  category={post.category}
+                  postId={post._id}
                 />
               </div>
             );

@@ -24,8 +24,8 @@ const Users: React.FC<UsersProps> = ({ data, fetchUsers, deleteUser }) => {
     fetchUsers();
   }, [fetchUsers]);
 
-  function handleDelete(id: string, cb: () => void) {
-    deleteUser(id);
+  async function handleDelete(id: string, cb: () => void) {
+    await deleteUser(id);
     cb();
   }
 

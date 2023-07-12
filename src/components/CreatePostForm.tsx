@@ -73,7 +73,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
     formData.append("image", post.image, post.image.name);
     formData.append("category", JSON.stringify(post.category));
     formData.append("userId", post.userId);
-    console.log([...formData.entries()]);
+
     await createPost(formData);
     cb();
     setPost(INIT_STATE);
@@ -96,7 +96,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
           </div>
           <Form
             onSubmit={e => handleSubmit(e, fetchPosts)}
-            enctype='multipart/form-data'
+            enTcype='multipart/form-data'
           >
             <Form.Group>
               <Form.Control

@@ -57,10 +57,10 @@ const SignupWithEmail = ({
       <UserFormUsername {...data} updateFields={updateFields} />,
     ]);
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isLastStep) return next();
-    auth(data, SIGN_UP);
+    await auth(data, SIGN_UP);
     // isLoggedin();
     closeModal();
   }

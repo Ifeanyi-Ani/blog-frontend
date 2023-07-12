@@ -14,8 +14,9 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
-  function handleDelete(id, cb) {
-    deletePost(id);
+  async function handleDelete(id, cb) {
+    confirm("Are sure you want to delete this post");
+    await deletePost(id);
     cb();
   }
   return (
@@ -32,10 +33,10 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
                     userId={post.userId}
                     title={post.title}
                     body={post.body}
-                    src={content1}
+                    src={`http://localhost:4000/img/posts/${post.image}`}
                     shareLogo={shareLogo}
                     reloadLogo={reloadLogo}
-                    likeLogo={likeLogo}
+                    category={post.category}
                   >
                     <Button
                       className='position-absolute top-0, bg-warning border-0'
