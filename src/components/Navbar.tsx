@@ -260,14 +260,15 @@ const Navbar = function ({ postModal, hideModal, currentUser }) {
                             <div role='button'>+New</div>
                           </NavDropdown.Item>
 
-                          <NavDropdown.Item href='#action/3.4'>
+                          <div className='profileActx'>
                             <div className='offSetImg'>
                               <i className='bi bi-gift-fill'></i>
                             </div>
                             <ProfileAction
                               username={currentUser.data.user.username}
                             />
-                          </NavDropdown.Item>
+                            s
+                          </div>
                         </NavDropdown>
                       </>
                     )

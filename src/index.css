@@ -83,6 +83,10 @@
 .dropDownConfig .nameCon {
   font-weight: unset !important;
 }
+.profileActx {
+  position: relative;
+  padding-left: 30px;
+}
 .offSetImg {
   position: absolute;
   left: 10px;
@@ -100,9 +104,17 @@
   font-size: 16px;
   font-weight: 400;
 }
+.customName {
+  color: #fff;
+}
+.profileActx .customName {
+  color: #000 !important;
+}
+
 .secBreak:hover {
   background-color: #eaeaea;
 }
+
 .searchItem i {
   color: hsl(0, 0%, 80%);
   font-weight: 600;

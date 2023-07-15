@@ -37,6 +37,7 @@ class PostList extends Component<PostListProps> {
                   reloadLogo={reloadLogo}
                   category={post.category}
                   postId={post._id}
+                  post={post}
                 />
               </div>
             );

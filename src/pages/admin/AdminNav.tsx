@@ -40,8 +40,8 @@ const AdminNav: React.FC = ({
       // }
       // formData.append("role", user.role);
       const response = await baseUrl.post("/auth/signup", user);
-      // Handle the response as needed
-      console.log(response.data); // Example: Log the response data
+      alert(response);
+      adminModal();
     } catch (error) {
       // Handle errors
       console.error(error);

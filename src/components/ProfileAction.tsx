@@ -12,7 +12,7 @@ const ProfileAction = ({ username }) => {
             to={`/blog/${username}`}
             role='button'
           >
-            <span className='text-light'>{username}</span> <br />
+            <span className='customName'>{username}</span> <br />
             <span style={{ color: "#acac9e" }}>untitled</span>
           </Link>
         </div>

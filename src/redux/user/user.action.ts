@@ -20,11 +20,7 @@ export const auth = (data, actionType) => async dispatch => {
         payload: response.data,
       });
     } else if (actionType === SIGN_IN) {
-      response = await baseUrl.post(`/auth/login`, data, {
-        headers: {
-          Authorization: `Bearer ${response?.data?.token}`,
-        },
-      });
+      response = await baseUrl.post(`/auth/login`, data);
       dispatch({
         type: SIGN_IN,
         payload: response.data,

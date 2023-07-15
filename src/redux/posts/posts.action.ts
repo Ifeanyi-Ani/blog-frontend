@@ -19,7 +19,7 @@ export const fetchPosts = () => {
         payload: response.data,
       });
     } catch (err) {
-      console.log(response.data.err);
+      alert(err.response.data.msg);
     }
   };
 };
@@ -32,7 +32,7 @@ export const createPost = (data: any) => async (dispatch: Dispatch) => {
       payload: response.data,
     });
   } catch (err) {
-    console.log(response.data.err);
+    alert(err.response.data.msg);
   }
 };
 
@@ -41,7 +41,7 @@ export const fetchPost = (id: any) => async (dispatch: Dispatch) => {
     const response = await baseUrl.get(`/posts/${id}`);
     dispatch({ type: FETCH_POST, payload: response.data });
   } catch (err) {
-    console.log(response.data.err);
+    alert(err.response.data.msg);
   }
 };
 
@@ -50,7 +50,7 @@ export const editPost = (id: any, data: any) => async (dispatch: Dispatch) => {
     const response = await baseUrl.patch(`/posts/${id}`, data);
     dispatch({ type: EDIT_POST, payload: response.data });
   } catch (err) {
-    console.log(response.data.err);
+    alert(err.response.data.msg);
   }
 };
 
@@ -59,6 +59,6 @@ export const deletePost = (id: any) => async (dispatch: Dispatch) => {
     const response = await baseUrl.delete(`/posts/${id}`);
     dispatch({ type: DELETE_POST, payload: response.data });
   } catch (err) {
-    console.log(response.data.err);
+    alert(err.response.data.msg);
   }
 };

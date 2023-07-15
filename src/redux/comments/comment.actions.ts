@@ -15,7 +15,7 @@ export const fetchComments = postId => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    console.log(response.data.err);
+    console.log(err.response.data.message);
   }
 };
 export const createComment = (postId, data) => async dispatch => {
@@ -27,7 +27,7 @@ export const createComment = (postId, data) => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    console.log(response.data.err);
+    console.log(err.response.data.message);
   }
 };
 export const deleteComment = (postId, commentId) => async dispatch => {
@@ -39,6 +39,6 @@ export const deleteComment = (postId, commentId) => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    console.log(response.data.err);
+    console.log(err.response.data.message);
   }
 };

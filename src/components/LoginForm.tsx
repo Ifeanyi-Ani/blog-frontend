@@ -24,6 +24,7 @@ const LoginForm = ({
     // data.append("password", formData.password);
     // console.log(data, formData);
     auth(formData, SIGN_IN);
+    setFormData(INIT_STATE);
     handleModal2();
   }
   return (

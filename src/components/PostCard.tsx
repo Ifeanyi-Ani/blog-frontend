@@ -8,11 +8,15 @@ import {
   createComment,
   deleteComment,
 } from "../redux/comments/comment.actions";
+import { fetchPosts } from "../redux/posts/posts.action";
 import baseUrl from "../apis/baseUrl";
+import { LIKE, UNLIKE } from "../redux/likes/likes.type";
+import { likeAndunlikePost } from "../redux/likes/likes.action";
 
 type PostCardProps = {
   userId: string;
   postId: string;
+  post: any;
   title: string;
   body: string;
   src: string;
@@ -23,7 +27,9 @@ type PostCardProps = {
   createComment: any;
   comments: any;
   fetchComments: any;
+  fetchPosts: any;
   deleteComment: any;
+  likeAndunlikePost: any;
   currentUser: any;
   children?: ReactNode;
 };
@@ -38,11 +44,14 @@ const PostCard = ({
   category,
   children,
   postId,
+  post,
   createComment,
   comments,
   currentUser,
   fetchComments,
   deleteComment,
+  fetchPosts,
+  likeAndunlikePost,
 }: PostCardProps) => {
   const [check, setCheck] = useState<boolean>(false);
 
@@ -56,11 +65,11 @@ const PostCard = ({
     const updatedComment = { ...comment, postId };
     await createComment(postId, updatedComment);
     await fetchComments(postId);
+    getAllComments();
     setComment(init_data);
   }
-  function handleComment(postId) {
-    fetchComments(postId);
-
+  async function handleComment(postId) {
+    await fetchComments(postId);
     setCheck(!check);
   }
 
@@ -68,7 +77,6 @@ const PostCard = ({
     const response = await baseUrl.get("/posts/comments");
     const allCommets = await response.data.data.comments;
     setPostComments(allCommets);
-    console.log("hi");
   }
   async function handleDeleteComment(postId, id) {
     if (confirm("Are you sure you want to delete this comment?")) {
@@ -76,6 +84,18 @@ const PostCard = ({
       await fetchComments(postId);
       getAllComments();
     }
+  }
+  async function handleLike(postId) {
+    const data = { userId: currentUser?.data?.user?._id };
+    await likeAndunlikePost(data, postId, LIKE);
+    await fetchComments(postId);
+    await fetchPosts();
+  }
+  async function handleUnlike(postId) {
+    const data = { userId: currentUser?.data?.user?._id };
+    await likeAndunlikePost(data, postId, UNLIKE);
+    await fetchComments(postId);
+    await fetchPosts();
   }
   useEffect(() => {
     getAllComments();
@@ -123,8 +143,16 @@ const PostCard = ({
           )}
           <Stack className='footer-img ms-auto gap-3' direction='horizontal'>
             <img src={shareLogo} alt='logo' role='button' />
-            <img src={reloadLogo} alt='logo' role='button' />
-            <i className='bi bi-heart' role='button'></i>
+            <i
+              className='bi bi-heart'
+              role='button'
+              onClick={currentUser ? () => handleUnlike(postId) : undefined}
+            ></i>
+            <i
+              className='bi bi-heart'
+              role='button'
+              onClick={currentUser ? () => handleLike(postId) : undefined}
+            ></i>
           </Stack>
         </Card.Footer>
 
@@ -132,13 +160,18 @@ const PostCard = ({
           <div className='commentSec p-3'>
             <div className='commentNav border-bottom-1 d-flex gap-3'>
               <div>
-                <i className='bi bi-chat'></i>0
+                <i className='bi bi-chat'></i>
+                {postComments
+                  ? postComments.filter(comment => comment.postId === postId)
+                      .length
+                  : null}
               </div>
               <div>
                 <i className='bi bi-fullscreen'></i>900
               </div>
               <div>
-                <i className='bi bi-heart'></i>90
+                <i className='bi bi-heart'></i>
+                {post.likes ? post.likes.length : null}
               </div>
               <div>
                 <i className='bi bi-fullscreen'></i>900
@@ -207,6 +240,8 @@ const mapDispatchToProps = {
   createComment,
   fetchComments,
   deleteComment,
+  likeAndunlikePost,
+  fetchPosts,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostCard);

@@ -15,9 +15,10 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
     fetchPosts();
   }, [fetchPosts]);
   async function handleDelete(id, cb) {
-    confirm("Are sure you want to delete this post");
-    await deletePost(id);
-    cb();
+    if (confirm("Are sure you want to delete this post")) {
+      await deletePost(id);
+      cb();
+    }
   }
   return (
     <div>
@@ -37,6 +38,7 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
                     shareLogo={shareLogo}
                     reloadLogo={reloadLogo}
                     category={post.category}
+                    postId={post._id}
                   >
                     <Button
                       className='position-absolute top-0, bg-warning border-0'

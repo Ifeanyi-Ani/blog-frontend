@@ -25,8 +25,10 @@ const Users: React.FC<UsersProps> = ({ data, fetchUsers, deleteUser }) => {
   }, [fetchUsers]);
 
   async function handleDelete(id: string, cb: () => void) {
-    await deleteUser(id);
-    cb();
+    if (confirm("Are you sure you want to delete this user")) {
+      await deleteUser(id);
+      cb();
+    }
   }
 
   return (
