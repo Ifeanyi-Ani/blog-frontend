@@ -67,7 +67,7 @@ const LoginForm = ({
           <Form.Group>
             <Form.Control
               type='password'
-              placeholder='Set a password'
+              placeholder='Enter password'
               required
               value={formData.password}
               onChange={e =>
@@ -83,7 +83,7 @@ const LoginForm = ({
     </Modal>
   );
 };
-const mapStateToProps = ({ user: { currentUser } }) => ({ currentUser });
+const mapStateToProps = ({ auth: { currentUser } }) => ({ currentUser });
 const mapDispatchToProps = {
   auth,
 };

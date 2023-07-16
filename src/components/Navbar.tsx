@@ -19,10 +19,12 @@ import { postModal } from "../redux/modals/modals.actions";
 import ProfileAction from "./ProfileAction";
 import CreatePost from "./CreatePost";
 import LoginForm from "./LoginForm";
-import { auth } from "../redux/user/user.action";
+import { auth, logOut } from "../redux/user/user.action";
+import { LOG_OUT } from "../redux/user/user.type";
+
 import baseUrl from "../apis/baseUrl";
 
-const Navbar = function ({ postModal, hideModal, currentUser }) {
+const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setisOpen] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
@@ -43,13 +45,8 @@ const Navbar = function ({ postModal, hideModal, currentUser }) {
     setShow(true);
   }
   async function handleLogOut(e) {
-    try {
-      e.stopPropagation();
-      //TODO set the currentUser to null
-      await baseUrl.get("/auth/logout");
-    } catch (err) {
-      console.error(err);
-    }
+    e.stopPropagation();
+    logOut();
   }
   function handleShowLogin() {
     setShow(false);
@@ -92,7 +89,7 @@ const Navbar = function ({ postModal, hideModal, currentUser }) {
                     <i className='bi bi-house-fill'></i>
                   </Nav.Link>
 
-                  <Nav.Link href='#link'>
+                  {/* <Nav.Link href='#link'>
                     <i className='bi bi-gift-fill'></i>
                   </Nav.Link>
                   <Nav.Link href='#link'>
@@ -100,178 +97,177 @@ const Navbar = function ({ postModal, hideModal, currentUser }) {
                   </Nav.Link>
                   <Nav.Link href='#link'>
                     <i className='bi bi-emoji-laughing-fill'></i>
-                  </Nav.Link>
+                  </Nav.Link> */}
+                  {currentUser.data.user.role === "admin" ? (
+                    <>
+                      <Nav.Link as={Link} to='/admin'>
+                        <i className='bi bi-compass'></i>
+                      </Nav.Link>
+                    </>
+                  ) : null}
                   <Nav.Link href='#link'>
                     <i className='bi bi-lightning-charge-fill'></i>
                   </Nav.Link>
                   {currentUser.data.user ? (
-                    currentUser.data.user.role === "admin" ? (
-                      <>
-                        <Nav.Link as={Link} to='/admin'>
-                          <i className='bi bi-compass'></i>
-                        </Nav.Link>
-                      </>
-                    ) : (
-                      <>
-                        <NavDropdown
-                          title={<i className='bi bi-person-fill'></i>}
-                          id='basic-nav-dropdown'
-                          className='dropDownConfig'
+                    <>
+                      <NavDropdown
+                        title={<i className='bi bi-person-fill'></i>}
+                        id='basic-nav-dropdown'
+                        className='dropDownConfig'
+                      >
+                        <NavDropdown.Item as={Button} className='secBreak'>
+                          <div>Account</div>
+                          <div
+                            role='button'
+                            className='btnConfig'
+                            onClick={e => handleLogOut(e)}
+                          >
+                            Log out
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#'
+                          className='d-flex justify-content-between'
                         >
-                          <NavDropdown.Item as={Button} className='secBreak'>
-                            <div>Account</div>
-                            <div
-                              role='button'
-                              className='btnConfig'
-                              onClick={e => handleLogOut(e)}
-                            >
-                              Log out
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Likes
-                            </div>
-                            <div>2</div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Following
-                            </div>
-                            <div>31</div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Settings
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Domains
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Go Ad-Free
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Payments & purchase
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Gifts
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              What's new
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Help
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Keyboard shortcuts
-                            </div>
-                          </NavDropdown.Item>
-                          <NavDropdown.Item
-                            href='#action/3.2'
-                            className='d-flex justify-content-between'
-                          >
-                            <div className='leftCol'>
-                              <div className='offSetImg'>
-                                <i className='bi bi-gift-fill'></i>
-                              </div>
-                              Change palette
-                            </div>
-                          </NavDropdown.Item>
-
-                          <NavDropdown.Item
-                            href='#action/3.3'
-                            className='secBreak'
-                          >
-                            <div>Blogs</div>
-                            <div role='button'>+New</div>
-                          </NavDropdown.Item>
-
-                          <div className='profileActx'>
+                          <div className='leftCol'>
                             <div className='offSetImg'>
                               <i className='bi bi-gift-fill'></i>
                             </div>
-                            <ProfileAction
-                              username={currentUser.data.user.username}
-                            />
-                            s
+                            Likes
                           </div>
-                        </NavDropdown>
-                      </>
-                    )
+                          <div>2</div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Following
+                          </div>
+                          <div>31</div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Settings
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Domains
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Go Ad-Free
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Payments & purchase
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Gifts
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            What's new
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Help
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Keyboard shortcuts
+                          </div>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href='#action/3.2'
+                          className='d-flex justify-content-between'
+                        >
+                          <div className='leftCol'>
+                            <div className='offSetImg'>
+                              <i className='bi bi-gift-fill'></i>
+                            </div>
+                            Change palette
+                          </div>
+                        </NavDropdown.Item>
+
+                        <NavDropdown.Item
+                          href='#action/3.3'
+                          className='secBreak'
+                        >
+                          <div>Blogs</div>
+                          <div role='button'>+New</div>
+                        </NavDropdown.Item>
+
+                        <div className='profileActx'>
+                          <div className='offSetImg'>
+                            <i className='bi bi-gift-fill'></i>
+                          </div>
+                          <ProfileAction
+                            username={currentUser.data.user.username}
+                          />
+                          s
+                        </div>
+                      </NavDropdown>
+                    </>
                   ) : null}
                   <Nav.Link
                     role='button'
@@ -358,13 +354,14 @@ const Navbar = function ({ postModal, hideModal, currentUser }) {
 };
 const mapStateToProps = ({
   toggleModal: { hideModal },
-  user: { currentUser },
+  auth: { currentUser },
 }) => ({
   hideModal,
   currentUser,
 });
 const mapDispatchToProps = dispatch => ({
   postModal: () => dispatch(postModal()),
+  logOut: () => dispatch(logOut()),
   auth,
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

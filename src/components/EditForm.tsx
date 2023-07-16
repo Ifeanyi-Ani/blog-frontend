@@ -14,6 +14,7 @@ type CategoryOption = {
 type EditFormProps = {
   editForm: boolean;
   toggleEditForm: () => void;
+  data: any;
 };
 
 type InitProps = {
@@ -32,18 +33,26 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
   fetchPosts,
   data,
 }) => {
-  console.log(data);
   const INIT_STATE: InitProps = {
-    title: data.title,
-    body: data.body,
-    image: data.image,
-    category: JSON.parse(data.category),
+    title: "",
+    body: "",
+    image: null,
+    category: [],
     userId: currentUser?.data?.user?._id || "",
   };
-  const [post, setPost] = useState<InitProps>({});
+  const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
+
   useEffect(() => {
-    setPost(INIT_STATE);
+    if (data) {
+      setPost({
+        title: data.title || "",
+        body: data.body || "",
+        image: data.image || null,
+        category: data.category ? JSON.parse(data.category) : [],
+        userId: currentUser?.data?.user?._id || "",
+      });
+    }
   }, [data]);
   const handleClose = () => {
     toggleEditForm();
@@ -170,7 +179,7 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
 };
 
 const mapStateToProps = state => ({
-  currentUser: state.user.currentUser,
+  currentUser: state.auth.currentUser,
   data: state.posts.data,
 });
 const mapDispatchToProps = {

@@ -237,7 +237,7 @@ const PostCard = ({
   );
 };
 
-const mapStateToProps = ({ user: { currentUser }, comment: { comments } }) => ({
+const mapStateToProps = ({ auth: { currentUser }, comment: { comments } }) => ({
   currentUser,
   comments,
 });

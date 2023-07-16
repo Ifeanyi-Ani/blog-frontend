@@ -82,7 +82,7 @@ const Home = function ({ currentUser }) {
     </div>
   );
 };
-const mapDispatchToProps = ({ user: { currentUser } }) => ({
+const mapDispatchToProps = ({ auth: { currentUser } }) => ({
   currentUser,
 });
 export default connect(mapDispatchToProps)(Home);

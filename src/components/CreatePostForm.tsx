@@ -166,7 +166,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
 };
 
 const mapStateToProps = state => ({
-  currentUser: state.user.currentUser,
+  currentUser: state.auth.currentUser,
 });
 const mapDispatchToProps = {
   createPost,

@@ -9,14 +9,22 @@ import ProfileAction from "../components/ProfileAction";
 import Avater from "../components/Avater";
 import CreatePostContainer from "../components/CreatePostContainer";
 import { connect } from "react-redux";
-import { fetchUser } from "../redux/user/user.action";
-import { useEffect } from "react";
+// import { fetchUser } from "../redux/user/user.action";
+import { fetchPosts } from "../redux/posts/posts.action";
+import { useEffect, useState } from "react";
 import PostCard from "../components/PostCard";
 
-const Preview = ({ currentUser, fetchUser, data }) => {
+const Preview = ({ currentUser, fetchPosts, posts }) => {
+  const [data, setData] = useState();
   useEffect(() => {
     if (currentUser) {
-      fetchUser(currentUser?.data?.user?._id);
+      fetchPosts();
+      console.log(posts);
+      const filterPosts = posts.data.posts.filter(
+        post => post.userId._id == currentUser.data.user._id
+      );
+      setData(filterPosts);
+      console.log(data);
     }
   }, []);
 
@@ -26,25 +34,23 @@ const Preview = ({ currentUser, fetchUser, data }) => {
         <CreatePostContainer />
         <Container className='mansoryLayout listView'>
           {data
-            ? data.posts
-              ? data.posts.map(post => (
-                  <div className='gridItem' key={post._id}>
-                    <Avater />
-                    <PostCard
-                      title={post.title}
-                      body={post.body}
-                      src={`http://localhost:4000/img/posts/${post.image}`}
-                      shareLogo={shareLogo}
-                      reloadLogo={reloadLogo}
-                      userId={post.userId}
-                      category={post.category}
-                      postId={post._id}
-                      post={post}
-                    />
-                  </div>
-                ))
-              : "You have not post anything yet"
-            : "Loading data..."}
+            ? data.map(post => (
+                <div className='gridItem' key={post._id}>
+                  <Avater />
+                  <PostCard
+                    title={post.title}
+                    body={post.body}
+                    src={`http://localhost:4000/img/posts/${post.image}`}
+                    shareLogo={shareLogo}
+                    reloadLogo={reloadLogo}
+                    userId={post.userId}
+                    category={post.category}
+                    postId={post._id}
+                    post={post}
+                  />
+                </div>
+              ))
+            : "You have not post anything yet"}
         </Container>
       </main>
       <SideBar
@@ -58,11 +64,11 @@ const Preview = ({ currentUser, fetchUser, data }) => {
     </div>
   );
 };
-const mapStateToProps = ({ user: { currentUser, data } }) => ({
+const mapStateToProps = ({ auth: { currentUser }, posts: { posts } }) => ({
   currentUser,
-  data,
+  posts,
 });
 const mapDispatchToProps = {
-  fetchUser,
+  fetchPosts,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Preview);

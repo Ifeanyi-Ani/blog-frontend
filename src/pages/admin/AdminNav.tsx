@@ -186,7 +186,7 @@ const AdminNav: React.FC = ({
   );
 };
 const mapStateToProps = ({
-  user: { currentUser },
+  auth: { currentUser },
   toggleModal: { adModal, hideForm },
 }) => ({ currentUser, adModal, hideForm });
 const mapDispatchToProps = dispatch => ({

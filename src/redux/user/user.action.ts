@@ -7,9 +7,8 @@ import {
   DELETE_USER,
   SIGN_IN,
   SIGN_UP,
+  LOG_OUT,
 } from "./user.type";
-import jwt from "jwt-decode";
-import Cookies from "universal-cookie";
 export const auth = (data, actionType) => async dispatch => {
   try {
     let response;
@@ -30,6 +29,9 @@ export const auth = (data, actionType) => async dispatch => {
     alert(err?.response?.data.msg);
   }
 };
+export const logOut = () => ({
+  type: LOG_OUT,
+});
 export const fetchUsers = () => async dispatch => {
   try {
     const response = await baseUrl.get("/users");
