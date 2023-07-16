@@ -39,6 +39,7 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
                     reloadLogo={reloadLogo}
                     category={post.category}
                     postId={post._id}
+                    post={post}
                   >
                     <Button
                       className='position-absolute top-0, bg-warning border-0'

@@ -1,6 +1,5 @@
 import React, { Component, ReactNode } from "react";
 import { connect, ConnectedProps } from "react-redux";
-import { RootState } from "../redux/store";
 import { fetchPosts } from "../redux/posts/posts.action";
 
 import shareLogo from "../assets/share.jpg";
@@ -38,6 +37,7 @@ class PostList extends Component<PostListProps> {
                   category={post.category}
                   postId={post._id}
                   post={post}
+                  fetching={fetchPosts}
                 />
               </div>
             );
@@ -50,7 +50,7 @@ class PostList extends Component<PostListProps> {
   }
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = state => ({
   posts: state.posts.posts,
 });
 

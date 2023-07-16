@@ -1,6 +1,5 @@
 import { Container, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { connect } from "react-redux";
 
 const ProfileAction = ({ username }) => {
   return (

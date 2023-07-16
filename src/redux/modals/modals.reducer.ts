@@ -4,6 +4,7 @@ const INIT_STATE = {
   hideModal: false,
   hideForm: false,
   adModal: false,
+  editForm: false,
 };
 const modalsReducer = (state = INIT_STATE, action) => {
   switch (action.type) {
@@ -17,6 +18,8 @@ const modalsReducer = (state = INIT_STATE, action) => {
       };
     case "ADMIN_MODAL":
       return { ...state, adModal: !state.adModal };
+    case "EDIT_FORM":
+      return { ...state, editForm: !state.editForm };
     default:
       return state;
   }

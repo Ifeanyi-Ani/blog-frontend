@@ -62,3 +62,7 @@ export const deletePost = (id: any) => async (dispatch: Dispatch) => {
     alert(err.response.data.msg);
   }
 };
+export const selectedPost = data => ({
+  type: "SELECTED_POST",
+  payload: data,
+});

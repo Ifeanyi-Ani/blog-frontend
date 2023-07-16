@@ -18,7 +18,7 @@ const Preview = ({ currentUser, fetchUser, data }) => {
     if (currentUser) {
       fetchUser(currentUser?.data?.user?._id);
     }
-  }, [fetchUser]);
+  }, []);
 
   return (
     <div className='d-flex justify-content-center gap-3 pt-3'>
@@ -38,6 +38,8 @@ const Preview = ({ currentUser, fetchUser, data }) => {
                       reloadLogo={reloadLogo}
                       userId={post.userId}
                       category={post.category}
+                      postId={post._id}
+                      post={post}
                     />
                   </div>
                 ))

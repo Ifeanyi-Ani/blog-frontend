@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent, KeyboardEvent } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent, useEffect } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
 import { connect, ConnectedProps } from "react-redux";
 import Select, { ValueType } from "react-select";
-import { createPost } from "../redux/posts/posts.action";
+import { editPost } from "../redux/posts/posts.action";
 import { fetchPosts } from "../redux/posts/posts.action";
 
 type CategoryOption = {
@@ -11,9 +11,9 @@ type CategoryOption = {
   label: string;
 };
 
-type CreatePostFormProps = {
-  hideCreateForm: boolean;
-  togglePostForm: () => void;
+type EditFormProps = {
+  editForm: boolean;
+  toggleEditForm: () => void;
 };
 
 type InitProps = {
@@ -24,26 +24,29 @@ type InitProps = {
   userId: string;
 };
 
-const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
-  hideCreateForm,
-  togglePostForm,
-  createPost,
+const EditForm: React.FC<EditFormProps & ReduxProps> = ({
+  editForm,
+  toggleEditForm,
+  editPost,
   currentUser,
   fetchPosts,
+  data,
 }) => {
+  console.log(data);
   const INIT_STATE: InitProps = {
-    title: "",
-    body: "",
-    image: "",
-    category: [],
+    title: data.title,
+    body: data.body,
+    image: data.image,
+    category: JSON.parse(data.category),
     userId: currentUser?.data?.user?._id || "",
   };
-  const [post, setPost] = useState<InitProps>(INIT_STATE);
+  const [post, setPost] = useState<InitProps>({});
   const [inputValue, setInputValue] = useState<string>("");
-
-  const handleClose = () => {
+  useEffect(() => {
     setPost(INIT_STATE);
-    togglePostForm();
+  }, [data]);
+  const handleClose = () => {
+    toggleEditForm();
   };
 
   const handleInputChange = (inputValue: string) => {
@@ -67,6 +70,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
 
   const handleSubmit = async (e: React.FormEvent, cb) => {
     e.preventDefault();
+    console.log(data);
     const formData = new FormData();
     formData.append("title", post.title);
     formData.append("body", post.body);
@@ -74,16 +78,16 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
     formData.append("category", JSON.stringify(post.category));
     formData.append("userId", post.userId);
 
-    await createPost(formData);
+    await editPost(data._id, formData);
     cb();
     setPost(INIT_STATE);
-    togglePostForm();
+    toggleEditForm();
   };
   return (
     <Modal
       centered
-      show={hideCreateForm}
-      onHide={togglePostForm}
+      show={editForm}
+      onHide={toggleEditForm}
       className='modalSecon'
       backdrop='static'
     >
@@ -96,7 +100,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
           </div>
           <Form
             onSubmit={e => handleSubmit(e, fetchPosts)}
-            enTcype='multipart/form-data'
+            entcype='multipart/form-data'
           >
             <Form.Group>
               <Form.Control
@@ -156,7 +160,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
               <Form.Select role='button'>
                 <option>For Everyone</option>
               </Form.Select>
-              <button type='submit'>Post now</button>
+              <button type='submit'>Save Post</button>
             </Form.Group>
           </Form>
         </div>
@@ -167,13 +171,14 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
 
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
+  data: state.posts.data,
 });
 const mapDispatchToProps = {
-  createPost,
+  editPost,
   fetchPosts,
 };
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type ReduxProps = ConnectedProps<typeof connector>;
 
-export default connector(CreatePostForm);
+export default connector(EditForm);

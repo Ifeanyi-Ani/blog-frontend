@@ -105,7 +105,12 @@ const PostCard = ({
     <div>
       <Card>
         {children}
-        <UserHeader userId={userId} />
+        <UserHeader
+          userId={userId}
+          currentUserId={currentUser?.data?.user?._id}
+          post={post}
+          fetchPosts={fetchPosts}
+        />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
           <Card.Img src={src} alt='content' />

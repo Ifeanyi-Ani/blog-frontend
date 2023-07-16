@@ -24,6 +24,8 @@ const postReducer = (state = {}, action) => {
     case DELETE_POST: {
       return { ...state, post: action.payload };
     }
+    case "SELECTED_POST":
+      return { ...state, data: action.payload };
     default:
       return state;
   }

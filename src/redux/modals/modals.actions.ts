@@ -7,3 +7,6 @@ export const togglePostForm = () => ({
 export const adminModal = () => ({
   type: "ADMIN_MODAL",
 });
+export const toggleEditForm = () => ({
+  type: "EDIT_FORM",
+});
