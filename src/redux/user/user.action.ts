@@ -26,7 +26,7 @@ export const auth = (data, actionType) => async dispatch => {
       });
     }
   } catch (err) {
-    alert(err?.response?.data.msg);
+    alert(err?.response?.data.message);
   }
 };
 export const logOut = () => ({
@@ -40,7 +40,7 @@ export const fetchUsers = () => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    alert(err.response.data.msg);
+    alert(err.response.data.message);
   }
 };
 export const fetchUser = (id: any) => async dispatch => {
@@ -51,7 +51,7 @@ export const fetchUser = (id: any) => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    alert(err.response.data.msg);
+    alert(err.response.data.message);
   }
 };
 export const editUser = (data, id) => async dispatch => {
@@ -62,7 +62,7 @@ export const editUser = (data, id) => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    alert(err.response.data.msg);
+    alert(err.response.data.message);
   }
 };
 export const deleteUser = id => async dispatch => {
@@ -73,6 +73,6 @@ export const deleteUser = id => async dispatch => {
       payload: response.data,
     });
   } catch (err) {
-    alert(err.response.data.msg);
+    alert(err.response.data.message);
   }
 };

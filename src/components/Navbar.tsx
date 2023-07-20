@@ -20,14 +20,14 @@ import ProfileAction from "./ProfileAction";
 import CreatePost from "./CreatePost";
 import LoginForm from "./LoginForm";
 import { auth, logOut } from "../redux/user/user.action";
-import { LOG_OUT } from "../redux/user/user.type";
-
-import baseUrl from "../apis/baseUrl";
+import { useNavigate } from "react-router-dom";
+import Avater from "./Avater";
 
 const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
   const [show, setShow] = useState<boolean>(false);
   const [isOpen, setisOpen] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   function handleModal1(val: boolean) {
     setShow(val);
@@ -47,6 +47,7 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
   async function handleLogOut(e) {
     e.stopPropagation();
     logOut();
+    navigate("/");
   }
   function handleShowLogin() {
     setShow(false);
@@ -259,12 +260,15 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
 
                         <div className='profileActx'>
                           <div className='offSetImg'>
-                            <i className='bi bi-gift-fill'></i>
+                            <Avater
+                              src={`https://tumblr-bkend.onrender.com/img/users/${currentUser?.data?.user?.photo}`}
+                            />
                           </div>
                           <ProfileAction
                             username={currentUser.data.user.username}
+                            email={currentUser.data.user.email}
+                            id={currentUser.data.user._id}
                           />
-                          s
                         </div>
                       </NavDropdown>
                     </>

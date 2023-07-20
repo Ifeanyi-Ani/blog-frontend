@@ -31,7 +31,7 @@ export function SideBar({
 
       <Container fluid className='mt-3 footerStick'>
         <div className='text-light'>{title}</div>
-        <iframe src={Src} style={{ width: "200%", height: "500px" }}></iframe>
+        <img src={Src} style={{ width: "80%", height: "400px" }} />
         <Footer />
       </Container>
     </div>

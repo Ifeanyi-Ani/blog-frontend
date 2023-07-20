@@ -96,7 +96,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
           </div>
           <Form
             onSubmit={e => handleSubmit(e, fetchPosts)}
-            enTcype='multipart/form-data'
+            enctype='multipart/form-data'
           >
             <Form.Group>
               <Form.Control

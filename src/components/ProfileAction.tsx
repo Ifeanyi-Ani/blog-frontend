@@ -1,7 +1,14 @@
-import { Container, Stack } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Container, Stack } from "react-bootstrap";
+import { fetchUser } from "../redux/user/user.action";
+import { connect } from "react-redux";
 
-const ProfileAction = ({ username }) => {
+const ProfileAction = ({ id, fetchUser, username, email }) => {
+  useEffect(() => {
+    fetchUser(id);
+  }, []);
+
   return (
     <Container>
       <Stack direction='vertical' gap={2}>
@@ -19,13 +26,17 @@ const ProfileAction = ({ username }) => {
           <div>Posts</div>
           <div style={{ color: "#acac9e" }}>1</div>
         </div>
-        <div className='d-flex justify-content-between align-items-center nameCon'>
+        {/* <div className='d-flex justify-content-between align-items-center nameCon'>
           <div>Followers</div>
           <div style={{ color: "#acac9e" }}>1</div>
-        </div>
+        </div> */}
         <div className='d-flex justify-content-between align-items-center nameCon'>
-          <div>Activity</div>
-          <div style={{ color: "#acac9e" }}>_____</div>
+          <Link
+            to={`/profile/${email}`}
+            className='customName btnConfig text-decoration-none'
+          >
+            Profile
+          </Link>
         </div>
         <div className='d-flex justify-content-between align-items-center nameCon'>
           <div>Drafts</div>
@@ -47,4 +58,7 @@ const ProfileAction = ({ username }) => {
     </Container>
   );
 };
-export default ProfileAction;
+const mapDispatchToProps = {
+  fetchUser,
+};
+export default connect(null, mapDispatchToProps)(ProfileAction);

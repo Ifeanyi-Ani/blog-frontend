@@ -1,5 +1,4 @@
-import avater from "../assets/avater.jpg";
-const Avater = () => {
+const Avater = ({ src }) => {
   return (
     <div
       style={{
@@ -10,7 +9,7 @@ const Avater = () => {
       className='avaterCon'
     >
       <img
-        src={avater}
+        src={src}
         alt='avater'
         style={{
           width: "100%",

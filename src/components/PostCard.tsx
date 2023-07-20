@@ -107,7 +107,7 @@ const PostCard = ({
         {children}
         <UserHeader
           userId={userId}
-          currentUserId={currentUser?.data?.user?._id}
+          currentUserId={currentUser}
           post={post}
           fetchPosts={fetchPosts}
         />

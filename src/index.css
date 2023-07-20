@@ -15,7 +15,7 @@
 
 .centerForm {
   width: 60%;
-  margin: auto;
+  margin: 0 auto;
 }
 .centerForm input {
   margin-bottom: 30px;
@@ -85,7 +85,7 @@
 }
 .profileActx {
   position: relative;
-  padding-left: 30px;
+  padding-left: 40px;
 }
 .offSetImg {
   position: absolute;
@@ -479,4 +479,20 @@
   position: absolute;
   top: 0px;
   right: 2px;
+}
+.profileP {
+  display: flex !important;
+  justify-content: center;
+}
+.profileP .centerForm {
+  margin: unset;
+  width: 50%;
+  margin-top: 20px;
+}
+.profileP .centerForm input {
+  margin-bottom: 30px;
+  background-color: #122943;
+  color: #fff;
+  border: none;
+  outline: none;
 }

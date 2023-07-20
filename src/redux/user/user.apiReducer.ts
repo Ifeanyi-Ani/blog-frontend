@@ -1,6 +1,5 @@
 import { FETCH_USER, FETCH_USERS, EDIT_USER, DELETE_USER } from "./user.type";
 const INIT_STATE = {
-  currentUser: null,
   data: null,
 };
 const userApiReducer = (state = INIT_STATE, action) => {

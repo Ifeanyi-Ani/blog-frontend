@@ -15,9 +15,9 @@ const UserHeader = ({
   editForm,
   selectedPost,
 }) => {
-  async function handleDelete(post, cb) {
-    if (confirm("Are you sure you want to delete this post")) {
-      await deletePost(post.id);
+  async function handleDelete(id, cb) {
+    if (confirm("Are sure you want to delete this post")) {
+      await deletePost(id);
       cb();
     }
   }
@@ -52,9 +52,14 @@ const UserHeader = ({
               transform: "translate(-50%, -50%)",
             }}
           >
-            {userId.id === currentUserId ? (
+            {userId.id === currentUserId?.data?.user?._id ? (
               <>
-                <div onClick={() => handleDelete(post, fetchPosts)}>...</div>
+                <div
+                  onClick={() => handleDelete(post._id, fetchPosts)}
+                  role='button'
+                >
+                  ...
+                </div>
                 <div onClick={() => handleEdit(post)}>edit</div>
                 <EditForm toggleEditForm={toggleEditForm} editForm={editForm} />
               </>
@@ -70,10 +75,14 @@ const mapStateToProps = ({ toggleModal: { editForm } }) => ({
   editForm,
 });
 
-const mapDispatchToProps = dispatch => ({
-  deletePost,
-  toggleEditForm: () => dispatch(toggleEditForm()),
-  selectedPost: data => dispatch(selectedPost(data)),
-});
-
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleEditForm: () => dispatch(toggleEditForm()),
+    selectedPost: data => dispatch(selectedPost(data)),
+    deletePost: id => dispatch(deletePost(id)),
+  };
+};
+// const mapDispatchToProps = {
+//   deletePost,
+// };
 export default connect(mapStateToProps, mapDispatchToProps)(UserHeader);

@@ -29,12 +29,15 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
             [...posts.data.posts].reverse().map((post, idx) => {
               return (
                 <div className='gridItem' key={idx}>
-                  <Avater />
+                  <Avater
+                    src={`https://tumblr-bkend.onrender.com/img/users/${post.userId.photo}`}
+                  />
+
                   <PostCard
                     userId={post.userId}
                     title={post.title}
                     body={post.body}
-                    src={`http://localhost:4000/img/posts/${post.image}`}
+                    src={`https://tumblr-bkend.onrender.com/img/posts/${post.image}`}
                     shareLogo={shareLogo}
                     reloadLogo={reloadLogo}
                     category={post.category}
