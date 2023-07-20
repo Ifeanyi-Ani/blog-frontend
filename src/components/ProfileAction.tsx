@@ -11,6 +11,7 @@ const ProfileAction = ({ id, fetchUser, username, email }) => {
 
   return (
     <Container>
+      {console.log(username)}
       <Stack direction='vertical' gap={2}>
         <div className='d-flex justify-content-between align-items-center nameCon'>
           <Link
@@ -32,7 +33,7 @@ const ProfileAction = ({ id, fetchUser, username, email }) => {
         </div> */}
         <div className='d-flex justify-content-between align-items-center nameCon'>
           <Link
-            to={`/profile/${email}`}
+            to={`/profile/${id}`}
             className='customName btnConfig text-decoration-none'
           >
             Profile

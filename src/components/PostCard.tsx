@@ -12,6 +12,7 @@ import { fetchPosts } from "../redux/posts/posts.action";
 import baseUrl from "../apis/baseUrl";
 import { LIKE, UNLIKE } from "../redux/likes/likes.type";
 import { likeAndunlikePost } from "../redux/likes/likes.action";
+import Login_Signup from "./Login_Signup";
 
 type PostCardProps = {
   userId: string;
@@ -54,6 +55,8 @@ const PostCard = ({
   likeAndunlikePost,
 }: PostCardProps) => {
   const [check, setCheck] = useState<boolean>(false);
+
+  const [show, setShow] = useState<boolean>(false);
 
   const [postComments, setPostComments] = useState();
   const init_data = {
@@ -100,7 +103,6 @@ const PostCard = ({
   useEffect(() => {
     getAllComments();
   }, [postId]);
-
   return (
     <div>
       <Card>
@@ -139,6 +141,7 @@ const PostCard = ({
             <div
               className='border rounded-5 d-flex justify-content-center align-items-center p-2'
               role='button'
+              onClick={() => setShow(true)}
             >
               {postComments
                 ? postComments.filter(comment => comment.postId === postId)
@@ -151,12 +154,16 @@ const PostCard = ({
             <i
               className='bi bi-heart'
               role='button'
-              onClick={currentUser ? () => handleUnlike(postId) : undefined}
+              onClick={
+                currentUser ? () => handleUnlike(postId) : () => setShow(true)
+              }
             ></i>
             <i
               className='bi bi-heart'
               role='button'
-              onClick={currentUser ? () => handleLike(postId) : undefined}
+              onClick={
+                currentUser ? () => handleLike(postId) : () => setShow(true)
+              }
             ></i>
           </Stack>
         </Card.Footer>
@@ -213,11 +220,13 @@ const PostCard = ({
                     key={comment._id}
                   >
                     <div className='d-flex'>
-                      <Avater />
-                      {comment.userId.username}
+                      <Avater
+                        src={`https://tumblr-bkend.onrender.com/img/users/${comment?.userId?.photo}`}
+                      />
+                      {comment?.userId?.username || "Unknown User"}
                     </div>
                     <div>{comment.text}</div>
-                    {currentUser?.data?.user?._id === comment.userId._id ? (
+                    {currentUser?.data?.user?._id === comment?.userId?._id ? (
                       <i
                         className='bi bi-trash-fill delBtn'
                         role='button'
@@ -233,6 +242,11 @@ const PostCard = ({
           </div>
         )}
       </Card>
+      <Login_Signup
+        show={show}
+        handleModal1={() => setShow(false)}
+        setShow={setShow}
+      />
     </div>
   );
 };

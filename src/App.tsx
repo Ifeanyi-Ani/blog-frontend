@@ -22,7 +22,7 @@ class App extends React.Component {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/blog/:username' element={<Preview />} />
-              <Route path='/profile/:email' element={<Profile />} />
+              <Route path='/profile/:id' element={<Profile />} />
               <Route path='/admin' element={<AdminNav />}>
                 <Route index element={<Dashboard />} />
                 <Route path='posts' element={<Posts />} />

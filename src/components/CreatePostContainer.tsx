@@ -1,5 +1,6 @@
 import Avater from "./Avater";
 import CreatePost from "./CreatePost";
+// import { memo } from "react";
 
 const CreatePostContainer = ({ user }) => {
   console.log(user);

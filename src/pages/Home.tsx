@@ -2,7 +2,7 @@ import { Button, Stack } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
 import { useState } from "react";
 import { connect } from "react-redux";
-import { CardInfo } from "../components/CardInfo";
+import CardInfo from "../components/CardInfo";
 import theme from "../assets/theme.jpg";
 
 import advert from "../assets/advert.png";

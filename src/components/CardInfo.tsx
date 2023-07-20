@@ -1,7 +1,13 @@
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
 import avatar from "../assets/avater.jpg";
+import { fetchUsers } from "../redux/user/user.action";
+import { connect } from "react-redux";
+import { useEffect } from "react";
 
-export function CardInfo() {
+const CardInfo = function ({ fetchUsers }) {
+  useEffect(() => {
+    fetchUsers();
+  }, []);
   return (
     <Card className='mySecondaryb text-light'>
       <Card.Header className='navbarbs nameCon'>Trending Blogs</Card.Header>
@@ -78,4 +84,8 @@ export function CardInfo() {
       </Card.Footer>
     </Card>
   );
-}
+};
+const mapDispatchToProps = {
+  fetchUsers,
+};
+export default connect(null, mapDispatchToProps)(CardInfo);

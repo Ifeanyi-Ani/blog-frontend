@@ -171,13 +171,13 @@ const AdminNav: React.FC = ({
             <Outlet />
           </div>
         ) : (
-          <div>
+          <div className='access-denied'>
             <h2>Access Denied</h2>
             <p>You don't have permission to view this page!!!!</p>
           </div>
         )
       ) : (
-        <div>
+        <div className='access-denied'>
           <h2>Access Denied</h2>
           <p>You are not signed in!!</p>
         </div>

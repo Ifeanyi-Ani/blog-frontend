@@ -11,48 +11,28 @@ import {
 } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
-import googleLogo from "../assets/googleLogo.jpg";
-import appleLogo from "../assets/appleLogo.jpg";
-import emailLogo from "../assets/messLogo.jpg";
-import SignupWithEmail from "./SignupWithEmail";
 import { postModal } from "../redux/modals/modals.actions";
 import ProfileAction from "./ProfileAction";
 import CreatePost from "./CreatePost";
-import LoginForm from "./LoginForm";
 import { auth, logOut } from "../redux/user/user.action";
 import { useNavigate } from "react-router-dom";
 import Avater from "./Avater";
+import Login_Signup from "./Login_Signup";
 
 const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
-  const [show, setShow] = useState<boolean>(false);
-  const [isOpen, setisOpen] = useState<boolean>(false);
-  const [showLogin, setShowLogin] = useState<boolean>(false);
   const navigate = useNavigate();
 
+  const [show, setShow] = useState<boolean>(false);
   function handleModal1(val: boolean) {
     setShow(val);
   }
-  function handleModal2(val: boolean) {
-    setisOpen(val);
-  }
-  function modalAct() {
-    setisOpen(true);
-    setShow(false);
-  }
-  function handlePrevModal() {
-    setisOpen(false);
-    setShowLogin(false);
-    setShow(true);
-  }
+
   async function handleLogOut(e) {
     e.stopPropagation();
     logOut();
     navigate("/");
   }
-  function handleShowLogin() {
-    setShow(false);
-    setShowLogin(true);
-  }
+
   return (
     <>
       <NavbarBs className='navbarbs position-sticky top-0 w-100 myPrimaryb maxZ'>
@@ -286,7 +266,7 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
           </NavbarBs.Collapse>
         </Container>
       </NavbarBs>
-      <Modal centered show={show} onHide={() => handleModal1(false)}>
+      {/* <Modal centered show={show} onHide={() => handleModal1(false)}>
         <Modal.Header className='d-flex justify-content-center border-0 modalPrimary'>
           <Modal.Title>tumblr</Modal.Title>
         </Modal.Header>
@@ -342,6 +322,12 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
         showLogin={showLogin}
         handleModal2={() => setShowLogin(false)}
         handlePrevModal={handlePrevModal}
+      /> */}
+
+      <Login_Signup
+        show={show}
+        setShow={setShow}
+        handleModal1={() => handleModal1(false)}
       />
       <Modal
         centered

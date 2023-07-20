@@ -2,36 +2,36 @@ import React, { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
 import { connect } from "react-redux";
-import { auth } from "../redux/user/user.action";
 
 import advert from "../assets/advert.png";
 import ProfileAction from "../components/ProfileAction";
 import { editUser } from "../redux/user/user.action";
+import { useParams } from "react-router-dom";
 
 const Profile = ({ currentUser, editUser }) => {
+  const { id } = useParams();
   const INIT_STATE = {
     username: "",
     email: "",
-    // password: "",
-    // passwordConfirm: "",
     dob: "",
     photo: null,
   };
 
   const [user, setUser] = useState(INIT_STATE);
+  const [loading, setLoading] = useState(true); // New loading state
+
   useEffect(() => {
     if (currentUser) {
-      console.log(currentUser);
       setUser({
         username: currentUser?.data?.user?.username,
         email: currentUser?.data?.user?.email,
-        // password: "",
-        // passwordConfirm: "",
         dob: currentUser?.data?.user?.dob,
         photo: null,
       });
+      setLoading(false); // Data fetched, set loading to false
     }
   }, [currentUser]);
+
   async function handleSubmit(e) {
     const id = currentUser?.data?.user?._id;
     console.log(id);
@@ -46,6 +46,13 @@ const Profile = ({ currentUser, editUser }) => {
     setUser(INIT_STATE);
     alert("user successfully updated");
   }
+  if (!id) {
+    return <div>Loading...</div>;
+  }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <div className='profileP'>

@@ -15,13 +15,19 @@ import PostCard from "../components/PostCard";
 
 const Preview = ({ currentUser, fetchPosts, posts }) => {
   const [data, setData] = useState();
+  const [initialLoad, setInitialLoad] = useState(true); // New state variable
+
   useEffect(() => {
-    fetchPosts();
+    if (initialLoad) {
+      fetchPosts();
+      setInitialLoad(false);
+    }
+
     const filterPosts = posts?.data?.posts?.filter(
-      post => post?.userId._id == currentUser?.data?.user._id
+      post => post?.userId._id === currentUser?.data?.user._id
     );
     setData(filterPosts);
-  }, []);
+  }, [initialLoad, fetchPosts, posts, currentUser]);
 
   return (
     <div className='d-flex justify-content-center gap-3 pt-3'>
