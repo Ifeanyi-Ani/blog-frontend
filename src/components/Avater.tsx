@@ -1,4 +1,10 @@
-const Avater = ({ src }) => {
+import React from 'react';
+
+interface AvatarProps {
+  src: string;
+}
+
+const Avatar: React.FC<AvatarProps> = ({ src }) => {
   return (
     <div
       style={{
@@ -6,11 +12,11 @@ const Avater = ({ src }) => {
         height: "35px",
       }}
       role='button'
-      className='avaterCon'
+      className='avatarCon'
     >
       <img
         src={src}
-        alt='avater'
+        alt='avatar'
         style={{
           width: "100%",
           height: "100%",
@@ -21,4 +27,4 @@ const Avater = ({ src }) => {
   );
 };
 
-export default Avater;
+export default Avatar;
