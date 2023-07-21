@@ -47,6 +47,15 @@ accordingly.
 
 4. Start the development server: npm run dev
 
+## Known Issues
+
+- Styling: The application is not completely styled, and certain components may
+  lack proper visual styling.
+- Responsiveness: The app is not fully responsive across different devices and
+  screen sizes.
+- TypeScript Checks: TypeScript type checks are not fully implemented, and there
+  might be places where the types are not correctly inferred or defined.
+
 ## Contributing
 
 Contributions to the Forum App are welcome! If you find a bug or have
