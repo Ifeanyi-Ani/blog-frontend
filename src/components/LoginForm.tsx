@@ -22,7 +22,7 @@ const LoginForm = ({
     // const data = new FormData();
     // data.append("email", formData.email);
     // data.append("password", formData.password);
-    // console.log(data, formData);
+    
     auth(formData, SIGN_IN);
     setFormData(INIT_STATE);
     handleModal2();

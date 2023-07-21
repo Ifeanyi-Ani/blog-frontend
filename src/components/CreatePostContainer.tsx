@@ -3,7 +3,7 @@ import CreatePost from "./CreatePost";
 // import { memo } from "react";
 
 const CreatePostContainer = ({ user }) => {
-  console.log(user);
+
   return (
     <div className='createPost'>
       <Avater

@@ -34,7 +34,7 @@ const Profile = ({ currentUser, editUser }) => {
 
   async function handleSubmit(e) {
     const id = currentUser?.data?.user?._id;
-    console.log(id);
+    
     e.preventDefault();
     const formData = new FormData();
     formData.append("username", user.username);

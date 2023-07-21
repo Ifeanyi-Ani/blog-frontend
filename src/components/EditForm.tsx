@@ -76,10 +76,10 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
       event.preventDefault(); // Prevents form submission
     }
   };
-
+  a;
   const handleSubmit = async (e: React.FormEvent, cb) => {
     e.preventDefault();
-    console.log(data);
+
     const formData = new FormData();
     formData.append("title", post.title);
     formData.append("body", post.body);

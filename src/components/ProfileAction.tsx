@@ -11,7 +11,6 @@ const ProfileAction = ({ id, fetchUser, username, email }) => {
 
   return (
     <Container>
-      {console.log(username)}
       <Stack direction='vertical' gap={2}>
         <div className='d-flex justify-content-between align-items-center nameCon'>
           <Link

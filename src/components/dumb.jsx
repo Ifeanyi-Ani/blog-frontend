@@ -78,7 +78,6 @@
 //     setPost(INIT_STATE);
 //     togglePostForm();
 //   };
-//   console.log(post);
 //   return (
 //     <Modal
 //       centered
