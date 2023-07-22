@@ -41,7 +41,6 @@ const PostCard = ({
   body,
   src,
   shareLogo,
-  reloadLogo,
   category,
   children,
   postId,
@@ -152,7 +151,7 @@ const PostCard = ({
           <Stack className='footer-img ms-auto gap-3' direction='horizontal'>
             <img src={shareLogo} alt='logo' role='button' />
             <i
-              className='bi bi-heart'
+              className='bi bi-hand-thumbs-down'
               role='button'
               onClick={
                 currentUser ? () => handleUnlike(postId) : () => setShow(true)
@@ -190,49 +189,86 @@ const PostCard = ({
               </div>
               <div className='ms-auto'>Comments</div>
             </div>
-            <div className='commentsBody'>
-              <div>
-                <form action='' className='d-flex'>
+            <div className='card-footer bg-white p-0 border-0 mb-4'>
+              <div className='d-flex flex-start w-100'>
+                <img
+                  className='rounded-circle shadow-1-strong me-3'
+                  src={`http://127.0.0.1:4000/img/users/${currentUser?.data?.user?.photo}`}
+                  alt='avatar'
+                  width='40'
+                  height='40'
+                />
+                <div className='form-outline w-100'>
                   <textarea
-                    name=''
-                    id=''
-                    cols='30'
-                    rows='2'
+                    className='form-control'
+                    id='textAreaExample'
+                    rows='4'
+                    placeholder='comments'
+                    style={{ background: "#fff" }}
                     value={comment.text}
                     onChange={e =>
                       setComment({ ...comment, text: e.target.value })
                     }
-                    style={{ width: "90%" }}
-                  />
-                  <button
-                    type='button'
-                    onClick={() => handleCommentSubmit(postId)}
-                  >
-                    send
-                  </button>
-                </form>
+                  ></textarea>
+                </div>
               </div>
+              <div className='float-end pt-1'>
+                <button
+                  type='button'
+                  className='btn btn-primary btn-sm'
+                  onClick={() => handleCommentSubmit(postId)}
+                >
+                  Post comment
+                </button>
+              </div>
+            </div>
+            <div className='commentsBody'>
               {comments?.data?.comments ? (
                 [...comments.data.comments].reverse().map(comment => (
-                  <div
-                    className='commentItem'
-                    style={{ borderBottom: "1px solid gainsboro" }}
-                    key={comment._id}
-                  >
-                    <div className='d-flex'>
-                      <Avater
-                        src={`https://tumblr-bkend.onrender.com/img/users/${comment?.userId?.photo}`}
+                  <div className='commentItem' key={comment._id}>
+                    <div className='d-flex flex-start'>
+                      <img
+                        className='rounded-circle shadow-1-strong me-3'
+                        src={`http://127.0.0.1:4000/img/users/${comment?.userId?.photo}`}
+                        width='60'
+                        height='60'
                       />
-                      {comment?.userId?.username || "Unknown User"}
+
+                      <div>
+                        <h6 className='fw-bold mb-1'>
+                          {comment?.userId?.username || "Unknown User"}
+                        </h6>
+                        <div className='d-flex align-items-center mb-3'>
+                          <p className='mb-0'>
+                            {new Date(comment.createdAt).toLocaleString()}
+                            <span className='badge bg-primary'>
+                              {comment?.userId?.role || "Unknown User"}
+                            </span>
+                          </p>
+
+                          {currentUser?.data?.user?._id ===
+                          comment?.userId?._id ? (
+                            <>
+                              <a href='#!' className='link-muted'>
+                                <i
+                                  className='bi bi-trash-fill'
+                                  role='button'
+                                  onClick={() =>
+                                    handleDeleteComment(postId, comment._id)
+                                  }
+                                ></i>
+                              </a>
+                              <a href='#!' className='link-muted'>
+                                <i className='bi bi-pencil-fill'></i>
+                              </a>
+                            </>
+                          ) : null}
+                        </div>
+                        <p className='mb-0'>{comment.text}</p>
+                      </div>
                     </div>
-                    <div>{comment.text}</div>
-                    {currentUser?.data?.user?._id === comment?.userId?._id ? (
-                      <i
-                        className='bi bi-trash-fill delBtn'
-                        role='button'
-                        onClick={() => handleDeleteComment(postId, comment._id)}
-                      ></i>
-                    ) : null}
+
+                    <hr className='my-0' />
                   </div>
                 ))
               ) : (

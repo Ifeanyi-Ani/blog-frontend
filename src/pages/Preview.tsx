@@ -39,12 +39,12 @@ const Preview = ({ currentUser, fetchPosts, posts }) => {
               ? data.map(post => (
                   <div className='gridItem' key={post._id}>
                     <Avater
-                      src={`https://tumblr-bkend.onrender.com/img/users/${post?.userId?.photo}`}
+                      src={`http://127.0.0.1:4000/img/users/${post?.userId?.photo}`}
                     />
                     <PostCard
                       title={post.title}
                       body={post.body}
-                      src={`https://tumblr-bkend.onrender.com/img/posts/${post.image}`}
+                      src={`http://127.0.0.1:4000/img/posts/${post.image}`}
                       shareLogo={shareLogo}
                       reloadLogo={reloadLogo}
                       userId={post.userId}

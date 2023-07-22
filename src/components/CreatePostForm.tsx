@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
@@ -65,7 +67,10 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent, cb) => {
+  const handleSubmit = async (
+    e: React.FormEvent,
+    cb: { (): Promise<void>; (): void }
+  ) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append("title", post.title);
@@ -88,7 +93,9 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
       backdrop='static'
     >
       <Modal.Body className='customBody'>
-        <Avater />
+        <Avater
+          src={`http://127.0.0.1:4000/img/users/${currentUser?.data?.user?.photo}`}
+        />
         <div className='modalForm'>
           <div className='title'>
             <div className='nameCon'>{currentUser?.data?.user?.username}</div>
@@ -96,7 +103,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
           </div>
           <Form
             onSubmit={e => handleSubmit(e, fetchPosts)}
-            enctype='multipart/form-data'
+            encType='multipart/form-data'
           >
             <Form.Group>
               <Form.Control
@@ -165,7 +172,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: { auth: { currentUser: any } }) => ({
   currentUser: state.auth.currentUser,
 });
 const mapDispatchToProps = {

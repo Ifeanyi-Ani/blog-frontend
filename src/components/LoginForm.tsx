@@ -10,7 +10,7 @@ const INIT_STATE = {
   password: "",
 };
 const LoginForm = ({
-  currentUser,
+ 
   showLogin,
   handleModal2,
   handlePrevModal,
@@ -83,7 +83,6 @@ const LoginForm = ({
     </Modal>
   );
 };
-const mapStateToProps = ({ auth: { currentUser } }) => ({ currentUser });
 const mapDispatchToProps = {
   auth,
 };

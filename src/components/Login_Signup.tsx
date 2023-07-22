@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Button, Modal, Stack } from "react-bootstrap";
 import SignupWithEmail from "./SignupWithEmail";
 import LoginForm from "./LoginForm";

@@ -1,9 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable react-refresh/only-export-components */
 import React from "react";
-import { connect } from "react-redux";
+import { ConnectedProps, connect } from "react-redux";
 import { togglePostForm } from "../redux/modals/modals.actions";
 import CreatePostForm from "./CreatePostForm";
 
-const CreatePost = ({ hideForm, togglePostForm }) => {
+const CreatePost: React.FC<object & ReduxProps> = ({
+  hideForm,
+  togglePostForm,
+}) => {
   function handleModal() {
     togglePostForm();
   }
@@ -64,10 +69,12 @@ const CreatePost = ({ hideForm, togglePostForm }) => {
     </>
   );
 };
-const mapStateToProps = ({ toggleModal: { hideForm } }) => ({
-  hideForm,
+const mapStateToProps = (state: { toggleModal: { hideForm: any } }) => ({
+  hideForm: state.toggleModal.hideForm,
 });
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch: (arg0: { type: string }) => any) => ({
   togglePostForm: () => dispatch(togglePostForm()),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(CreatePost);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+type ReduxProps = ConnectedProps<typeof connector>;
+export default connector(CreatePost);

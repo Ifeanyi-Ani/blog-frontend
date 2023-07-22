@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Card } from "react-bootstrap";
+import { Card, Dropdown, DropdownButton } from "react-bootstrap";
 import { connect } from "react-redux";
 import { deletePost, selectedPost } from "../redux/posts/posts.action";
 import { toggleEditForm } from "../redux/modals/modals.actions";
@@ -54,13 +53,23 @@ const UserHeader = ({
           >
             {userId.id === currentUserId?.data?.user?._id ? (
               <>
-                <div
-                  onClick={() => handleDelete(post._id, fetchPosts)}
-                  role='button'
+                <DropdownButton
+                  variant='light'
+                  drop='start'
+                  id='dropdown-button-drop-start'
+                  title='...'
                 >
-                  ...
-                </div>
-                <div onClick={() => handleEdit(post)}>edit</div>
+                  <Dropdown.Item
+                    onClick={() => handleDelete(post._id, fetchPosts)}
+                    role='button'
+                  >
+                    delete
+                  </Dropdown.Item>
+                  <Dropdown.Item onClick={() => handleEdit(post)}>
+                    edit
+                  </Dropdown.Item>
+                </DropdownButton>
+
                 <EditForm toggleEditForm={toggleEditForm} editForm={editForm} />
               </>
             ) : null}
