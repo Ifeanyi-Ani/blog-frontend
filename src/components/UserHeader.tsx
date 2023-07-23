@@ -51,28 +51,31 @@ const UserHeader = ({
               transform: "translate(-50%, -50%)",
             }}
           >
-            {userId.id === currentUserId?.data?.user?._id ? (
-              <>
-                <DropdownButton
-                  variant='light'
-                  drop='start'
-                  id='dropdown-button-drop-start'
-                  title='...'
-                >
+            <DropdownButton
+              variant='light'
+              drop='start'
+              id='dropdown-button-drop-start'
+              title='...'
+            >
+              {currentUserId?.data?.user?.role === "admin" ||
+              userId.id === currentUserId?.data?.user?._id ? (
+                <>
                   <Dropdown.Item
                     onClick={() => handleDelete(post._id, fetchPosts)}
                     role='button'
                   >
                     delete
                   </Dropdown.Item>
-                  <Dropdown.Item onClick={() => handleEdit(post)}>
-                    edit
-                  </Dropdown.Item>
-                </DropdownButton>
+                </>
+              ) : null}
+              {userId.id === currentUserId?.data?.user?._id ? (
+                <Dropdown.Item onClick={() => handleEdit(post)}>
+                  edit
+                </Dropdown.Item>
+              ) : null}
+            </DropdownButton>
 
-                <EditForm toggleEditForm={toggleEditForm} editForm={editForm} />
-              </>
-            ) : null}
+            <EditForm toggleEditForm={toggleEditForm} editForm={editForm} />
           </div>
         </Card.Header>
       ) : null}
