@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, ChangeEvent, KeyboardEvent, useEffect } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
@@ -14,7 +16,7 @@ type CategoryOption = {
 type EditFormProps = {
   editForm: boolean;
   toggleEditForm: () => void;
-  data: any;
+  data: object;
 };
 
 type InitProps = {
@@ -53,7 +55,7 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
         userId: currentUser?.data?.user?._id || "",
       });
     }
-  }, [data]);
+  }, [currentUser?.data?.user?._id, data]);
   const handleClose = () => {
     toggleEditForm();
   };
@@ -76,8 +78,11 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
       event.preventDefault(); // Prevents form submission
     }
   };
-  a;
-  const handleSubmit = async (e: React.FormEvent, cb) => {
+
+  const handleSubmit = async (
+    e: React.FormEvent,
+    cb: { (): Promise<void>; (): void }
+  ) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -101,7 +106,9 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
       backdrop='static'
     >
       <Modal.Body className='customBody'>
-        <Avater />
+        <Avater
+          src={`http://127.0.0.1:4000/img/users/${currentUser?.data?.user?.photo}`}
+        />
         <div className='modalForm'>
           <div className='title'>
             <div className='nameCon'>{currentUser?.data?.user?.username}</div>
@@ -109,7 +116,7 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
           </div>
           <Form
             onSubmit={e => handleSubmit(e, fetchPosts)}
-            entcype='multipart/form-data'
+            encType='multipart/form-data'
           >
             <Form.Group>
               <Form.Control
@@ -178,7 +185,10 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
   );
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: {
+  auth: { currentUser: any };
+  posts: { data: any };
+}) => ({
   currentUser: state.auth.currentUser,
   data: state.posts.data,
 });

@@ -1,10 +1,10 @@
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
 import avatar from "../assets/avater.jpg";
 import { fetchUsers } from "../redux/user/user.action";
-import { connect } from "react-redux";
+import { connect, ConnectedProps } from "react-redux";
 import { useEffect } from "react";
 
-const CardInfo = function ({ fetchUsers }) {
+const CardInfo: React.FC<{} & ReduxProps> = function ({ fetchUsers }) {
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -88,4 +88,6 @@ const CardInfo = function ({ fetchUsers }) {
 const mapDispatchToProps = {
   fetchUsers,
 };
-export default connect(null, mapDispatchToProps)(CardInfo);
+const connector = connect(null, mapDispatchToProps);
+type ReduxProps = ConnectedProps<typeof connector>;
+export default connector(CardInfo);

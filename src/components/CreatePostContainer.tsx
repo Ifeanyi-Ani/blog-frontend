@@ -3,11 +3,11 @@ import CreatePost from "./CreatePost";
 // import { memo } from "react";
 
 const CreatePostContainer = ({ user }) => {
-
+  
   return (
     <div className='createPost'>
       <Avater
-        src={`https://tumblr-bkend.onrender.com/img/users/${user?.data?.user?.photo}`}
+        src={`http://127.0.0.1:4000/img/users/${user?.data?.user?.photo}`}
       />
       <CreatePost />
     </div>

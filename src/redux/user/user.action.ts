@@ -26,7 +26,7 @@ export const auth = (data, actionType) => async dispatch => {
       });
     }
   } catch (err) {
-    alert(err?.response?.data.message);
+    alert(err?.response?.data.msg);
   }
 };
 export const logOut = () => ({
