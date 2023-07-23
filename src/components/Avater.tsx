@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface AvatarProps {
   src: string;
@@ -7,12 +7,12 @@ interface AvatarProps {
 const Avatar: React.FC<AvatarProps> = ({ src }) => {
   return (
     <div
+      className='avaterCon'
       style={{
         width: "35px",
         height: "35px",
       }}
       role='button'
-      className='avatarCon'
     >
       <img
         src={src}
