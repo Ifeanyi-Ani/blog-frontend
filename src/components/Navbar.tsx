@@ -241,7 +241,7 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
                         <div className='profileActx'>
                           <div className='offSetImg'>
                             <Avater
-                              src={`http://127.0.0.1:4000/img/users/${currentUser?.data?.user?.photo}`}
+                              src={`https://tumblr-bkend.onrender.com/img/users/${currentUser?.data?.user?.photo}`}
                             />
                           </div>
                           <ProfileAction

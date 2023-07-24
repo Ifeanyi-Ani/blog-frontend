@@ -30,14 +30,14 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
               return (
                 <div className='gridItem' key={idx}>
                   <Avater
-                    src={`http://127.0.0.1:4000/img/users/${post.userId.photo}`}
+                    src={`https://tumblr-bkend.onrender.com/img/users/${post.userId.photo}`}
                   />
 
                   <PostCard
                     userId={post.userId}
                     title={post.title}
                     body={post.body}
-                    src={`http://127.0.0.1:4000/img/posts/${post.image}`}
+                    src={`https://tumblr-bkend.onrender.com/img/posts/${post.image}`}
                     shareLogo={shareLogo}
                     reloadLogo={reloadLogo}
                     category={post.category}

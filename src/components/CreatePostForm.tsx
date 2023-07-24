@@ -94,7 +94,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
     >
       <Modal.Body className='customBody'>
         <Avater
-          src={`http://127.0.0.1:4000/img/users/${currentUser?.data?.user?.photo}`}
+          src={`https://tumblr-bkend.onrender.com/img/users/${currentUser?.data?.user?.photo}`}
         />
         <div className='modalForm'>
           <div className='title'>

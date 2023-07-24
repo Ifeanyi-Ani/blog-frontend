@@ -193,7 +193,7 @@ const PostCard = ({
               <div className='d-flex flex-start w-100'>
                 <img
                   className='rounded-circle shadow-1-strong me-3'
-                  src={`http://127.0.0.1:4000/img/users/${currentUser?.data?.user?.photo}`}
+                  src={`https://tumblr-bkend.onrender.com/img/users/${currentUser?.data?.user?.photo}`}
                   alt='avatar'
                   width='40'
                   height='40'
@@ -229,7 +229,7 @@ const PostCard = ({
                     <div className='d-flex flex-start'>
                       <img
                         className='rounded-circle shadow-1-strong me-3'
-                        src={`http://127.0.0.1:4000/img/users/${comment?.userId?.photo}`}
+                        src={`https://tumblr-bkend.onrender.com/img/users/${comment?.userId?.photo}`}
                         width='60'
                         height='60'
                       />

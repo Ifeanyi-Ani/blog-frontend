@@ -54,7 +54,7 @@ const CardInfo: React.FC<{} & ReduxProps> = function ({ fetchUsers, data }) {
           {randomUsers.length > 0 ? (
             randomUsers.map(user =>
               renderData(
-                `http://127.0.0.1:4000/img/users/${user.photo}`,
+                `https://tumblr-bkend.onrender.com/img/users/${user.photo}`,
                 `${user.username}`,
                 `${user._id}`
               )

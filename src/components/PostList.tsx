@@ -22,12 +22,12 @@ class PostList extends Component<PostListProps> {
       <>
         {posts ? (
           [...posts.data.posts].reverse().map((post, idx) => {
-            const imageUrl = `http://127.0.0.1:4000/img/posts/${post.image}`; // Update the URL here
+            const imageUrl = `https://tumblr-bkend.onrender.com/img/posts/${post.image}`; // Update the URL here
 
             return (
               <div className='gridItem' key={idx}>
                 <Avater
-                  src={`http://127.0.0.1:4000/img/users/${post.userId.photo}`}
+                  src={`https://tumblr-bkend.onrender.com/img/users/${post.userId.photo}`}
                 />
                 <PostCard
                   userId={post.userId}
