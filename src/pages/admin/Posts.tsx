@@ -14,12 +14,12 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
   useEffect(() => {
     fetchPosts();
   }, [fetchPosts]);
-  async function handleDelete(id, cb) {
-    if (confirm("Are sure you want to delete this post")) {
-      await deletePost(id);
-      cb();
-    }
-  }
+  // async function handleDelete(id, cb) {
+  //   if (confirm("Are sure you want to delete this post")) {
+  //     await deletePost(id);
+  //     cb();
+  //   }
+  // }
   return (
     <div>
       <h1>Posts</h1>
@@ -44,7 +44,7 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
                     postId={post._id}
                     post={post}
                   >
-                    <Button
+                    {/* <Button
                       className='position-absolute top-0, bg-warning border-0'
                       style={{
                         right: "30px",
@@ -55,7 +55,7 @@ const Posts: React.FC = ({ posts, fetchPosts, deletePost }) => {
                       onClick={() => handleDelete(post._id, fetchPosts)}
                     >
                       <i className='bi bi-trash-fill'></i>
-                    </Button>
+                    </Button> */}
                   </PostCard>
                 </div>
               );
