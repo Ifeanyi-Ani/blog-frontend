@@ -18,10 +18,17 @@ import { auth, logOut } from "../redux/user/user.action";
 import { useNavigate } from "react-router-dom";
 import Avater from "./Avater";
 import Login_Signup from "./Login_Signup";
+import { search } from "../redux/search/search.action";
 
-const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
+const Navbar = function ({
+  postModal,
+  hideModal,
+  currentUser,
+  logOut,
+  search,
+}) {
   const navigate = useNavigate();
-
+  const [searchInput, setSearchInput] = useState([]);
   const [show, setShow] = useState<boolean>(false);
   function handleModal1(val: boolean) {
     setShow(val);
@@ -32,6 +39,11 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
     logOut();
     navigate("/");
   }
+  function handleSearch(e) {
+    const query = e.target.value;
+    setSearchInput(query);
+    search(query);
+  }
 
   return (
     <>
@@ -40,10 +52,15 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
           <NavbarBs.Brand to='/' className='link-light fs-1' as={NavLink}>
             t
           </NavbarBs.Brand>
-          <form>
+          <form onSubmit={e => e.preventDefault()}>
             <div className='searchItem'>
               <i className='bi bi-search'></i>
-              <input type='text' placeholder='Search Tumblr' />
+              <input
+                type='text'
+                placeholder='Search Tumblr'
+                value={searchInput}
+                onChange={handleSearch}
+              />
             </div>
           </form>
           <NavbarBs.Toggle aria-controls='basic-navbar-nav' />
@@ -141,7 +158,7 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
                             Settings
                           </div>
                         </NavDropdown.Item>
-                        <NavDropdown.Item
+                        {/* <NavDropdown.Item
                           href='#action/3.2'
                           className='d-flex justify-content-between'
                         >
@@ -217,7 +234,7 @@ const Navbar = function ({ postModal, hideModal, currentUser, auth, logOut }) {
                             </div>
                             Keyboard shortcuts
                           </div>
-                        </NavDropdown.Item>
+                        </NavDropdown.Item> */}
                         <NavDropdown.Item
                           href='#action/3.2'
                           className='d-flex justify-content-between'
@@ -350,6 +367,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => ({
   postModal: () => dispatch(postModal()),
   logOut: () => dispatch(logOut()),
+  search: data => dispatch(search(data)),
   auth,
 });
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

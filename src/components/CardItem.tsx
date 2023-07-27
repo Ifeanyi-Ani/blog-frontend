@@ -1,10 +1,6 @@
 import { Card, Stack } from "react-bootstrap";
 import avater from "../assets/avater.jpg";
-import shareLogo from "../assets/share.jpg";
-import reloadLogo from "../assets/reload.jpg";
-import likeLogo from "../assets/likes.jpg";
-import content1 from "../assets/content1.png";
-import { fetchPosts } from "../redux/posts/posts.action";
+
 import { connect } from "react-redux";
 // import { useEffect } from "react";
 

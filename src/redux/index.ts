@@ -8,6 +8,7 @@ import userApiReducer from "./user/user.apiReducer";
 import commentReducer from "./comments/comment.reducer";
 import likeReducer from "./likes/likes.reducer";
 import authReducer from "./user/user.auth.reducer";
+import searchReducer from "./search/search.reducer";
 
 const persistConfig = {
   key: "root",
@@ -22,5 +23,6 @@ const rootReducer = combineReducers({
   auth: authReducer,
   comment: commentReducer,
   like: likeReducer,
+  search: searchReducer,
 });
 export default persistReducer(persistConfig, rootReducer);

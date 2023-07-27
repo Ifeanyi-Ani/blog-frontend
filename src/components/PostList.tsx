@@ -1,4 +1,4 @@
-import React, { Component, ReactNode } from "react";
+import React, { Component } from "react";
 import { connect, ConnectedProps } from "react-redux";
 import { fetchPosts } from "../redux/posts/posts.action";
 
@@ -16,12 +16,27 @@ class PostList extends Component<PostListProps> {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, query } = this.props;
+
+    const filteredPosts = posts
+      ? [...posts.data.posts].reverse().filter(item => {
+          if (!query) return true; // If no query, include all posts
+
+          // Parse the post's category from string to an array of objects
+          const categoryArray = JSON.parse(item.category);
+
+          // Extract an array of tag values from the categoryArray
+          const tagValues = categoryArray.map(tag => tag.value);
+
+          // Check if any of the tagValues includes the query
+          return tagValues.some(tagValue => tagValue.includes(query));
+        })
+      : null;
 
     return (
       <>
-        {posts ? (
-          [...posts.data.posts].reverse().map((post, idx) => {
+        {filteredPosts ? (
+          filteredPosts.map((post, idx) => {
             return (
               <div className='gridItem' key={idx}>
                 <Avater src={post.userId.photo} />
@@ -49,6 +64,7 @@ class PostList extends Component<PostListProps> {
 
 const mapStateToProps = state => ({
   posts: state.posts.posts,
+  query: state.search.query,
 });
 
 const connector = connect(mapStateToProps, { fetchPosts });
