@@ -1,7 +1,6 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 import UserHeader from "./UserHeader";
-import Avater from "./Avater";
 import { connect } from "react-redux";
 import {
   fetchComments,
@@ -10,7 +9,7 @@ import {
 } from "../redux/comments/comment.actions";
 import { fetchPosts } from "../redux/posts/posts.action";
 import baseUrl from "../apis/baseUrl";
-import { LIKE, UNLIKE } from "../redux/likes/likes.type";
+import { LIKE } from "../redux/likes/likes.type";
 import { likeAndunlikePost } from "../redux/likes/likes.action";
 import Login_Signup from "./Login_Signup";
 
@@ -40,7 +39,6 @@ const PostCard = ({
   title,
   body,
   src,
-  shareLogo,
   category,
   children,
   postId,
@@ -58,6 +56,7 @@ const PostCard = ({
   const [show, setShow] = useState<boolean>(false);
 
   const [postComments, setPostComments] = useState();
+  const [checkLike, setCheckLike] = useState(false);
   const init_data = {
     text: "",
     userId: currentUser?.data?.user?._id || "",
@@ -93,15 +92,19 @@ const PostCard = ({
     await fetchComments(postId);
     await fetchPosts();
   }
-  async function handleUnlike(postId) {
-    const data = { userId: currentUser?.data?.user?._id };
-    await likeAndunlikePost(data, postId, UNLIKE);
-    await fetchComments(postId);
-    await fetchPosts();
+  async function checkLikeUser() {
+    const likedIndex = post.likes.findIndex(
+      like => like.user.toString() === currentUser?.data?.user?._id
+    );
+    if (likedIndex === -1) {
+      return setCheckLike(false);
+    }
+    setCheckLike(true);
   }
   useEffect(() => {
     getAllComments();
-  }, [postId]);
+    checkLikeUser();
+  }, [postId, post]);
   return (
     <div>
       <Card>
@@ -149,16 +152,8 @@ const PostCard = ({
             </div>
           )}
           <Stack className='footer-img ms-auto gap-3' direction='horizontal'>
-            <img src={shareLogo} alt='logo' role='button' />
             <i
-              className='bi bi-hand-thumbs-down'
-              role='button'
-              onClick={
-                currentUser ? () => handleUnlike(postId) : () => setShow(true)
-              }
-            ></i>
-            <i
-              className='bi bi-heart'
+              className={`bi bi-heart ${checkLike ? "text-danger" : null}`}
               role='button'
               onClick={
                 currentUser ? () => handleLike(postId) : () => setShow(true)
@@ -193,7 +188,7 @@ const PostCard = ({
               <div className='d-flex flex-start w-100'>
                 <img
                   className='rounded-circle shadow-1-strong me-3'
-                  src={`https://tumblr-bkend.onrender.com/img/users/${currentUser?.data?.user?.photo}`}
+                  src={currentUser?.data?.user?.photo}
                   alt='avatar'
                   width='40'
                   height='40'
@@ -229,7 +224,7 @@ const PostCard = ({
                     <div className='d-flex flex-start'>
                       <img
                         className='rounded-circle shadow-1-strong me-3'
-                        src={`https://tumblr-bkend.onrender.com/img/users/${comment?.userId?.photo}`}
+                        src={comment?.userId?.photo}
                         width='60'
                         height='60'
                       />

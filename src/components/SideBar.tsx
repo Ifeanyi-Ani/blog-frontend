@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 
 import { Footer } from "./Footer";
-import { CardItem } from "./CardItem";
+import CardItem from "./CardItem";
 
 interface SideBarProps {
   children: any;

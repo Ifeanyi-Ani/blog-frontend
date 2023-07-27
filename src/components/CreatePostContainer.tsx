@@ -5,9 +5,7 @@ import CreatePost from "./CreatePost";
 const CreatePostContainer = ({ user }) => {
   return (
     <div className='createPost'>
-      <Avater
-        src={`https://tumblr-bkend.onrender.com/img/users/${user?.data?.user?.photo}`}
-      />
+      <Avater src={user?.data?.user?.photo} />
       <CreatePost />
     </div>
   );

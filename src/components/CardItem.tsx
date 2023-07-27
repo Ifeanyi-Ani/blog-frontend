@@ -4,7 +4,26 @@ import shareLogo from "../assets/share.jpg";
 import reloadLogo from "../assets/reload.jpg";
 import likeLogo from "../assets/likes.jpg";
 import content1 from "../assets/content1.png";
-export function CardItem() {
+import { fetchPosts } from "../redux/posts/posts.action";
+import { connect } from "react-redux";
+// import { useEffect } from "react";
+
+const CardItem = function (posts) {
+  const getRandomPosts = () => {
+    // If data is available and contains users, shuffle the users and get a random subset
+    if (posts && posts?.posts?.data?.posts?.length > 0) {
+      const shuffledPosts = posts.posts.data.posts.sort(
+        () => 0.5 - Math.random()
+      );
+      const randomSubset = shuffledPosts.slice(0, 1); // Get a random subset of 2 users
+      return randomSubset;
+    }
+
+    // If data is not available or doesn't contain users, return an empty array
+    return [];
+  };
+
+  const randomPost = getRandomPosts();
   return (
     <Card>
       <Card.Header
@@ -52,29 +71,26 @@ export function CardItem() {
           ...
         </div>
       </Card.Header>
-      <Card.Body className='p-0'>
-        <Card.Title>Wednesday, June 21.</Card.Title>
-        <Card.Img src={content1} alt='content' />
-        <Card.Text className='ps-3 d-flex gap-1 flex-wrap'>
-          <span>#today on tumblr</span>
-          <span>#tubme</span>
-          <span>#today on tumblr</span>
-          <span>#tubme</span>
-        </Card.Text>
-      </Card.Body>
-      <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
-        <div
-          className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-          role='button'
-        >
-          2,440 notes
-        </div>
-        <Stack className='footer-img ms-auto gap-3' direction='horizontal'>
-          <img src={shareLogo} alt='logo' role='button' />
-          <img src={reloadLogo} alt='logo' role='button' />
-          <img src={likeLogo} alt='logo' role='button' />
-        </Stack>
-      </Card.Footer>
+      {randomPost.length > 0
+        ? randomPost.map(post => (
+            <>
+              <Card.Body className='p-0' key={post._id}>
+                <Card.Title>{post.title}</Card.Title>
+                <Card.Img src={post.image} alt='content' />
+                <Card.Text className='ps-3 d-flex gap-1 flex-wrap'>
+                  {JSON.parse(post.category).map((tag, idx) => (
+                    <span key={idx}>#{tag.label}</span>
+                  ))}
+                </Card.Text>
+              </Card.Body>
+            </>
+          ))
+        : null}
     </Card>
   );
-}
+};
+const mapStateToProps = ({ posts: { posts } }) => ({ posts });
+// const mapDispatchToProps = {
+//   fetchPosts,
+// };
+export default connect(mapStateToProps)(CardItem);

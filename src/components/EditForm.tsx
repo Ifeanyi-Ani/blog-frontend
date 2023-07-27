@@ -106,9 +106,7 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
       backdrop='static'
     >
       <Modal.Body className='customBody'>
-        <Avater
-          src={`https://tumblr-bkend.onrender.com/img/users/${currentUser?.data?.user?.photo}`}
-        />
+        <Avater src={currentUser?.data?.user?.photo} />
         <div className='modalForm'>
           <div className='title'>
             <div className='nameCon'>{currentUser?.data?.user?.username}</div>

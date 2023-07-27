@@ -9,7 +9,7 @@ const CardInfo: React.FC<{} & ReduxProps> = function ({ fetchUsers, data }) {
   }, []);
   const getRandomUsers = () => {
     // If data is available and contains users, shuffle the users and get a random subset
-    if (data && data.data.user.length > 0) {
+    if (data && data?.data?.user?.length > 0) {
       const shuffledUsers = data.data.user.sort(() => 0.5 - Math.random());
       const randomSubset = shuffledUsers.slice(0, 5); // Get a random subset of 2 users
       return randomSubset;
@@ -53,11 +53,7 @@ const CardInfo: React.FC<{} & ReduxProps> = function ({ fetchUsers, data }) {
         <ListGroup style={{ padding: "unset !important" }} className='gap-2'>
           {randomUsers.length > 0 ? (
             randomUsers.map(user =>
-              renderData(
-                `https://tumblr-bkend.onrender.com/img/users/${user.photo}`,
-                `${user.username}`,
-                `${user._id}`
-              )
+              renderData(`${user.photo}`, `${user.username}`, `${user._id}`)
             )
           ) : (
             <ListGroupItem className='mySecondaryb border-0 d-flex justify-content-between align-items-center p-0 text-white'>

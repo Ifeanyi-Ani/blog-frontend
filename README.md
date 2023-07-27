@@ -27,8 +27,8 @@ users with admin privileges.
 - React Bootstrap: A library of reusable UI components based on Bootstrap, for
   consistent styling.
 - Backend API: The backend API for this project is hosted at
-  [https://tumblr-bkend.onrender.com/](https://tumblr-bkend.onrender.com/). It handles user
-  authentication, post creation, and other data management.
+  [mongodb://127.0.0.1:27017/tumblr-app/](mongodb://127.0.0.1:27017/tumblr-app/).
+  It handles user authentication, post creation, and other data management.
 
 ## Getting Started
 
@@ -40,7 +40,8 @@ To run the Forum App locally on your machine, follow these steps:
 
 3. Set up the Backend API:
 
-The backend API is hosted at [https://tumblr-bkend.onrender.com/](https://tumblr-bkend.onrender.com/).
+The backend API is hosted at
+[mongodb://127.0.0.1:27017/tumblr-app/](mongodb://127.0.0.1:27017/tumblr-app/).
 Ensure it is accessible or update the API endpoint in the application's code
 accordingly.
 
