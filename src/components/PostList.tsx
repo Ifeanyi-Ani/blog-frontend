@@ -39,7 +39,7 @@ class PostList extends Component<PostListProps> {
           filteredPosts.map((post, idx) => {
             return (
               <div className='gridItem' key={idx}>
-                <Avater src={post.userId.photo} />
+                <Avater src={post?.userId?.photo} />
                 <PostCard
                   userId={post.userId}
                   title={post.title}
