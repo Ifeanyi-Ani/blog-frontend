@@ -22,7 +22,7 @@ type EditFormProps = {
 type InitProps = {
   title: string;
   body: string;
-  image: any;
+  image?: any;
   category: CategoryOption[];
   userId: string;
 };
@@ -50,7 +50,6 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
       setPost({
         title: data.title || "",
         body: data.body || "",
-        image: data.image || null,
         category: data.category ? JSON.parse(data.category) : [],
         userId: currentUser?.data?.user?._id || "",
       });
@@ -88,10 +87,11 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
     const formData = new FormData();
     formData.append("title", post.title);
     formData.append("body", post.body);
-    formData.append("image", post.image, post.image.name);
     formData.append("category", JSON.stringify(post.category));
     formData.append("userId", post.userId);
-
+    if (post.image) {
+      formData.append("image", post.image, post.image.name);
+    }
     await editPost(data._id, formData);
     cb();
     setPost(INIT_STATE);

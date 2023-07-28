@@ -8,9 +8,16 @@ import ProfileAction from "../components/ProfileAction";
 import { editUser } from "../redux/user/user.action";
 import { useParams } from "react-router-dom";
 
+type EditUserInput = {
+  username: string;
+  email: string;
+  dob: string;
+  photo?: any;
+};
+
 const Profile = ({ currentUser, editUser }) => {
   const { id } = useParams();
-  const INIT_STATE = {
+  const INIT_STATE: EditUserInput = {
     username: "",
     email: "",
     dob: "",
@@ -26,7 +33,6 @@ const Profile = ({ currentUser, editUser }) => {
         username: currentUser?.data?.user?.username,
         email: currentUser?.data?.user?.email,
         dob: currentUser?.data?.user?.dob,
-        photo: null,
       });
       setLoading(false); // Data fetched, set loading to false
     }
@@ -34,14 +40,18 @@ const Profile = ({ currentUser, editUser }) => {
 
   async function handleSubmit(e) {
     const id = currentUser?.data?.user?._id;
-    
+
     e.preventDefault();
     const formData = new FormData();
     formData.append("username", user.username);
     // formData.append("password", user.password);
     // formData.append("passwordConfirm", user.passwordConfirm);
     formData.append("dob", user.dob);
-    formData.append("photo", user.photo, user.photo.name);
+
+    if (user.photo) {
+      formData.append("photo", user.photo, user.photo.name);
+    }
+
     await editUser(formData, id);
     setUser(INIT_STATE);
     alert("user successfully updated");
