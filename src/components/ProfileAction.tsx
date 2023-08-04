@@ -22,10 +22,10 @@ const ProfileAction = ({ id, fetchUser, username, email }) => {
             <span style={{ color: "#acac9e" }}>untitled</span>
           </Link>
         </div>
-        <div className='d-flex justify-content-between align-items-center nameCon'>
+        {/* <div className='d-flex justify-content-between align-items-center nameCon'>
           <div>Posts</div>
           <div style={{ color: "#acac9e" }}>1</div>
-        </div>
+        </div> */}
         {/* <div className='d-flex justify-content-between align-items-center nameCon'>
           <div>Followers</div>
           <div style={{ color: "#acac9e" }}>1</div>
@@ -38,7 +38,7 @@ const ProfileAction = ({ id, fetchUser, username, email }) => {
             Profile
           </Link>
         </div>
-        <div className='d-flex justify-content-between align-items-center nameCon'>
+        {/* <div className='d-flex justify-content-between align-items-center nameCon'>
           <div>Drafts</div>
         </div>
         <div className='d-flex justify-content-between align-items-center nameCon'>
@@ -53,7 +53,7 @@ const ProfileAction = ({ id, fetchUser, username, email }) => {
         </div>
         <div className='d-flex justify-content-between align-items-center nameCon'>
           <div>Mass Post Editor</div>
-        </div>
+        </div> */}
       </Stack>
     </Container>
   );

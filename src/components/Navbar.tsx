@@ -123,7 +123,7 @@ const Navbar = function ({
                             Log out
                           </div>
                         </NavDropdown.Item>
-                        <NavDropdown.Item
+                        {/* <NavDropdown.Item
                           href='#'
                           className='d-flex justify-content-between'
                         >
@@ -157,7 +157,7 @@ const Navbar = function ({
                             </div>
                             Settings
                           </div>
-                        </NavDropdown.Item>
+                        </NavDropdown.Item> */}
                         {/* <NavDropdown.Item
                           href='#action/3.2'
                           className='d-flex justify-content-between'
@@ -235,7 +235,7 @@ const Navbar = function ({
                             Keyboard shortcuts
                           </div>
                         </NavDropdown.Item> */}
-                        <NavDropdown.Item
+                        {/* <NavDropdown.Item
                           href='#action/3.2'
                           className='d-flex justify-content-between'
                         >
@@ -245,15 +245,15 @@ const Navbar = function ({
                             </div>
                             Change palette
                           </div>
-                        </NavDropdown.Item>
+                        </NavDropdown.Item> */}
 
-                        <NavDropdown.Item
+                        {/* <NavDropdown.Item
                           href='#action/3.3'
                           className='secBreak'
                         >
                           <div>Blogs</div>
                           <div role='button'>+New</div>
-                        </NavDropdown.Item>
+                        </NavDropdown.Item> */}
 
                         <div className='profileActx'>
                           <div className='offSetImg'>

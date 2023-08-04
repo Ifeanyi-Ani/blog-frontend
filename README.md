@@ -71,6 +71,3 @@ Feel free to use, modify, and distribute the application as per the terms of the
 license.
 
 ---
-
-Happy coding and have fun building your Forum App! If you have any further
-questions or need additional assistance, feel free to reach out.
