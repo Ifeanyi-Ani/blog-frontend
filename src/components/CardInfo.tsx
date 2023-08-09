@@ -1,12 +1,16 @@
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
 import { fetchUsers } from "../redux/user/user.action";
 import { connect, ConnectedProps } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const CardInfo: React.FC<{} & ReduxProps> = function ({ fetchUsers, data }) {
+  const [isLoading, setLoading]=useState(true)
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    if (isLoading){
+      fetchUsers();
+      setLoading(false)
+    }
+  }, [isLoading]);
   const getRandomUsers = () => {
     // If data is available and contains users, shuffle the users and get a random subset
     if (data && data?.data?.user?.length > 0) {
@@ -59,7 +63,8 @@ const CardInfo: React.FC<{} & ReduxProps> = function ({ fetchUsers, data }) {
             <ListGroupItem className='mySecondaryb border-0 d-flex justify-content-between align-items-center p-0 text-white'>
               Loading...
             </ListGroupItem>
-          )}
+          )
+          }
         </ListGroup>
       </Card.Body>
       <Card.Footer className='d-flex justify-content-center navbarts'>

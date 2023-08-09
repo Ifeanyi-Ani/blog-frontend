@@ -7,16 +7,26 @@ import reloadLogo from "../assets/reload.jpg";
 
 import Avater from "./Avater";
 import PostCard from "./PostCard";
-
 type PostListProps = ConnectedProps<typeof connector>;
 
-class PostList extends Component<PostListProps> {
+interface PostListState {
+  isLoading: boolean;
+}
+
+class PostList extends Component<PostListProps, PostListState> {
+  state: PostListState = {
+    isLoading: true, // Set initial loading state to true
+  };
+
   componentDidMount() {
-    this.props.fetchPosts();
+    this.props.fetchPosts().then(() => {
+      this.setState({ isLoading: false }); // Update loading state when data is fetched
+    });
   }
 
   render() {
     const { posts, query } = this.props;
+    const { isLoading } = this.state;
 
     const filteredPosts = posts
       ? [...posts.data.posts].reverse().filter(item => {
@@ -34,8 +44,10 @@ class PostList extends Component<PostListProps> {
       : null;
 
     return (
-      <>
-        {filteredPosts ? (
+      <React.Fragment>
+        {isLoading ? (
+          <div>Fetching Data...</div>
+        ) :filteredPosts ? (
           filteredPosts.map((post, idx) => {
             return (
               <div className='gridItem' key={idx}>
@@ -55,9 +67,9 @@ class PostList extends Component<PostListProps> {
             );
           })
         ) : (
-          <div>loading</div>
+          <div>No Posts Available</div>
         )}
-      </>
+      </React.Fragment>
     );
   }
 }

@@ -23,7 +23,6 @@ type PostCardProps = {
   category: any;
   shareLogo: string;
   reloadLogo: string;
-  likeLogo: string;
   createComment: any;
   comments: any;
   fetchComments: any;

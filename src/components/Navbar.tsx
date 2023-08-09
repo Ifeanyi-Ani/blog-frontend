@@ -83,7 +83,7 @@ const Navbar = function ({
                 </>
               ) : (
                 <>
-                  <Nav.Link href='#home'>
+                  <Nav.Link as={Link} to='/'>
                     <i className='bi bi-house-fill'></i>
                   </Nav.Link>
 
@@ -103,9 +103,9 @@ const Navbar = function ({
                       </Nav.Link>
                     </>
                   ) : null}
-                  <Nav.Link href='#link'>
+                  {/* <Nav.Link href='#link'>
                     <i className='bi bi-lightning-charge-fill'></i>
-                  </Nav.Link>
+                  </Nav.Link> */}
                   {currentUser.data.user ? (
                     <>
                       <NavDropdown

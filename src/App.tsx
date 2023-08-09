@@ -7,10 +7,10 @@ import Navbar from "./components/Navbar";
 // import Home from "./pages/Home";
 // import Preview from "./pages/Preview";
 // import Dashboard from "./pages/admin/Dashboard";
-// import AdminNav from "./pages/admin/AdminNav";
-// import Users from "./pages/admin/Users";
-// import Posts from "./pages/admin/Posts";
-// import Profile from "./pages/Profile";
+import AdminNav from "./pages/admin/AdminNav";
+import Users from "./pages/admin/Users";
+import Posts from "./pages/admin/Posts";
+import Profile from "./pages/Profile";
 
 class App extends React.Component {
   render(): React.ReactNode {
@@ -18,10 +18,10 @@ class App extends React.Component {
     const Home = lazy(() => import("./pages/Home"));
     const Preview = lazy(() => import("./pages/Preview"));
     const Dashboard = lazy(() => import("./pages/admin/Dashboard"));
-    const AdminNav = () => import("./pages/admin/AdminNav");
-    const Users = () => import("./pages/admin/Users");
-    const Posts = () => import("./pages/admin/Posts");
-    const Profile = () => import("./pages/Profile");
+    // const AdminNav = () => import("./pages/admin/AdminNav");
+    // const Users = () => import("./pages/admin/Users");
+    // const Posts = () => import("./pages/admin/Posts");
+    // const Profile = () => import("./pages/Profile");
     return (
       <>
         <BrowserRouter>
@@ -47,11 +47,7 @@ class App extends React.Component {
               />
               <Route
                 path='/profile/:id'
-                element={
-                  <Suspense fallback={<div>...Loading</div>}>
-                    <Profile />
-                  </Suspense>
-                }
+                element={  <Profile /> }
               />
               <Route
                 path='/admin'

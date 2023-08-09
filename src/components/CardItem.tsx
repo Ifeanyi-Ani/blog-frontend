@@ -24,7 +24,7 @@ const CardItem = function (posts) {
     <Card>
       {randomPost.length > 0
         ? randomPost.map(post => (
-            <>
+            <div key={post._id}>
               <Card.Header
                 style={{
                   position: "relative",
@@ -79,7 +79,7 @@ const CardItem = function (posts) {
                   ))}
                 </Card.Text>
               </Card.Body>
-            </>
+            </div>
           ))
         : null}
     </Card>
