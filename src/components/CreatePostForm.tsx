@@ -42,6 +42,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
   };
   const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
+  const [loading, setLoading]=useState(false)
 
   const handleClose = () => {
     setPost(INIT_STATE);
@@ -79,10 +80,19 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
     formData.append("category", JSON.stringify(post.category));
     formData.append("userId", post.userId);
 
-    await createPost(formData);
-    cb();
-    setPost(INIT_STATE);
-    togglePostForm();
+    setLoading(true); // Step 2: Show loading spinner
+
+    await createPost(formData)
+      .then(() => {
+        setLoading(false); // Step 3: Hide loading spinner on success
+        cb();
+        setPost(INIT_STATE);
+        togglePostForm();
+      })
+      .catch(error => {
+        setLoading(false); // Hide loading spinner on error if needed
+        console.error("Error creating post:", error);
+      });
   };
   return (
     <Modal
@@ -160,8 +170,9 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
               </button>
               <Form.Select role='button'>
                 <option>For Everyone</option>
-              </Form.Select>
-              <button type='submit'>Post now</button>
+              </Form.Select> 
+              <button type='submit'>{loading ? "Posting..." : "Post now"}</button> 
+            
             </Form.Group>
           </Form>
         </div>

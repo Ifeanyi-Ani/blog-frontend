@@ -25,37 +25,37 @@ const CreatePost: React.FC<object & ReduxProps> = ({
           </span>
           Text
         </div>
-        <div role='button' className='d-flex flex-column align-items-center'>
+        <div role='button' className='d-flex flex-column align-items-center' onClick={() => handleModal()}>
           <span>
             <i className='bi bi-camera-fill text-danger'></i>
           </span>
           Photo
         </div>
-        <div role='button' className='d-flex flex-column align-items-center'>
+        <div role='button' className='d-flex flex-column align-items-center' onClick={() => handleModal()}>
           <span>
             <i className='bi bi-chat-quote text-danger'></i>
           </span>
           Quote
         </div>
-        <div role='button' className='d-flex flex-column align-items-center'>
+        <div role='button' className='d-flex flex-column align-items-center' onClick={() => handleModal()}>
           <span>
             <i className='bi bi-link-45deg text-success'></i>
           </span>
           Link
         </div>
-        <div role='button' className='d-flex flex-column align-items-center'>
+        <div role='button' className='d-flex flex-column align-items-center' onClick={() => handleModal()}>
           <span>
             <i className='bi bi-chat-square-dots-fill text-primary'></i>
           </span>
           Chat
         </div>
-        <div role='button' className='d-flex flex-column align-items-center'>
+        <div role='button' className='d-flex flex-column align-items-center' onClick={() => handleModal()}>
           <span>
             <i className='bi bi-headset text-light-emphasis'></i>
           </span>
           Audio
         </div>
-        <div role='button' className='d-flex flex-column align-items-center'>
+        <div role='button' className='d-flex flex-column align-items-center' onClick={() => handleModal()}>
           <span>
             <i className='bi bi-camera-reels-fill text-danger-emphasis'></i>
           </span>

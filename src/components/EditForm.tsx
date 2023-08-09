@@ -44,6 +44,7 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
   };
   const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
+  const [loading, setLoading]=useState(false)
 
   useEffect(() => {
     if (data) {
@@ -92,10 +93,17 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
     if (post.image) {
       formData.append("image", post.image, post.image.name);
     }
-    await editPost(data._id, formData);
-    cb();
-    setPost(INIT_STATE);
-    toggleEditForm();
+    await editPost(data._id, formData)
+    .then(() => {
+      setLoading(false); // Step 3: Hide loading spinner on success
+      cb();
+      setPost(INIT_STATE);
+      toggleEditForm();
+    })
+    .catch(error => {
+      setLoading(false); // Hide loading spinner on error if needed
+      console.error("Error editing post:", error);
+    });
   };
   return (
     <Modal
@@ -174,7 +182,8 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
               <Form.Select role='button'>
                 <option>For Everyone</option>
               </Form.Select>
-              <button type='submit'>Save Post</button>
+              <button type='submit'>{loading ? "Saving..." : "Save Post"}</button> 
+           
             </Form.Group>
           </Form>
         </div>
