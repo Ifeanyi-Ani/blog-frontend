@@ -29,28 +29,28 @@ class PostList extends Component<PostListProps, PostListState> {
     const { isLoading } = this.state;
 
     const filteredPosts = posts
-      ? [...posts.data.posts].reverse().filter(item => {
+      ? [...posts.data.posts].reverse().filter((item) => {
           if (!query) return true; // If no query, include all posts
 
           // Parse the post's category from string to an array of objects
           const categoryArray = JSON.parse(item.category);
 
           // Extract an array of tag values from the categoryArray
-          const tagValues = categoryArray.map(tag => tag.value);
+          const tagValues = categoryArray.map((tag) => tag.value);
 
           // Check if any of the tagValues includes the query
-          return tagValues.some(tagValue => tagValue.includes(query));
+          return tagValues.some((tagValue) => tagValue.includes(query));
         })
       : null;
 
     return (
-      <React.Fragment>
+      <>
         {isLoading ? (
           <div>Fetching Data...</div>
-        ) :filteredPosts ? (
+        ) : filteredPosts ? (
           filteredPosts.map((post, idx) => {
             return (
-              <div className='gridItem' key={idx}>
+              <div className="gridItem" key={idx}>
                 <Avater src={post?.userId?.photo} />
                 <PostCard
                   userId={post.userId}
@@ -69,12 +69,12 @@ class PostList extends Component<PostListProps, PostListState> {
         ) : (
           <div>No Posts Available</div>
         )}
-      </React.Fragment>
+      </>
     );
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   posts: state.posts.posts,
   query: state.search.query,
 });

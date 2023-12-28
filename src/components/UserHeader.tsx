@@ -14,7 +14,7 @@ const UserHeader = ({
   editForm,
   selectedPost,
 }) => {
-  async function handleDelete(id, cb) {
+  async function handleDelete(id: string, cb: () => void) {
     if (confirm("Are sure you want to delete this post")) {
       await deletePost(id);
       cb();
@@ -35,15 +35,15 @@ const UserHeader = ({
             borderBottom: "none",
             paddingLeft: "55px",
           }}
-          className='card_Header'
+          className="card_Header"
         >
-          <span role='button'> {userId.username}</span>
-          <span className='text-primary ms-1' role='button'>
+          <span role="button"> {userId.username}</span>
+          <span className="text-primary ms-1" role="button">
             follow
           </span>
           <div
-            role='button'
-            className='d-flex justify-content-center align-items-center fs-4'
+            role="button"
+            className="d-flex justify-content-center align-items-center fs-4"
             style={{
               position: "absolute",
               top: "50%",
@@ -52,17 +52,17 @@ const UserHeader = ({
             }}
           >
             <DropdownButton
-              variant='light'
-              drop='start'
-              id='dropdown-button-drop-start'
-              title='...'
+              variant="light"
+              drop="start"
+              id="dropdown-button-drop-start"
+              title="..."
             >
               {currentUserId?.data?.user?.role === "admin" ||
               userId.id === currentUserId?.data?.user?._id ? (
                 <>
                   <Dropdown.Item
                     onClick={() => handleDelete(post._id, fetchPosts)}
-                    role='button'
+                    role="button"
                   >
                     delete
                   </Dropdown.Item>
@@ -87,11 +87,11 @@ const mapStateToProps = ({ toggleModal: { editForm } }) => ({
   editForm,
 });
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     toggleEditForm: () => dispatch(toggleEditForm()),
-    selectedPost: data => dispatch(selectedPost(data)),
-    deletePost: id => dispatch(deletePost(id)),
+    selectedPost: (data) => dispatch(selectedPost(data)),
+    deletePost: (id) => dispatch(deletePost(id)),
   };
 };
 // const mapDispatchToProps = {

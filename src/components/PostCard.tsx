@@ -14,13 +14,7 @@ import { likeAndunlikePost } from "../redux/likes/likes.action";
 import Login_Signup from "./Login_Signup";
 
 type PostCardProps = {
-  userId: string;
-  postId: string;
   post: any;
-  title: string;
-  body: string;
-  src: string;
-  category: any;
   shareLogo: string;
   reloadLogo: string;
   createComment: any;
@@ -34,13 +28,7 @@ type PostCardProps = {
 };
 
 const PostCard = ({
-  userId,
-  title,
-  body,
-  src,
-  category,
   children,
-  postId,
   post,
   createComment,
   comments,
@@ -93,149 +81,154 @@ const PostCard = ({
   }
   async function checkLikeUser() {
     const likedIndex = post.likes.findIndex(
-      like => like.user.toString() === currentUser?.data?.user?._id
+      (like) => like.user.toString() === currentUser?.data?.user?._id,
     );
     if (likedIndex === -1) {
       return setCheckLike(false);
     }
     setCheckLike(true);
   }
+  const id = post._id;
+
   useEffect(() => {
     getAllComments();
     checkLikeUser();
-  }, [postId, post]);
+  }, [id, post]);
   return (
     <div>
       <Card>
         {children}
         <UserHeader
-          userId={userId}
+          userId={post.userId}
           currentUserId={currentUser}
           post={post}
           fetchPosts={fetchPosts}
         />
         <Card.Body>
-          <Card.Title>{title}</Card.Title>
-          <Card.Img src={src} alt='content' />
-          {body}
-          <Card.Text className='d-flex gap-1 flex-wrap'>
-            {category
-              ? JSON.parse(category).map((item, idx) => (
-                  <span key={idx}>#{item.label}</span>
-                ))
+          <Card.Title>{post?.title}</Card.Title>
+          <Card.Img src={post?.image} alt="content" />
+          {post?.body}
+          <Card.Text className="d-flex gap-1 flex-wrap">
+            {post?.category
+              ? JSON.parse(post?.category).map(
+                  (item: { value: string; label: string }, idx: number) => (
+                    <span key={idx}>#{item.label}</span>
+                  ),
+                )
               : null}
           </Card.Text>
         </Card.Body>
-        <Card.Footer style={{ borderTop: "none" }} className='d-flex'>
+        <Card.Footer style={{ borderTop: "none" }} className="d-flex">
           {currentUser ? (
             <div
-              className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-              role='button'
-              onClick={() => handleComment(postId)}
+              className="border rounded-5 d-flex justify-content-center align-items-center p-2"
+              role="button"
+              onClick={() => handleComment(post?._id)}
             >
               {postComments
-                ? postComments.filter(comment => comment.postId === postId)
+                ? postComments.filter((comment) => comment.postId === post?._id)
                     .length + " notes"
                 : "notes"}
             </div>
           ) : (
             <div
-              className='border rounded-5 d-flex justify-content-center align-items-center p-2'
-              role='button'
+              className="border rounded-5 d-flex justify-content-center align-items-center p-2"
+              role="button"
               onClick={() => setShow(true)}
             >
               {postComments
-                ? postComments.filter(comment => comment.postId === postId)
+                ? postComments.filter((comment) => comment.postId === post?._id)
                     .length + " notes"
                 : "notes"}
             </div>
           )}
-          <Stack className='footer-img ms-auto gap-3' direction='horizontal'>
+          <Stack className="footer-img ms-auto gap-3" direction="horizontal">
             <i
               className={`bi bi-heart ${checkLike ? "text-danger" : null}`}
-              role='button'
+              role="button"
               onClick={
-                currentUser ? () => handleLike(postId) : () => setShow(true)
+                currentUser ? () => handleLike(post._id) : () => setShow(true)
               }
             ></i>
           </Stack>
         </Card.Footer>
 
         {check && (
-          <div className='commentSec p-3'>
-            <div className='commentNav border-bottom-1 d-flex gap-3'>
+          <div className="commentSec p-3">
+            <div className="commentNav border-bottom-1 d-flex gap-3">
               <div>
-                <i className='bi bi-chat'></i>
+                <i className="bi bi-chat"></i>
                 {postComments
-                  ? postComments.filter(comment => comment.postId === postId)
-                      .length
+                  ? postComments.filter(
+                      (comment) => comment.postId === post._id,
+                    ).length
                   : null}
               </div>
               <div>
-                <i className='bi bi-fullscreen'></i>900
+                <i className="bi bi-fullscreen"></i>900
               </div>
               <div>
-                <i className='bi bi-heart'></i>
+                <i className="bi bi-heart"></i>
                 {post.likes ? post.likes.length : null}
               </div>
               <div>
-                <i className='bi bi-fullscreen'></i>900
+                <i className="bi bi-fullscreen"></i>900
               </div>
-              <div className='ms-auto'>Comments</div>
+              <div className="ms-auto">Comments</div>
             </div>
-            <div className='card-footer bg-white p-0 border-0 mb-4'>
-              <div className='d-flex flex-start w-100'>
+            <div className="card-footer bg-white p-0 border-0 mb-4">
+              <div className="d-flex flex-start w-100">
                 <img
-                  className='rounded-circle shadow-1-strong me-3'
+                  className="rounded-circle shadow-1-strong me-3"
                   src={currentUser?.data?.user?.photo}
-                  alt='avatar'
-                  width='40'
-                  height='40'
+                  alt="avatar"
+                  width="40"
+                  height="40"
                 />
-                <div className='form-outline w-100'>
+                <div className="form-outline w-100">
                   <textarea
-                    className='form-control'
-                    id='textAreaExample'
-                    rows='4'
-                    placeholder='comments'
+                    className="form-control"
+                    id="textAreaExample"
+                    rows={4}
+                    placeholder="comments"
                     style={{ background: "#fff" }}
                     value={comment.text}
-                    onChange={e =>
+                    onChange={(e) =>
                       setComment({ ...comment, text: e.target.value })
                     }
                   ></textarea>
                 </div>
               </div>
-              <div className='float-end pt-1'>
+              <div className="float-end pt-1">
                 <button
-                  type='button'
-                  className='btn btn-primary btn-sm'
-                  onClick={() => handleCommentSubmit(postId)}
+                  type="button"
+                  className="btn btn-primary btn-sm"
+                  onClick={() => handleCommentSubmit(post?._id)}
                 >
                   Post comment
                 </button>
               </div>
             </div>
-            <div className='commentsBody'>
+            <div className="commentsBody">
               {comments?.data?.comments ? (
-                [...comments.data.comments].reverse().map(comment => (
-                  <div className='commentItem' key={comment._id}>
-                    <div className='d-flex flex-start'>
+                [...comments.data.comments].reverse().map((comment) => (
+                  <div className="commentItem" key={comment._id}>
+                    <div className="d-flex flex-start">
                       <img
-                        className='rounded-circle shadow-1-strong me-3'
+                        className="rounded-circle shadow-1-strong me-3"
                         src={comment?.userId?.photo}
-                        width='60'
-                        height='60'
+                        width="60"
+                        height="60"
                       />
 
                       <div>
-                        <h6 className='fw-bold mb-1'>
+                        <h6 className="fw-bold mb-1">
                           {comment?.userId?.username || "Unknown User"}
                         </h6>
-                        <div className='d-flex align-items-center mb-3'>
-                          <p className='mb-0'>
+                        <div className="d-flex align-items-center mb-3">
+                          <p className="mb-0">
                             {new Date(comment.createdAt).toLocaleString()}
-                            <span className='badge bg-primary'>
+                            <span className="badge bg-primary">
                               {comment?.userId?.role || "Unknown User"}
                             </span>
                           </p>
@@ -243,26 +236,26 @@ const PostCard = ({
                           {currentUser?.data?.user?._id ===
                           comment?.userId?._id ? (
                             <>
-                              <a href='#!' className='link-muted'>
+                              <a href="#!" className="link-muted">
                                 <i
-                                  className='bi bi-trash-fill'
-                                  role='button'
+                                  className="bi bi-trash-fill"
+                                  role="button"
                                   onClick={() =>
-                                    handleDeleteComment(postId, comment._id)
+                                    handleDeleteComment(post?._id, comment._id)
                                   }
                                 ></i>
                               </a>
-                              <a href='#!' className='link-muted'>
-                                <i className='bi bi-pencil-fill'></i>
+                              <a href="#!" className="link-muted">
+                                <i className="bi bi-pencil-fill"></i>
                               </a>
                             </>
                           ) : null}
                         </div>
-                        <p className='mb-0'>{comment.text}</p>
+                        <p className="mb-0">{comment.text}</p>
                       </div>
                     </div>
 
-                    <hr className='my-0' />
+                    <hr className="my-0" />
                   </div>
                 ))
               ) : (
