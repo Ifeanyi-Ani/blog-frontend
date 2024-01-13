@@ -1,46 +1,30 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 import UserHeader from "./UserHeader";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   fetchComments,
   createComment,
   deleteComment,
 } from "../redux/comments/comment.actions";
 import { fetchPosts } from "../redux/posts/posts.action";
-import baseUrl from "../apis/baseUrl";
+import baseUrl, { IPost } from "../apis/baseUrl";
 import { LIKE } from "../redux/likes/likes.type";
 import { likeAndunlikePost } from "../redux/likes/likes.action";
 import Login_Signup from "./Login_Signup";
 
 type PostCardProps = {
-  post: any;
-  shareLogo: string;
-  reloadLogo: string;
-  createComment: any;
-  comments: any;
-  fetchComments: any;
-  fetchPosts: any;
-  deleteComment: any;
-  likeAndunlikePost: any;
-  currentUser: any;
+  post: IPost;
   children?: ReactNode;
 };
 
-const PostCard = ({
-  children,
-  post,
-  createComment,
-  comments,
-  currentUser,
-  fetchComments,
-  deleteComment,
-  fetchPosts,
-  likeAndunlikePost,
-}: PostCardProps) => {
-  const [check, setCheck] = useState<boolean>(false);
+const PostCard = ({ children, post }: PostCardProps) => {
+  const currentUser = useSelector((state) => state.auth.currentUser);
+  const comments = useSelector((state) => state.comment?.comments);
+  const dispatch = useDispatch();
+  const [check, setCheck] = useState(false);
 
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState(false);
 
   const [postComments, setPostComments] = useState();
   const [checkLike, setCheckLike] = useState(false);
@@ -49,15 +33,17 @@ const PostCard = ({
     userId: currentUser?.data?.user?._id || "",
   };
   const [comment, setComment] = useState(init_data);
-  async function handleCommentSubmit(postId) {
+
+  async function handleCommentSubmit(postId: string) {
     const updatedComment = { ...comment, postId };
-    await createComment(postId, updatedComment);
-    await fetchComments(postId);
-    getAllComments();
+    await dispatch(createComment(postId, updatedComment));
+    await dispatch(fetchComments(postId));
+    await getAllComments(); // Assuming getAllComments is an asynchronous function
     setComment(init_data);
   }
-  async function handleComment(postId) {
-    await fetchComments(postId);
+
+  async function handleComment(postId: string) {
+    await dispatch(fetchComments(postId));
     setCheck(!check);
   }
 
@@ -66,19 +52,21 @@ const PostCard = ({
     const allCommets = await response.data.data.comments;
     setPostComments(allCommets);
   }
-  async function handleDeleteComment(postId, id) {
+  async function handleDeleteComment(postId: string, id: string) {
     if (confirm("Are you sure you want to delete this comment?")) {
-      await deleteComment(postId, id);
-      await fetchComments(postId);
+      await dispatch(deleteComment(postId, id));
+      await dispatch(fetchComments(postId));
       getAllComments();
     }
   }
-  async function handleLike(postId) {
+
+  async function handleLike(postId: string) {
     const data = { userId: currentUser?.data?.user?._id };
-    await likeAndunlikePost(data, postId, LIKE);
-    await fetchComments(postId);
-    await fetchPosts();
+    await dispatch(likeAndunlikePost(data, postId, LIKE));
+    await dispatch(fetchComments(postId));
+    await dispatch(fetchPosts());
   }
+
   async function checkLikeUser() {
     const likedIndex = post.likes.findIndex(
       (like) => like.user.toString() === currentUser?.data?.user?._id,
@@ -88,12 +76,14 @@ const PostCard = ({
     }
     setCheckLike(true);
   }
-  const id = post._id;
-
+  const [loaded, setisLoaded] = useState(true);
   useEffect(() => {
-    getAllComments();
-    checkLikeUser();
-  }, [id, post]);
+    if (loaded) {
+      getAllComments();
+      checkLikeUser();
+    }
+    setisLoaded(false);
+  }, [loaded]);
   return (
     <div>
       <Card>
@@ -169,7 +159,7 @@ const PostCard = ({
               </div>
               <div>
                 <i className="bi bi-heart"></i>
-                {post.likes ? post.likes.length : null}
+                {post?.likes ? post?.likes?.length : null}
               </div>
               <div>
                 <i className="bi bi-fullscreen"></i>900
@@ -274,16 +264,4 @@ const PostCard = ({
   );
 };
 
-const mapStateToProps = ({ auth: { currentUser }, comment: { comments } }) => ({
-  currentUser,
-  comments,
-});
-const mapDispatchToProps = {
-  createComment,
-  fetchComments,
-  deleteComment,
-  likeAndunlikePost,
-  fetchPosts,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostCard);
+export default PostCard;
