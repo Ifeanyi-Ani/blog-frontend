@@ -1,6 +1,6 @@
 import { Button, Stack } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import CardInfo from "../components/CardInfo";
 import theme from "../assets/theme.jpg";
@@ -8,9 +8,18 @@ import theme from "../assets/theme.jpg";
 import advert from "../assets/advert.png";
 import PostList from "../components/PostList";
 import CreatePostContainer from "../components/CreatePostContainer";
+import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../app/hook";
+import { fetchPosts } from "../features/postSlice";
 
 const Home = function ({ currentUser }) {
-  const [toggle, setToggle] = useState<boolean>(false);
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.posts.posts);
+  console.log(posts);
+  useEffect(() => {
+    dispatch(fetchPosts);
+  }, [dispatch]);
+  /*   const [toggle, setToggle] = useState<boolean>(false);
   function handleToggle(val: boolean) {
     setToggle(val);
   }
@@ -82,7 +91,7 @@ const Home = function ({ currentUser }) {
         </div>
       </SideBar>
     </div>
-  );
+  ); */
 };
 const mapDispatchToProps = ({ auth: { currentUser } }) => ({
   currentUser,
