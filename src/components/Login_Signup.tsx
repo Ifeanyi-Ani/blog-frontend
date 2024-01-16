@@ -29,44 +29,44 @@ const Login_Signup = ({ show, handleModal1, setShow }) => {
   return (
     <>
       <Modal centered show={show} onHide={handleModal1}>
-        <Modal.Header className='d-flex justify-content-center border-0 modalPrimary'>
+        <Modal.Header className="d-flex justify-content-center border-0 modalPrimary">
           <Modal.Title>tumblr</Modal.Title>
         </Modal.Header>
-        <Modal.Body className='modalPrimary text-center'>
+        <Modal.Body className="modalPrimary text-center">
           Welcome to your corner of the internet. You'll never be bored again.
-          <div className='text-center my-3'>Sign up or log in</div>
+          <div className="text-center my-3">Sign up or log in</div>
           <Stack
-            className='m-auto'
-            direction='vertical'
+            className="m-auto"
+            direction="vertical"
             gap={2}
             style={{ width: "70%" }}
           >
-            <Button variant='light' className='rounded-5 modalBtn'>
-              <div className='imgCon'>
-                <img src={googleLogo} alt='logo' />
+            <Button variant="light" className="rounded-5 modalBtn">
+              <div className="imgCon">
+                <img src={googleLogo} alt="logo" />
               </div>
-              <div className='nameCon'>Continue with Google</div>
+              <div className="nameCon">Continue with Google</div>
             </Button>
-            <Button variant='light' className='rounded-5 modalBtn'>
-              <div className='imgCon'>
-                <img src={appleLogo} alt='logo' />
+            <Button variant="light" className="rounded-5 modalBtn">
+              <div className="imgCon">
+                <img src={appleLogo} alt="logo" />
               </div>
-              <div className='nameCon'>Continue with Apple</div>
+              <div className="nameCon">Continue with Apple</div>
             </Button>
             <Button
-              variant='light'
-              className='rounded-5 modalBtn'
+              variant="light"
+              className="rounded-5 modalBtn"
               onClick={modalAct}
             >
-              <div className='imgCon'>
-                <img src={emailLogo} alt='logo' />
+              <div className="imgCon">
+                <img src={emailLogo} alt="logo" />
               </div>
-              <div className='nameCon'>Continue with email</div>
+              <div className="nameCon">Continue with email</div>
             </Button>
             <div
-              className='text-warning'
+              className="text-warning"
               style={{ cursor: "pointer" }}
-              role='button'
+              role="button"
               onClick={handleShowLogin}
             >
               have an account already? login

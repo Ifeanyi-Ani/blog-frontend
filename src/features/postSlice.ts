@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../app/store";
-import baseUrl, { IPost } from "../apis/baseUrl";
+import baseUrl from "../apis/baseUrl";
+import { IPost } from "../types/type";
 
 interface PostsState {
   posts?: IPost[];
