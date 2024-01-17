@@ -49,5 +49,5 @@ export const postSlice = createSlice({
   },
 });
 
-export const getPosts = (state: RootState) => state.posts?.posts;
+export const getPosts = (state: RootState) => state.posts.posts;
 export default postSlice.reducer;

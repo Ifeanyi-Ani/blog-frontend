@@ -12,13 +12,14 @@ import Users from "./pages/admin/Users";
 import Posts from "./pages/admin/Posts";
 import Profile from "./pages/Profile";
 import { useAppDispatch, useAppSelector } from "./app/hook";
-import { fetchPosts } from "./features/postSlice";
+import { fetchPosts, getPosts } from "./features/postSlice";
 
 import PostList from "./components/PostList.tsx";
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const posts = useAppSelector((state) => state.posts.posts);
+  const posts = useAppSelector(getPosts);
+  const status = useAppSelector((state) => state.posts.status);
   console.log(posts);
   useEffect(() => {
     dispatch(fetchPosts());

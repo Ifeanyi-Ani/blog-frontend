@@ -1,17 +1,18 @@
 import { ReactNode, useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 import UserHeader from "./UserHeader";
-import { useSelector, useDispatch } from "react-redux";
 import {
   fetchComments,
   createComment,
   deleteComment,
 } from "../redux/comments/comment.actions";
 import { fetchPosts } from "../redux/posts/posts.action";
-import baseUrl, { IPost } from "../apis/baseUrl";
 import { LIKE } from "../redux/likes/likes.type";
 import { likeAndunlikePost } from "../redux/likes/likes.action";
 import Login_Signup from "./Login_Signup";
+import { useAppSelector, useAppDispatch } from "../app/hook";
+import { fetchPosts } from "../features/postSlice";
+import { IPost } from "../types/type";
 
 type PostCardProps = {
   post: IPost;
@@ -19,7 +20,8 @@ type PostCardProps = {
 };
 
 const PostCard = ({ children, post }: PostCardProps) => {
-  const currentUser = useSelector((state) => state.auth.currentUser);
+  const dispatch = useAppDispatch();
+  /* const currentUser = useSelector((state) => state.auth.currentUser);
   const comments = useSelector((state) => state.comment?.comments);
   const dispatch = useDispatch();
   const [check, setCheck] = useState(false);
@@ -83,7 +85,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
       checkLikeUser();
     }
     setisLoaded(false);
-  }, [loaded]);
+  }, [loaded]); */
   return (
     <div>
       <Card>

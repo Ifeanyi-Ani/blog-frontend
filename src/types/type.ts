@@ -17,5 +17,14 @@ export interface ILike {
 }
 
 export interface IUserID {
+  __v: number;
+  _id: string;
+  createdAt: Date;
+  dob: Date;
+  email: string;
   id: string;
+  photo: string;
+  role: string;
+  updatedAt: Date;
+  username: string;
 }
