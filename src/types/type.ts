@@ -17,8 +17,6 @@ export interface ILike {
 }
 
 export interface IUserID {
-  __v: number;
-  _id: string;
   createdAt: Date;
   dob: Date;
   email: string;
@@ -27,4 +25,16 @@ export interface IUserID {
   role: string;
   updatedAt: Date;
   username: string;
+}
+enum Role {
+  user = "user",
+  admin = "admin",
+}
+export interface IUser {
+  id: string;
+  username: string;
+  email: string;
+  photo: string;
+  role: Role;
+  dob: Date;
 }

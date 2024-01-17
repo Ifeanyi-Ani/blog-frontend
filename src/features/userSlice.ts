@@ -1,53 +1,52 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import baseUrl from "../apis/baseUrl";
-import { IPost } from "../types/type";
 import { RootState } from "../app/store";
+import { IUser } from "../types/type";
 
-interface PostsState {
-  posts?: IPost[];
+interface UserState {
+  users?: IUser[];
   status: "loading" | "success" | "error";
   error: string | null;
 }
-
 const initialState = {
-  posts: [],
+  users: [],
   status: "loading",
   error: null,
-} as PostsState;
+} as UserState;
 
-export const fetchPosts = createAsyncThunk<
-  IPost[],
+export const fetchUsers = createAsyncThunk<
+  IUser[],
   void,
   { rejectValue: string }
->("posts", async (_, thunkApi) => {
+>("users", async (_, thunkApi) => {
   try {
-    const response = await baseUrl.get("/posts");
-    const data = response.data as IPost[];
+    const response = await baseUrl.get("/users");
+    const data = response.data as IUser[];
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue("failed to fetch issues");
   }
 });
 
-export const postSlice = createSlice({
-  name: "post",
+export const userSlice = createSlice({
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPosts.pending, (state: PostsState) => {
+      .addCase(fetchUsers.pending, (state: UserState) => {
         state.status = "loading";
       })
-      .addCase(fetchPosts.fulfilled, (state: PostsState, action) => {
+      .addCase(fetchUsers.fulfilled, (state: UserState, action) => {
         state.status = "success";
-        state.posts = action.payload;
+        state.users = action.payload;
       })
-      .addCase(fetchPosts.rejected, (state: PostsState, action) => {
+      .addCase(fetchUsers.rejected, (state: UserState, action) => {
         state.status = "error";
         state.error = action.error.message || "Something went wrong";
       });
   },
 });
 
-export const getPosts = (state: RootState) => state.posts.posts;
-export default postSlice.reducer;
+export const getUsers = (state: RootState) => state.users.users;
+export default userSlice.reducer;
