@@ -14,6 +14,8 @@ import Profile from "./pages/Profile";
 import { useAppDispatch, useAppSelector } from "./app/hook";
 import { fetchPosts } from "./features/postSlice";
 
+import PostList from "./components/PostList.tsx";
+
 const App = () => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.posts.posts);
@@ -91,7 +93,7 @@ const App = () => {
       </BrowserRouter>
     </>
   ); */
-  return <div>hello there</div>;
+  return <PostList />;
 };
 
 export default App;

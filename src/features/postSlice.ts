@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import baseUrl from "../apis/baseUrl";
 import { IPost } from "../types/type";
+import { RootState } from "../app/store";
 
 interface PostsState {
   posts?: IPost[];
@@ -48,4 +49,5 @@ export const postSlice = createSlice({
   },
 });
 
+export const getPosts = (state: RootState) => state.posts?.posts;
 export default postSlice.reducer;

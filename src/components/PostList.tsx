@@ -1,44 +1,39 @@
 import { useEffect, useState } from "react";
-import { fetchPosts } from "../redux/posts/posts.action";
-import { useSelector, useDispatch } from "react-redux";
-
-import shareLogo from "../assets/share.jpg";
-import reloadLogo from "../assets/reload.jpg";
+import { fetchPosts } from "../features/postSlice";
+import { useAppDispatch, useAppSelector } from "../app/hook";
 
 import Avater from "./Avater";
 import PostCard from "./PostCard";
-import { IPost } from "../apis/baseUrl";
+import { IPost } from "../types/type";
 
 const PostList = () => {
-  const dispatch = useDispatch();
-  const posts = useSelector((state) => state.posts?.posts);
-  const [isLoading, setisLoading] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
+  const posts = useAppSelector((state) => state.posts?.posts);
+
   useEffect(() => {
-    if (isLoading) {
-      dispatch(fetchPosts());
-    }
-    setisLoading(false);
-  }, [isLoading, dispatch]);
+    dispatch(fetchPosts());
+  }, [dispatch]);
 
   return (
     <>
-      {isLoading ? (
-        <div>Fetching Data...</div>
-      ) : posts?.data?.posts?.length ? (
-        [...posts.data.posts].reverse().map((post: IPost, idx: number) => {
-          return (
-            <div className="gridItem" key={idx}>
-              <Avater src={post?.userId?.photo} />
-              <PostCard
-                shareLogo={shareLogo}
-                reloadLogo={reloadLogo}
-                post={post}
-              />
-            </div>
-          );
-        })
+      {/* {isLoading ? ( */}
+      {/*   <div>Fetching Data...</div> */}
+      {/* ) : posts?.data?.posts?.length ? ( */}
+      {/*   [...posts.data.posts].reverse().map((post: IPost, idx: number) => { */}
+      {/*     return ( */}
+      {/*       <div className="gridItem" key={idx}> */}
+      {/*         <Avater src={post?.userId?.photo} /> */}
+      {/*         <PostCard post={post} /> */}
+      {/*       </div> */}
+      {/*     ); */}
+      {/*   }) */}
+      {/* ) : ( */}
+      {/*   <div>No Posts Available</div> */}
+      {/* )} */}
+      {posts ? (
+        posts.map((post) => <div>{post.title}</div>)
       ) : (
-        <div>No Posts Available</div>
+        <div>fetching posts</div>
       )}
     </>
   );
