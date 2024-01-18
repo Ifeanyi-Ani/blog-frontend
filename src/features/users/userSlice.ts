@@ -57,6 +57,19 @@ export const login = createAsyncThunk(
   },
 );
 
+export const signup = createAsyncThunk(
+  "auth/signup",
+  async (formData, thunkApi) => {
+    try {
+      const response = await baseUrl.post("/auth/signup", formData);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue("failed to signup User");
+    }
+  },
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -77,7 +90,7 @@ export const userSlice = createSlice({
       .addCase(createUser.fulfilled, (state: UserState, action) => {
         state?.users?.push(action.payload);
       })
-      .addCase(login.fulfilled, (_, action) => {
+      .addCase(login.fulfilled || signup.fulfilled, (_, action) => {
         localStorage.setItem("currentUser", JSON.stringify(action.payload));
       });
   },
