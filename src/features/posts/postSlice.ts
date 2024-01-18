@@ -5,7 +5,7 @@ import { RootState } from "../../app/store";
 
 interface PostsState {
   posts?: IPost[];
-  status: "loading" | "success" | "error";
+  status: "idle" | "loading" | "success" | "error";
   error: string | null;
 }
 
@@ -19,7 +19,7 @@ export const fetchPosts = createAsyncThunk<
   IPost[],
   void,
   { rejectValue: string }
->("posts", async (_, thunkApi) => {
+>("posts/fetchPosts", async (_, thunkApi) => {
   try {
     const response = await baseUrl.get("/posts");
     const data = response.data as IPost[];
@@ -29,11 +29,25 @@ export const fetchPosts = createAsyncThunk<
   }
 });
 
+export const createPost = createAsyncThunk<
+  IPost,
+  void,
+  { rejectValue: string }
+>("posts/createPost", async (data, thunkApi) => {
+  try {
+    const response = await baseUrl.post("/posts", data);
+    const data = response.data as IPost[];
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue("failed to create post");
+  }
+});
+
 export const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {},
-  extraReducers: (builder) => {
+  extraReducers(builder) {
     builder
       .addCase(fetchPosts.pending, (state: PostsState) => {
         state.status = "loading";
@@ -45,6 +59,9 @@ export const postSlice = createSlice({
       .addCase(fetchPosts.rejected, (state: PostsState, action) => {
         state.status = "error";
         state.error = action.error.message || "Something went wrong";
+      })
+      .addCase(createPost.fulfilled, (state, action) => {
+        state.posts?.push(action.payload);
       });
   },
 });
