@@ -33,9 +33,9 @@ export const createPost = createAsyncThunk<
   IPost,
   void,
   { rejectValue: string }
->("posts/createPost", async (data, thunkApi) => {
+>("posts/createPost", async (formData, thunkApi) => {
   try {
-    const response = await baseUrl.post("/posts", data);
+    const response = await baseUrl.post("/posts", formData);
     const data = response.data as IPost[];
     return data;
   } catch (error) {

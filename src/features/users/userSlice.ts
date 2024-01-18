@@ -20,13 +20,27 @@ export const fetchUsers = createAsyncThunk<
   IUser[],
   void,
   { rejectValue: string }
->("users", async (_, thunkApi) => {
+>("users/fetchUsers", async (_, thunkApi) => {
   try {
     const response = await baseUrl.get("/users");
     const data = response.data as IUser[];
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue("failed to fetch issues");
+  }
+});
+
+export const createUser = createAsyncThunk<
+  IUser,
+  void,
+  { rejectValue: string }
+>("users/createUser", async (formData, thunkApi) => {
+  try {
+    const response = await baseUrl.post("/users", formData);
+    const data = response.data as IUser;
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue("failed to create user");
   }
 });
 
@@ -46,6 +60,9 @@ export const userSlice = createSlice({
       .addCase(fetchUsers.rejected, (state: UserState, action) => {
         state.status = "error";
         state.error = action.error.message || "Something went wrong";
+      })
+      .addCase(createUser.fulfilled, (state: UserState, action) => {
+        state?.users?.push(action.payload);
       });
   },
 });
