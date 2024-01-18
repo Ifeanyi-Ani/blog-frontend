@@ -44,6 +44,19 @@ export const createUser = createAsyncThunk<
   }
 });
 
+export const login = createAsyncThunk(
+  "auth/login",
+  async (formData, thunkApi) => {
+    try {
+      const response = await baseUrl.post("/auth/login", formData);
+      const data = response.data;
+      return data;
+    } catch (error) {
+      return thunkApi.rejectWithValue("failed to loggedin User");
+    }
+  },
+);
+
 export const userSlice = createSlice({
   name: "user",
   initialState,
@@ -63,6 +76,9 @@ export const userSlice = createSlice({
       })
       .addCase(createUser.fulfilled, (state: UserState, action) => {
         state?.users?.push(action.payload);
+      })
+      .addCase(login.fulfilled, (_, action) => {
+        localStorage.setItem("currentUser", JSON.stringify(action.payload));
       });
   },
 });
