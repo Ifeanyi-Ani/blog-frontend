@@ -12,15 +12,21 @@ import Users from "./pages/admin/Users";
 import Posts from "./pages/admin/Posts";
 import Profile from "./pages/Profile";
 import { useAppDispatch, useAppSelector } from "./app/hook";
-import { fetchPosts, getPosts } from "./features/postSlice";
+import { fetchPosts, getPost, getPosts } from "./features/posts/postSlice.ts";
+import { RootState } from "./app/store.ts";
 
 import PostList from "./components/PostList.tsx";
+import { useSelector } from "react-redux";
 
 const App = () => {
   const dispatch = useAppDispatch();
   const posts = useAppSelector(getPosts);
+  const post = useSelector((state: RootState) =>
+    getPost(state, "64c3fee7970f1beeaf0e81f3"),
+  );
   const status = useAppSelector((state) => state.posts.status);
   console.log(posts);
+  console.log(post);
   useEffect(() => {
     dispatch(fetchPosts());
   }, [dispatch]);

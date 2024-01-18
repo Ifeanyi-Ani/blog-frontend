@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import baseUrl from "../apis/baseUrl";
-import { RootState } from "../app/store";
-import { IUser } from "../types/type";
+import baseUrl from "../../apis/baseUrl";
+import { RootState } from "../../app/store";
+import { IUser } from "../../types/type";
 
 interface UserState {
   users?: IUser[];
@@ -10,6 +10,8 @@ interface UserState {
 }
 const initialState = {
   users: [],
+  user: null,
+  currentUser: null,
   status: "loading",
   error: null,
 } as UserState;

@@ -6,12 +6,11 @@ import {
   createComment,
   deleteComment,
 } from "../redux/comments/comment.actions";
-import { fetchPosts } from "../redux/posts/posts.action";
 import { LIKE } from "../redux/likes/likes.type";
 import { likeAndunlikePost } from "../redux/likes/likes.action";
 import Login_Signup from "./Login_Signup";
 import { useAppSelector, useAppDispatch } from "../app/hook";
-import { fetchPosts } from "../features/postSlice";
+import { fetchPosts } from "../features/posts/postSlice";
 import { IPost } from "../types/type";
 
 type PostCardProps = {
@@ -21,6 +20,7 @@ type PostCardProps = {
 
 const PostCard = ({ children, post }: PostCardProps) => {
   const dispatch = useAppDispatch();
+  const [check, setCheck] = useState(false);
   /* const currentUser = useSelector((state) => state.auth.currentUser);
   const comments = useSelector((state) => state.comment?.comments);
   const dispatch = useDispatch();
@@ -110,7 +110,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
               : null}
           </Card.Text>
         </Card.Body>
-        <Card.Footer style={{ borderTop: "none" }} className="d-flex">
+        {/* <Card.Footer style={{ borderTop: "none" }} className="d-flex">
           {currentUser ? (
             <div
               className="border rounded-5 d-flex justify-content-center align-items-center p-2"
@@ -143,7 +143,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
               }
             ></i>
           </Stack>
-        </Card.Footer>
+        </Card.Footer> */}
 
         {check && (
           <div className="commentSec p-3">
@@ -257,11 +257,11 @@ const PostCard = ({ children, post }: PostCardProps) => {
           </div>
         )}
       </Card>
-      <Login_Signup
+      {/* <Login_Signup
         show={show}
         handleModal1={() => setShow(false)}
         setShow={setShow}
-      />
+      /> */}
     </div>
   );
 };

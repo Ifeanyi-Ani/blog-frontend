@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchPosts, getPosts } from "../features/postSlice";
+import { fetchPosts, getPosts } from "../features/posts/postSlice";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 
 import Avater from "./Avater";
