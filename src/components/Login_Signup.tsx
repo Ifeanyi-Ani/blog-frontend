@@ -7,7 +7,13 @@ import googleLogo from "../assets/googleLogo.jpg";
 import appleLogo from "../assets/appleLogo.jpg";
 import emailLogo from "../assets/messLogo.jpg";
 
-const Login_Signup = ({ show, handleModal1, setShow }) => {
+interface Login_SignupProps {
+  show: boolean;
+  handleModal1: () => void;
+  setShow: (input: boolean) => boolean;
+}
+
+const Login_Signup = ({ show, handleModal1, setShow }: Login_SignupProps) => {
   const [isOpen, setisOpen] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
   function handleModal2(val: boolean) {
