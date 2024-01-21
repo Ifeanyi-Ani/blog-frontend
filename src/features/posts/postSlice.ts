@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import baseUrl from "../../apis/baseUrl";
+import API from "../../apis/baseUrl";
 import { IPost } from "../../types/type";
 import { RootState } from "../../app/store";
 
@@ -21,7 +21,7 @@ export const fetchPosts = createAsyncThunk<
   { rejectValue: string }
 >("posts/fetchPosts", async (_, thunkApi) => {
   try {
-    const response = await baseUrl.get("/posts");
+    const response = await API.get("/posts");
     const data = response.data as IPost[];
     return data;
   } catch (error) {
@@ -35,7 +35,7 @@ export const createPost = createAsyncThunk<
   { rejectValue: string }
 >("posts/createPost", async (formData, thunkApi) => {
   try {
-    const response = await baseUrl.post("/posts", formData);
+    const response = await API.post("/posts", formData);
     const data = response.data as IPost[];
     return data;
   } catch (error) {

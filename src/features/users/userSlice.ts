@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import baseUrl from "../../apis/baseUrl";
+import API from "../../apis/baseUrl";
 import { RootState } from "../../app/store";
 import { IUser } from "../../types/type";
 
 interface UserState {
   users?: IUser[];
-  status: "loading" | "success" | "error";
+  status: "idle" | "loading" | "success" | "error";
   error: string | null;
 }
 const initialState = {
@@ -22,7 +22,7 @@ export const fetchUsers = createAsyncThunk<
   { rejectValue: string }
 >("users/fetchUsers", async (_, thunkApi) => {
   try {
-    const response = await baseUrl.get("/users");
+    const response = await API.get("/users");
     const data = response.data as IUser[];
     return data;
   } catch (error) {
@@ -36,7 +36,7 @@ export const createUser = createAsyncThunk<
   { rejectValue: string }
 >("users/createUser", async (formData, thunkApi) => {
   try {
-    const response = await baseUrl.post("/users", formData);
+    const response = await API.post("/users", formData);
     const data = response.data as IUser;
     return data;
   } catch (error) {
@@ -48,7 +48,7 @@ export const login = createAsyncThunk(
   "auth/login",
   async (formData, thunkApi) => {
     try {
-      const response = await baseUrl.post("/auth/login", formData);
+      const response = await API.post("/auth/login", formData);
       const data = response.data;
       return data;
     } catch (error) {
@@ -61,7 +61,7 @@ export const signup = createAsyncThunk(
   "auth/signup",
   async (formData, thunkApi) => {
     try {
-      const response = await baseUrl.post("/auth/signup", formData);
+      const response = await API.post("/auth/signup", formData);
       const data = response.data;
       return data;
     } catch (error) {
