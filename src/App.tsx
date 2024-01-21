@@ -102,7 +102,7 @@ const App = () => {
       </BrowserRouter>
     </>
   ); */
-  return <LoginForm />;
+  return <PostList />;
 };
 
 export default App;
