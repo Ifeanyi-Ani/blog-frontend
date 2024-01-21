@@ -27,11 +27,12 @@ const App = () => {
     getPost(state, "64c3fee7970f1beeaf0e81f3"),
   );
   const status = useAppSelector((state) => state.posts.status);
-  console.log(posts);
-  console.log(post);
+
   useEffect(() => {
-    dispatch(fetchPosts());
-  }, [dispatch]);
+    if (status === "idle") {
+      dispatch(fetchPosts());
+    }
+  }, [status, dispatch]);
   /*   // const Navbar = lazy(() => import("./components/Navbar"));
   const Home = lazy(() => import("./pages/Home"));
   const Preview = lazy(() => import("./pages/Preview"));

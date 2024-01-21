@@ -21,7 +21,7 @@ type PostCardProps = {
 const PostCard = ({ children, post }: PostCardProps) => {
   const dispatch = useAppDispatch();
   const [check, setCheck] = useState(false);
-  /* const currentUser = useSelector((state) => state.auth.currentUser);
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const comments = useSelector((state) => state.comment?.comments);
   const dispatch = useDispatch();
   const [check, setCheck] = useState(false);
@@ -85,7 +85,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
       checkLikeUser();
     }
     setisLoaded(false);
-  }, [loaded]); */
+  }, [loaded]);
   return (
     <div>
       <Card>
@@ -145,123 +145,123 @@ const PostCard = ({ children, post }: PostCardProps) => {
           </Stack>
         </Card.Footer> */}
 
-        {check && (
-          <div className="commentSec p-3">
-            <div className="commentNav border-bottom-1 d-flex gap-3">
-              <div>
-                <i className="bi bi-chat"></i>
-                {postComments
-                  ? postComments.filter(
-                      (comment) => comment.postId === post._id,
-                    ).length
-                  : null}
-              </div>
-              <div>
-                <i className="bi bi-fullscreen"></i>900
-              </div>
-              <div>
-                <i className="bi bi-heart"></i>
-                {post?.likes ? post?.likes?.length : null}
-              </div>
-              <div>
-                <i className="bi bi-fullscreen"></i>900
-              </div>
-              <div className="ms-auto">Comments</div>
-            </div>
-            <div className="card-footer bg-white p-0 border-0 mb-4">
-              <div className="d-flex flex-start w-100">
-                <img
-                  className="rounded-circle shadow-1-strong me-3"
-                  src={currentUser?.data?.user?.photo}
-                  alt="avatar"
-                  width="40"
-                  height="40"
-                />
-                <div className="form-outline w-100">
-                  <textarea
-                    className="form-control"
-                    id="textAreaExample"
-                    rows={4}
-                    placeholder="comments"
-                    style={{ background: "#fff" }}
-                    value={comment.text}
-                    onChange={(e) =>
-                      setComment({ ...comment, text: e.target.value })
-                    }
-                  ></textarea>
-                </div>
-              </div>
-              <div className="float-end pt-1">
-                <button
-                  type="button"
-                  className="btn btn-primary btn-sm"
-                  onClick={() => handleCommentSubmit(post?._id)}
-                >
-                  Post comment
-                </button>
-              </div>
-            </div>
-            <div className="commentsBody">
-              {comments?.data?.comments ? (
-                [...comments.data.comments].reverse().map((comment) => (
-                  <div className="commentItem" key={comment._id}>
-                    <div className="d-flex flex-start">
-                      <img
-                        className="rounded-circle shadow-1-strong me-3"
-                        src={comment?.userId?.photo}
-                        width="60"
-                        height="60"
-                      />
-
-                      <div>
-                        <h6 className="fw-bold mb-1">
-                          {comment?.userId?.username || "Unknown User"}
-                        </h6>
-                        <div className="d-flex align-items-center mb-3">
-                          <p className="mb-0">
-                            {new Date(comment.createdAt).toLocaleString()}
-                            <span className="badge bg-primary">
-                              {comment?.userId?.role || "Unknown User"}
-                            </span>
-                          </p>
-
-                          {currentUser?.data?.user?._id ===
-                          comment?.userId?._id ? (
-                            <>
-                              <a href="#!" className="link-muted">
-                                <i
-                                  className="bi bi-trash-fill"
-                                  role="button"
-                                  onClick={() =>
-                                    handleDeleteComment(post?._id, comment._id)
-                                  }
-                                ></i>
-                              </a>
-                              <a href="#!" className="link-muted">
-                                <i className="bi bi-pencil-fill"></i>
-                              </a>
-                            </>
-                          ) : null}
-                        </div>
-                        <p className="mb-0">{comment.text}</p>
-                      </div>
-                    </div>
-
-                    <hr className="my-0" />
-                  </div>
-                ))
-              ) : (
-                <div>Loading Comment</div>
-              )}
-            </div>
-          </div>
-        )}
+        {/* {check && ( */}
+        {/*   <div className="commentSec p-3"> */}
+        {/*     <div className="commentNav border-bottom-1 d-flex gap-3"> */}
+        {/*       <div> */}
+        {/*         <i className="bi bi-chat"></i> */}
+        {/*         {postComments */}
+        {/*           ? postComments.filter( */}
+        {/*               (comment) => comment.postId === post._id, */}
+        {/*             ).length */}
+        {/*           : null} */}
+        {/*       </div> */}
+        {/*       <div> */}
+        {/*         <i className="bi bi-fullscreen"></i>900 */}
+        {/*       </div> */}
+        {/*       <div> */}
+        {/*         <i className="bi bi-heart"></i> */}
+        {/*         {post?.likes ? post?.likes?.length : null} */}
+        {/*       </div> */}
+        {/*       <div> */}
+        {/*         <i className="bi bi-fullscreen"></i>900 */}
+        {/*       </div> */}
+        {/*       <div className="ms-auto">Comments</div> */}
+        {/*     </div> */}
+        {/*     <div className="card-footer bg-white p-0 border-0 mb-4"> */}
+        {/*       <div className="d-flex flex-start w-100"> */}
+        {/*         <img */}
+        {/*           className="rounded-circle shadow-1-strong me-3" */}
+        {/*           src={currentUser?.data?.user?.photo} */}
+        {/*           alt="avatar" */}
+        {/*           width="40" */}
+        {/*           height="40" */}
+        {/*         /> */}
+        {/*         <div className="form-outline w-100"> */}
+        {/*           <textarea */}
+        {/*             className="form-control" */}
+        {/*             id="textAreaExample" */}
+        {/*             rows={4} */}
+        {/*             placeholder="comments" */}
+        {/*             style={{ background: "#fff" }} */}
+        {/*             value={comment.text} */}
+        {/*             onChange={(e) => */}
+        {/*               setComment({ ...comment, text: e.target.value }) */}
+        {/*             } */}
+        {/*           ></textarea> */}
+        {/*         </div> */}
+        {/*       </div> */}
+        {/*       <div className="float-end pt-1"> */}
+        {/*         <button */}
+        {/*           type="button" */}
+        {/*           className="btn btn-primary btn-sm" */}
+        {/*           onClick={() => handleCommentSubmit(post?._id)} */}
+        {/*         > */}
+        {/*           Post comment */}
+        {/*         </button> */}
+        {/*       </div> */}
+        {/*     </div> */}
+        {/*     <div className="commentsBody"> */}
+        {/*       {comments?.data?.comments ? ( */}
+        {/*         [...comments.data.comments].reverse().map((comment) => ( */}
+        {/*           <div className="commentItem" key={comment._id}> */}
+        {/*             <div className="d-flex flex-start"> */}
+        {/*               <img */}
+        {/*                 className="rounded-circle shadow-1-strong me-3" */}
+        {/*                 src={comment?.userId?.photo} */}
+        {/*                 width="60" */}
+        {/*                 height="60" */}
+        {/*               /> */}
+        {/**/}
+        {/*               <div> */}
+        {/*                 <h6 className="fw-bold mb-1"> */}
+        {/*                   {comment?.userId?.username || "Unknown User"} */}
+        {/*                 </h6> */}
+        {/*                 <div className="d-flex align-items-center mb-3"> */}
+        {/*                   <p className="mb-0"> */}
+        {/*                     {new Date(comment.createdAt).toLocaleString()} */}
+        {/*                     <span className="badge bg-primary"> */}
+        {/*                       {comment?.userId?.role || "Unknown User"} */}
+        {/*                     </span> */}
+        {/*                   </p> */}
+        {/**/}
+        {/*                   {currentUser?.data?.user?._id === */}
+        {/*                   comment?.userId?._id ? ( */}
+        {/*                     <> */}
+        {/*                       <a href="#!" className="link-muted"> */}
+        {/*                         <i */}
+        {/*                           className="bi bi-trash-fill" */}
+        {/*                           role="button" */}
+        {/*                           onClick={() => */}
+        {/*                             handleDeleteComment(post?._id, comment._id) */}
+        {/*                           } */}
+        {/*                         ></i> */}
+        {/*                       </a> */}
+        {/*                       <a href="#!" className="link-muted"> */}
+        {/*                         <i className="bi bi-pencil-fill"></i> */}
+        {/*                       </a> */}
+        {/*                     </> */}
+        {/*                   ) : null} */}
+        {/*                 </div> */}
+        {/*                 <p className="mb-0">{comment.text}</p> */}
+        {/*               </div> */}
+        {/*             </div> */}
+        {/**/}
+        {/*             <hr className="my-0" /> */}
+        {/*           </div> */}
+        {/*         )) */}
+        {/*       ) : ( */}
+        {/*         <div>Loading Comment</div> */}
+        {/*       )} */}
+        {/*     </div> */}
+        {/*   </div> */}
+        {/* )} */}
       </Card>
-      {/* <Login_Signup
+      <Login_Signup
         show={show}
         handleModal1={() => setShow(false)}
         setShow={setShow}
-      /> */}
+      />
     </div>
   );
 };
