@@ -20,19 +20,18 @@ type PostCardProps = {
 
 const PostCard = ({ children, post }: PostCardProps) => {
   const dispatch = useAppDispatch();
+  const currentUser = useAppSelector((state) => state.auth.currentUser);
   const [check, setCheck] = useState(false);
-  const currentUser = useSelector((state) => state.auth.currentUser);
-  const comments = useSelector((state) => state.comment?.comments);
-  const dispatch = useDispatch();
-  const [check, setCheck] = useState(false);
+  // const comments = useSelector((state) => state.comment?.comments);
 
   const [show, setShow] = useState(false);
 
+  console.log(currentUser);
   const [postComments, setPostComments] = useState();
   const [checkLike, setCheckLike] = useState(false);
   const init_data = {
     text: "",
-    userId: currentUser?.data?.user?._id || "",
+    userId: currentUser?.id || "",
   };
   const [comment, setComment] = useState(init_data);
 
@@ -63,7 +62,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
   }
 
   async function handleLike(postId: string) {
-    const data = { userId: currentUser?.data?.user?._id };
+    const data = { userId: currentUser?.id };
     await dispatch(likeAndunlikePost(data, postId, LIKE));
     await dispatch(fetchComments(postId));
     await dispatch(fetchPosts());
@@ -71,7 +70,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
 
   async function checkLikeUser() {
     const likedIndex = post.likes.findIndex(
-      (like) => like.user.toString() === currentUser?.data?.user?._id,
+      (like) => like.user.toString() === currentUser?.id,
     );
     if (likedIndex === -1) {
       return setCheckLike(false);

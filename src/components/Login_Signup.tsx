@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Button, Modal, Stack } from "react-bootstrap";
 import SignupWithEmail from "./SignupWithEmail";
 import LoginForm from "./LoginForm";
@@ -10,7 +10,7 @@ import emailLogo from "../assets/messLogo.jpg";
 interface Login_SignupProps {
   show: boolean;
   handleModal1: () => void;
-  setShow: (input: boolean) => boolean;
+  setShow: Dispatch<SetStateAction<boolean>>;
 }
 
 const Login_Signup = ({ show, handleModal1, setShow }: Login_SignupProps) => {
