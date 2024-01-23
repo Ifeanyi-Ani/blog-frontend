@@ -11,7 +11,10 @@ const PostList = () => {
   const status = useAppSelector((state) => state.posts.status);
 
   useEffect(() => {
-    dispatch(fetchPosts());
+    if (status === "loading") {
+      console.log("hellow");
+      dispatch(fetchPosts());
+    }
   }, [status, dispatch]);
 
   let content: JSX.Element;

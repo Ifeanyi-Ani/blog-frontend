@@ -79,24 +79,19 @@ const PostCard = ({ children, post }: PostCardProps) => {
     }
     setCheckLike(true);
   }
-  const [loaded, setisLoaded] = useState(true);
+  /* const [loaded, setisLoaded] = useState(true);
   useEffect(() => {
     if (loaded) {
       getAllComments();
       checkLikeUser();
     }
     setisLoaded(false);
-  }, [loaded]);
+  }, [loaded]); */
   return (
     <div>
       <Card>
         {children}
-        <UserHeader
-          userId={post.userId}
-          currentUserId={currentUser}
-          post={post}
-          fetchPosts={fetchPosts}
-        />
+        <UserHeader currentUser={currentUser} post={post} />
         <Card.Body>
           <Card.Title>{post?.title}</Card.Title>
           <Card.Img src={post?.image} alt="content" />
@@ -123,7 +118,6 @@ const PostCard = ({ children, post }: PostCardProps) => {
                     .length + " notes"
                 : "notes"}
             </div>
-          ) : (
             <div
               className="border rounded-5 d-flex justify-content-center align-items-center p-2"
               role="button"

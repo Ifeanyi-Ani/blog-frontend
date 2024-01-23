@@ -43,6 +43,19 @@ export const createPost = createAsyncThunk<
   }
 });
 
+export const deletePost = createAsyncThunk<
+  IPost,
+  void,
+  { rejectValue: string }
+>("posts/deletePost", async (id, thunkApi) => {
+  try {
+    const response = await API.post(`/posts/${id}`);
+    return response.data;
+  } catch (error) {
+    return thunkApi.rejectWithValue("failed to delete post");
+  }
+});
+
 export const postSlice = createSlice({
   name: "post",
   initialState,
@@ -68,5 +81,5 @@ export const postSlice = createSlice({
 
 export const getPosts = (state: RootState) => state.posts.posts;
 export const getPost = (state: RootState, postId: string) =>
-  state.posts.posts.find((post) => post.id === postId);
+  state?.posts?.posts?.find((post) => post.id === postId);
 export default postSlice.reducer;

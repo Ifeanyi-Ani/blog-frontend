@@ -4,19 +4,11 @@ import { deletePost, selectedPost } from "../redux/posts/posts.action";
 import { toggleEditForm } from "../redux/modals/modals.actions";
 import EditForm from "./EditForm";
 
-const UserHeader = ({
-  userId,
-  currentUserId,
-  post,
-  fetchPosts,
-  deletePost,
-  toggleEditForm,
-  editForm,
-  selectedPost,
-}) => {
+const UserHeader = ({ currentUser, post }: { currentUser: any; post: any }) => {
   async function handleDelete(id: string, cb: () => void) {
     if (confirm("Are sure you want to delete this post")) {
       await deletePost(id);
+
       cb();
     }
   }
@@ -28,7 +20,7 @@ const UserHeader = ({
 
   return (
     <>
-      {userId ? (
+      {post?.userId ? (
         <Card.Header
           style={{
             position: "relative",
@@ -37,7 +29,7 @@ const UserHeader = ({
           }}
           className="card_Header"
         >
-          <span role="button"> {userId.username}</span>
+          <span role="button"> {post.userId.username}</span>
           <span className="text-primary ms-1" role="button">
             follow
           </span>
@@ -57,25 +49,25 @@ const UserHeader = ({
               id="dropdown-button-drop-start"
               title="..."
             >
-              {currentUserId?.data?.user?.role === "admin" ||
-              userId.id === currentUserId?.data?.user?._id ? (
+              {currentUser?.role === "admin" ||
+              post.userId.id === currentUser?.id ? (
                 <>
                   <Dropdown.Item
-                    onClick={() => handleDelete(post._id, fetchPosts)}
+                    // onClick={() => handleDelete(post._id, fetchPosts)}
                     role="button"
                   >
                     delete
                   </Dropdown.Item>
                 </>
               ) : null}
-              {userId.id === currentUserId?.data?.user?._id ? (
+              {/* {user.id === currentUser?.id ? (
                 <Dropdown.Item onClick={() => handleEdit(post)}>
                   edit
                 </Dropdown.Item>
-              ) : null}
+              ) : null} */}
             </DropdownButton>
 
-            <EditForm toggleEditForm={toggleEditForm} editForm={editForm} />
+            {/* <EditForm toggleEditForm={toggleEditForm} editForm={editForm} /> */}
           </div>
         </Card.Header>
       ) : null}
@@ -83,7 +75,7 @@ const UserHeader = ({
   );
 };
 
-const mapStateToProps = ({ toggleModal: { editForm } }) => ({
+/* const mapStateToProps = ({ toggleModal: { editForm } }) => ({
   editForm,
 });
 
@@ -93,8 +85,8 @@ const mapDispatchToProps = (dispatch) => {
     selectedPost: (data) => dispatch(selectedPost(data)),
     deletePost: (id) => dispatch(deletePost(id)),
   };
-};
+}; */
 // const mapDispatchToProps = {
 //   deletePost,
 // };
-export default connect(mapStateToProps, mapDispatchToProps)(UserHeader);
+export default UserHeader;
