@@ -11,9 +11,7 @@ const PostList = () => {
   const status = useAppSelector((state) => state.posts.status);
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchPosts());
-    }
+    dispatch(fetchPosts());
   }, [status, dispatch]);
 
   let content: JSX.Element;

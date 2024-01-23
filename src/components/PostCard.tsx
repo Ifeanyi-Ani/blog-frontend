@@ -1,5 +1,6 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
+
 import UserHeader from "./UserHeader";
 import {
   fetchComments,
@@ -12,6 +13,8 @@ import Login_Signup from "./Login_Signup";
 import { useAppSelector, useAppDispatch } from "../app/hook";
 import { fetchPosts } from "../features/posts/postSlice";
 import { IPost } from "../types/type";
+import { ContextData } from "../contexts/contextData";
+import API from "../apis/baseUrl";
 
 type PostCardProps = {
   post: IPost;
@@ -20,13 +23,12 @@ type PostCardProps = {
 
 const PostCard = ({ children, post }: PostCardProps) => {
   const dispatch = useAppDispatch();
-  const currentUser = useAppSelector((state) => state.auth.currentUser);
+  const { currentUser } = useContext(ContextData);
   const [check, setCheck] = useState(false);
   // const comments = useSelector((state) => state.comment?.comments);
 
   const [show, setShow] = useState(false);
 
-  console.log(currentUser);
   const [postComments, setPostComments] = useState();
   const [checkLike, setCheckLike] = useState(false);
   const init_data = {
@@ -49,7 +51,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
   }
 
   async function getAllComments() {
-    const response = await baseUrl.get("/posts/comments");
+    const response = await API.get("/posts/comments");
     const allCommets = await response.data.data.comments;
     setPostComments(allCommets);
   }
