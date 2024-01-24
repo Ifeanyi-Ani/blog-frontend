@@ -9,7 +9,7 @@ const CardItem = function (posts) {
     // If data is available and contains users, shuffle the users and get a random subset
     if (posts && posts?.posts?.data?.posts?.length > 0) {
       const shuffledPosts = posts.posts.data.posts.sort(
-        () => 0.5 - Math.random()
+        () => 0.5 - Math.random(),
       );
       const randomSubset = shuffledPosts.slice(0, 1); // Get a random subset of 2 users
       return randomSubset;
@@ -23,7 +23,7 @@ const CardItem = function (posts) {
   return (
     <Card>
       {randomPost.length > 0
-        ? randomPost.map(post => (
+        ? randomPost.map((post) => (
             <div key={post._id}>
               <Card.Header
                 style={{
@@ -41,11 +41,11 @@ const CardItem = function (posts) {
                     width: "35px",
                     height: "35px",
                   }}
-                  role='button'
+                  role="button"
                 >
                   <img
                     src={post.userId.photo}
-                    alt='avater'
+                    alt="avater"
                     style={{
                       width: "100%",
                       height: "100%",
@@ -53,13 +53,13 @@ const CardItem = function (posts) {
                     }}
                   />
                 </div>
-                <span role='button'>todayontumblr </span>
-                <span className='text-primary' role='button'>
+                <span role="button">todayontumblr </span>
+                <span className="text-primary" role="button">
                   follow
                 </span>
                 <div
-                  role='button'
-                  className='d-flex justify-content-center align-items-center fs-4'
+                  role="button"
+                  className="d-flex justify-content-center align-items-center fs-4"
                   style={{
                     position: "absolute",
                     top: "50%",
@@ -70,10 +70,10 @@ const CardItem = function (posts) {
                   ...
                 </div>
               </Card.Header>
-              <Card.Body className='p-0' key={post._id}>
+              <Card.Body className="p-0" key={post._id}>
                 <Card.Title>{post.title}</Card.Title>
-                <Card.Img src={post.image} alt='content' />
-                <Card.Text className='ps-3 d-flex gap-1 flex-wrap'>
+                <Card.Img src={post.image} alt="content" />
+                <Card.Text className="ps-3 d-flex gap-1 flex-wrap">
                   {JSON.parse(post.category).map((tag, idx) => (
                     <span key={idx}>#{tag.label}</span>
                   ))}

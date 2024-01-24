@@ -1,10 +1,8 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, ChangeEvent, KeyboardEvent } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
 import { connect, ConnectedProps } from "react-redux";
-import Select, { ValueType } from "react-select";
+import Select from "react-select";
 import { createPost } from "../redux/posts/posts.action";
 import { fetchPosts } from "../redux/posts/posts.action";
 
@@ -42,7 +40,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
   };
   const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
-  const [loading, setLoading]=useState(false)
+  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setPost(INIT_STATE);
@@ -59,7 +57,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
         value: inputValue.toLowerCase(),
         label: inputValue,
       };
-      setPost(prevState => ({
+      setPost((prevState) => ({
         ...prevState,
         category: [...prevState.category, newOption],
       }));
@@ -70,7 +68,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
 
   const handleSubmit = async (
     e: React.FormEvent,
-    cb: { (): Promise<void>; (): void }
+    cb: { (): Promise<void>; (): void },
   ) => {
     e.preventDefault();
     const formData = new FormData();
@@ -89,7 +87,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
         setPost(INIT_STATE);
         togglePostForm();
       })
-      .catch(error => {
+      .catch((error) => {
         setLoading(false); // Hide loading spinner on error if needed
         console.error("Error creating post:", error);
       });
@@ -99,24 +97,24 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
       centered
       show={hideCreateForm}
       onHide={togglePostForm}
-      className='modalSecon'
-      backdrop='static'
+      className="modalSecon"
+      backdrop="static"
     >
-      <Modal.Body className='customBody'>
+      <Modal.Body className="customBody">
         <Avater src={currentUser?.data?.user?.photo} />
-        <div className='modalForm'>
-          <div className='title'>
-            <div className='nameCon'>{currentUser?.data?.user?.username}</div>
-            <div className='icons'></div>
+        <div className="modalForm">
+          <div className="title">
+            <div className="nameCon">{currentUser?.data?.user?.username}</div>
+            <div className="icons"></div>
           </div>
           <Form
-            onSubmit={e => handleSubmit(e, fetchPosts)}
-            encType='multipart/form-data'
+            onSubmit={(e) => handleSubmit(e, fetchPosts)}
+            encType="multipart/form-data"
           >
             <Form.Group>
               <Form.Control
-                type='text'
-                placeholder='Title'
+                type="text"
+                placeholder="Title"
                 value={post.title}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setPost({ ...post, title: e.target.value })
@@ -125,12 +123,12 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
             </Form.Group>
             <Form.Group>
               <textarea
-                name=''
-                id=''
+                name=""
+                id=""
                 cols={30}
                 rows={10}
-                className='textareas'
-                placeholder='Go ahead, put anything'
+                className="textareas"
+                placeholder="Go ahead, put anything"
                 value={post.body}
                 onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
                   setPost({ ...post, body: e.target.value })
@@ -139,7 +137,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
             </Form.Group>
             <Form.Group>
               <Form.Control
-                type='file'
+                type="file"
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setPost({ ...post, image: e.target.files[0] })
                 }
@@ -149,7 +147,7 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
               <Select
                 isMulti={true}
                 menuIsOpen={false}
-                placeholder='#add tags to help people find your post'
+                placeholder="#add tags to help people find your post"
                 value={post.category}
                 options={post.category}
                 onChange={(selectedOptions: ValueType<CategoryOption, true>) =>
@@ -164,15 +162,16 @@ const CreatePostForm: React.FC<CreatePostFormProps & ReduxProps> = ({
               />
             </Form.Group>
 
-            <Form.Group className='actionCrt'>
-              <button type='button' onClick={handleClose}>
+            <Form.Group className="actionCrt">
+              <button type="button" onClick={handleClose}>
                 Close
               </button>
-              <Form.Select role='button'>
+              <Form.Select role="button">
                 <option>For Everyone</option>
-              </Form.Select> 
-              <button type='submit'>{loading ? "Posting..." : "Post now"}</button> 
-            
+              </Form.Select>
+              <button type="submit">
+                {loading ? "Posting..." : "Post now"}
+              </button>
             </Form.Group>
           </Form>
         </div>
