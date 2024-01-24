@@ -1,23 +1,24 @@
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
-import { fetchUsers } from "../redux/user/user.action";
-import { connect, ConnectedProps } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-const CardInfo: React.FC<object & ReduxProps> = function ({
-  fetchUsers,
-  data,
-}) {
-  const [isLoading, setLoading] = useState(true);
+import { fetchUsers, getUsers } from "../features/users/userSlice";
+import { useAppDispatch, useAppSelector } from "../app/hook";
+import { IUser } from "../types/type";
+
+const CardInfo = function () {
+  const dispatch = useAppDispatch();
+  const status = useAppSelector((state) => state.users.status);
+  const users = useAppSelector(getUsers);
+
   useEffect(() => {
-    if (isLoading) {
-      fetchUsers();
-      setLoading(false);
+    if (status === "loading") {
+      dispatch(fetchUsers());
     }
-  }, [isLoading, fetchUsers]);
-  const getRandomUsers = (item) => {
+  }, [status, fetchUsers]);
+  const getRandomUsers = (item: IUser[]): IUser[] => {
     // If data is available and contains users, shuffle the users and get a random subset
-    if (item && item?.data?.user?.length > 0) {
-      const shuffledUsers = item.data.user.sort(() => 0.5 - Math.random());
+    if (item && item.length > 0) {
+      const shuffledUsers = [...item].sort(() => 0.5 - Math.random());
       const randomSubset = shuffledUsers.slice(0, 5); // Get a random subset of 2 users
       return randomSubset;
     }
@@ -26,7 +27,7 @@ const CardInfo: React.FC<object & ReduxProps> = function ({
     return [];
   };
 
-  const randomUsers = getRandomUsers(data);
+  const randomUsers = getRandomUsers(users as IUser[]);
   const renderData = (
     avatar: string,
     username: string,
@@ -60,7 +61,7 @@ const CardInfo: React.FC<object & ReduxProps> = function ({
         <ListGroup style={{ padding: "unset !important" }} className="gap-2">
           {randomUsers.length > 0 ? (
             randomUsers.map((user) =>
-              renderData(`${user.photo}`, `${user.username}`, `${user._id}`),
+              renderData(`${user.photo}`, `${user.username}`, `${user.id}`),
             )
           ) : (
             <ListGroupItem className="mySecondaryb border-0 d-flex justify-content-between align-items-center p-0 text-white">
@@ -77,12 +78,4 @@ const CardInfo: React.FC<object & ReduxProps> = function ({
     </Card>
   );
 };
-const mapStateToProps = ({ user: { data } }) => ({
-  data,
-});
-const mapDispatchToProps = {
-  fetchUsers,
-};
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type ReduxProps = ConnectedProps<typeof connector>;
-export default connector(CardInfo);
+export default CardInfo;

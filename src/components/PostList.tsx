@@ -1,21 +1,12 @@
-import { useEffect } from "react";
-import { fetchPosts, getPosts } from "../features/posts/postSlice";
-import { useAppDispatch, useAppSelector } from "../app/hook";
+import { getPosts } from "../features/posts/postSlice";
+import { useAppSelector } from "../app/hook";
 
 import Avater from "./Avater";
 import PostCard from "./PostCard";
 
 const PostList = () => {
-  const dispatch = useAppDispatch();
   const posts = useAppSelector(getPosts);
   const status = useAppSelector((state) => state.posts.status);
-
-  useEffect(() => {
-    if (status === "loading") {
-      console.log("hellow");
-      dispatch(fetchPosts());
-    }
-  }, [status, dispatch]);
 
   let content: JSX.Element;
   if (status === "loading") {

@@ -22,55 +22,55 @@ type PostCardProps = {
 };
 
 const PostCard = ({ children, post }: PostCardProps) => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const { currentUser } = useContext(ContextData);
-  const [check, setCheck] = useState(false);
+  // const [check, setCheck] = useState(false);
   // const comments = useSelector((state) => state.comment?.comments);
 
   const [show, setShow] = useState(false);
 
-  const [postComments, setPostComments] = useState();
-  const [checkLike, setCheckLike] = useState(false);
-  const init_data = {
-    text: "",
-    userId: currentUser?.id || "",
-  };
-  const [comment, setComment] = useState(init_data);
+  // const [postComments, setPostComments] = useState();
+  // const [checkLike, setCheckLike] = useState(false);
+  // const init_data = {
+  //   text: "",
+  //   userId: currentUser?.id || "",
+  // };
+  // const [comment, setComment] = useState(init_data);
 
-  async function handleCommentSubmit(postId: string) {
+  /* async function handleCommentSubmit(postId: string) {
     const updatedComment = { ...comment, postId };
     await dispatch(createComment(postId, updatedComment));
     await dispatch(fetchComments(postId));
     await getAllComments(); // Assuming getAllComments is an asynchronous function
     setComment(init_data);
-  }
+  } */
 
-  async function handleComment(postId: string) {
+  /* async function handleComment(postId: string) {
     await dispatch(fetchComments(postId));
     setCheck(!check);
-  }
+  } */
 
-  async function getAllComments() {
+  /* async function getAllComments() {
     const response = await API.get("/posts/comments");
     const allCommets = await response.data.data.comments;
     setPostComments(allCommets);
-  }
-  async function handleDeleteComment(postId: string, id: string) {
+  } */
+  /* async function handleDeleteComment(postId: string, id: string) {
     if (confirm("Are you sure you want to delete this comment?")) {
       await dispatch(deleteComment(postId, id));
       await dispatch(fetchComments(postId));
       getAllComments();
     }
-  }
+  } */
 
-  async function handleLike(postId: string) {
+  /* async function handleLike(postId: string) {
     const data = { userId: currentUser?.id };
     await dispatch(likeAndunlikePost(data, postId, LIKE));
     await dispatch(fetchComments(postId));
     await dispatch(fetchPosts());
-  }
+  } */
 
-  async function checkLikeUser() {
+  /* async function checkLikeUser() {
     const likedIndex = post.likes.findIndex(
       (like) => like.user.toString() === currentUser?.id,
     );
@@ -78,7 +78,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
       return setCheckLike(false);
     }
     setCheckLike(true);
-  }
+  } */
   /* const [loaded, setisLoaded] = useState(true);
   useEffect(() => {
     if (loaded) {
