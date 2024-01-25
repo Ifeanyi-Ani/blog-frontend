@@ -3,8 +3,8 @@ import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
 import Select from "react-select";
 import { ContextData } from "../contexts/contextData";
-import { useAppSelector, useAppDispatch } from "../app/hook";
-import { fetchPosts, createPost } from "../features/posts/postSlice";
+import { useAppDispatch } from "../app/hook";
+import { createPost } from "../features/posts/postSlice";
 
 type CategoryOption = {
   value: string;
