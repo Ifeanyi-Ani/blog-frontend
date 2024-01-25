@@ -18,6 +18,34 @@ export const fetchComments = createAsyncThunk<
   }
 });
 
+export const createComment = createAsyncThunk<
+  IComment,
+  void,
+  { rejectValue: string }
+>("createComment", async (formData, thunkApi) => {
+  try {
+    const response = await API.post("/posts/comments", formData);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue("failed to create comment");
+  }
+});
+
+export const deleteComment = createAsyncThunk<
+  IComment,
+  void,
+  { rejectValue: string }
+>("deleteComment", async (commentId, thunkApi) => {
+  try {
+    const response = await API.post(`/posts/comments/${commentId}`);
+    const data = response.data;
+    return data;
+  } catch (error) {
+    return thunkApi.rejectWithValue("failed to delete comment");
+  }
+});
+
 interface CommentState {
   comments: IComment[];
   status: "loading" | "success" | "error";
@@ -45,10 +73,20 @@ const commentSlice = createSlice({
       .addCase(fetchComments.rejected, (state, action) => {
         state.status = "error";
         state.error = action.payload || "sommething went wrong";
+      })
+      .addCase(createComment.fulfilled, (state, action) => {
+        state.comments.push(action.payload);
       });
   },
 });
 
 export const getComments = (state: RootState) => state.comments.comments;
+
+export const getPostComment = (state: RootState, postId: string) => {
+  const postComment = state?.comments?.comments?.find(
+    (comment) => comment.postId === postId,
+  );
+  return postComment;
+};
 
 export default commentSlice.reducer;
