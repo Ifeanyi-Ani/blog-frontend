@@ -38,3 +38,11 @@ export interface IUser {
   role: Role;
   dob: Date;
 }
+
+export interface IComment {
+  text: string;
+  postId: string;
+  userId: IUserID;
+  createdAt: Date;
+  updatedAt: Date;
+}
