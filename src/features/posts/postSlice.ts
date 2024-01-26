@@ -33,10 +33,10 @@ export const createPost = createAsyncThunk<
   IPost,
   void,
   { rejectValue: string }
->("posts/createPost", async (formData, thunkApi) => {
+>("posts/createPost", async (formdata, thunkApi) => {
   try {
-    const response = await API.post("/posts", formData);
-    const data = response.data as IPost[];
+    const response = await API.post("/posts", formdata);
+    const data = response.data as IPost;
     return data;
   } catch (error) {
     return thunkApi.rejectWithValue("failed to create post");
@@ -80,6 +80,8 @@ export const postSlice = createSlice({
 });
 
 export const getPosts = (state: RootState) => state.posts.posts;
+
 export const getPost = (state: RootState, postId: string) =>
   state?.posts?.posts?.find((post) => post.id === postId);
+
 export default postSlice.reducer;

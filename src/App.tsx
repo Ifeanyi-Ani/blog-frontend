@@ -38,7 +38,7 @@ const App = () => {
     <>
       <BrowserRouter>
         <Container fluid className="page-wrapper p-0">
-          {/* <Navbar /> */}
+          <Navbar />
           <Routes>
             <Route
               path="/"
