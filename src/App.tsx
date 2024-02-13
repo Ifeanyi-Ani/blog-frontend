@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from "./app/hook";
 import { fetchPosts } from "./features/posts/postSlice.ts";
 
 import PostList from "./components/PostList.tsx";
+import Layout from "./pages/Layout.tsx";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -38,8 +39,7 @@ const App = () => {
   return (
     <>
       <BrowserRouter>
-        <Container fluid className="page-wrapper p-0">
-          <Navbar />
+        <Layout>
           <Routes>
             <Route
               path="/"
@@ -50,7 +50,7 @@ const App = () => {
               }
             />
 
-            <Route path="/post/:id" element={<PostPreview/>}/>
+            <Route path="/post/:id" element={<PostPreview />} />
 
             <Route
               path="/blog/:username"
@@ -95,7 +95,7 @@ const App = () => {
               />
             </Route>
           </Routes>
-        </Container>
+        </Layout>
       </BrowserRouter>
     </>
   );
