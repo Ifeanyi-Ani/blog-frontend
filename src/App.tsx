@@ -12,6 +12,7 @@ import AdminNav from "./pages/admin/AdminNav";
 import Users from "./pages/admin/Users";
 import Posts from "./pages/admin/Posts";
 import Profile from "./pages/Profile";
+import PostPreview from "./pages/Post-Preview";
 import { useAppDispatch, useAppSelector } from "./app/hook";
 import { fetchPosts } from "./features/posts/postSlice.ts";
 
@@ -48,6 +49,8 @@ const App = () => {
                 </Suspense>
               }
             />
+
+            <Route path="/post/:id" element={<PostPreview/>}/>
 
             <Route
               path="/blog/:username"

@@ -15,6 +15,7 @@ import { fetchPosts } from "../features/posts/postSlice";
 import { IPost } from "../types/type";
 import { ContextData } from "../contexts/contextData";
 import API from "../apis/baseUrl";
+import { Link } from "react-router-dom";
 
 type PostCardProps = {
   post: IPost;
@@ -93,16 +94,18 @@ const PostCard = ({ children, post }: PostCardProps) => {
         {children}
         <UserHeader currentUser={currentUser} post={post} />
         <Card.Body>
-          <Card.Title>{post?.title}</Card.Title>
+          <Link to={`/post/${post.id}`}>
+            <Card.Title>{post?.title}</Card.Title>
+          </Link>
           <Card.Img src={post?.image} alt="content" />
           {post?.body}
           <Card.Text className="d-flex gap-1 flex-wrap">
             {post?.category
               ? JSON.parse(post?.category).map(
-                  (item: { value: string; label: string }, idx: number) => (
-                    <span key={idx}>#{item.label}</span>
-                  ),
-                )
+                (item: { value: string; label: string }, idx: number) => (
+                  <span key={idx}>#{item.label}</span>
+                ),
+              )
               : null}
           </Card.Text>
         </Card.Body>
