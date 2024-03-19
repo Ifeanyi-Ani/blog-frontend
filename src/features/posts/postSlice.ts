@@ -9,6 +9,39 @@ const postsSlice = apiSlice.injectEndpoints({
     getPosts: builder.query({
       query: () => "/posts",
     }),
+
+    getPost: builder.query({
+      query: (postId: string) => `/posts/${postId}`,
+    }),
+
+    createPost: builder.mutation({
+      query: (postData: Partial<IPost>) => ({
+        url: "posts",
+        method: "POST",
+        body: postData,
+      }),
+    }),
+
+    updatePost: builder.mutation({
+      query: ({
+        postId,
+        postData,
+      }: {
+        postId: string;
+        postData: Partial<IPost>;
+      }) => ({
+        url: `posts/${postId}`,
+        method: "PATCH",
+        body: postData,
+      }),
+    }),
+
+    deletePost: builder.mutation({
+      query: (postId: string) => ({
+        url: `posts/${postId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 interface PostsState {
@@ -87,7 +120,13 @@ export const postSlice = createSlice({
   },
 });
 
-export const { useGetPostsQuery } = postsSlice;
+export const {
+  useGetPostsQuery,
+  useGetPostQuery,
+  useCreatePostMutation,
+  useUpdatePostMutation,
+  useDeletePostMutation,
+} = postsSlice;
 
 export const getPosts = (state: RootState) => state.posts.posts;
 

@@ -1,15 +1,17 @@
 import { useParams } from "react-router-dom";
 import PostCard from "../components/PostCard";
-import { useAppSelector } from "../app/hook";
+import { useGetPostQuery } from "../features/posts/postSlice";
 
 const PostPreview = () => {
   const { id } = useParams<{ id: string }>();
+  const { data: post, isLoading, error } = useGetPostQuery(id!);
+  let content: JSX.Element;
+  if (isLoading) content = <div>Loading</div>;
+  else if (error)
+    content = <div>{error.data.message || "Something went wrong"}</div>;
+  else if (post) content = <PostCard post={post} />;
 
-  const post = useAppSelector((state) =>
-    state?.posts?.posts?.find((post) => post?.id === id),
-  );
-
-  return post ? <PostCard post={post} /> : null;
+  return content!;
 };
 
 export default PostPreview;

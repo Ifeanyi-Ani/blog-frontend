@@ -5,7 +5,7 @@ import PostCard from "./PostCard";
 
 const PostList = () => {
   // FIX: why is it showing 1-2 argument expected 0 provided in useGetPostsQuery()
-  const { data: posts, isLoading, error } = useGetPostsQuery();
+  const { data: posts, isLoading, error } = useGetPostsQuery(null);
 
   let content: JSX.Element;
   if (isLoading) {
