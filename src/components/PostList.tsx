@@ -1,19 +1,21 @@
-import { getPosts } from "../features/posts/postSlice";
-import { useAppSelector } from "../app/hook";
+import { useGetPostsQuery } from "../features/posts/postSlice";
 
 import Avater from "./Avater";
 import PostCard from "./PostCard";
 
 const PostList = () => {
-  const posts = useAppSelector(getPosts);
-  const status = useAppSelector((state) => state.posts.status);
+  // FIX: why is it showing 1-2 argument expected 0 provided in useGetPostsQuery()
+  const { data: posts, isLoading, error } = useGetPostsQuery();
 
   let content: JSX.Element;
-  if (status === "loading") {
+  if (isLoading) {
     content = <div>Fetching Data</div>;
-  } else if (status === "error") {
-    content = <div>please refresh the page</div>;
-  } else if (status === "success") {
+  } else if (error) {
+    // TODO: find the right type to resolve the error showing in the error.data
+    content = <div>{error?.data?.message}</div>;
+    console.log(error);
+  } else if (posts) {
+    console.log(posts);
     content = (
       <>
         {posts ? (

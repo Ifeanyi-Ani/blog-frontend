@@ -2,7 +2,15 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import API from "../../apis/baseUrl";
 import { IPost } from "../../types/type";
 import { RootState } from "../../app/store";
+import { apiSlice } from "../api/apiSlice";
 
+const postsSlice = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    getPosts: builder.query({
+      query: () => "/posts",
+    }),
+  }),
+});
 interface PostsState {
   posts?: IPost[];
   status: "idle" | "loading" | "success" | "error";
@@ -78,6 +86,8 @@ export const postSlice = createSlice({
       });
   },
 });
+
+export const { useGetPostsQuery } = postsSlice;
 
 export const getPosts = (state: RootState) => state.posts.posts;
 
