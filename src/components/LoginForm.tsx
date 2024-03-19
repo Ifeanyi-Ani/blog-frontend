@@ -1,35 +1,46 @@
-import React from "react";
+import React, { MouseEventHandler } from "react";
 import { Form, Modal } from "react-bootstrap";
 import { useState } from "react";
-import { connect } from "react-redux";
-import { auth } from "../redux/user/user.action";
-import { SIGN_IN } from "../redux/user/user.type";
+import { useAppDispatch } from "../app/hook";
+import { login } from "../features/users/userSlice";
 
+interface LoginFormProps {
+  showLogin: boolean;
+  handleModal2: () => void;
+  handlePrevModal: MouseEventHandler<HTMLButtonElement>;
+}
 const INIT_STATE = {
   email: "",
   password: "",
 };
 const LoginForm = ({
- 
   showLogin,
   handleModal2,
   handlePrevModal,
-  auth,
-}) => {
+}: LoginFormProps) => {
+  const dispatch = useAppDispatch();
+
   const [formData, setFormData] = useState(INIT_STATE);
-  function handleSubmit(e) {
-    e.preventDefault();
-    // const data = new FormData();
-    // data.append("email", formData.email);
-    // data.append("password", formData.password);
-    
-    auth(formData, SIGN_IN);
-    setFormData(INIT_STATE);
-    handleModal2();
+
+  async function handleSubmit(e: React.FormEvent) {
+    try {
+      e.preventDefault();
+      // const data = new FormData();
+      // data.append("email", formData.email);
+      // data.append("password", formData.password);
+
+      await dispatch(login(formData)).unwrap();
+
+      setFormData(INIT_STATE);
+
+      handleModal2();
+    } catch (error) {
+      console.log(error);
+    }
   }
   return (
     <Modal centered show={showLogin} onHide={handleModal2}>
-      <Modal.Header className='d-flex justify-content-center border-0 modalPrimary'>
+      <Modal.Header className="d-flex justify-content-center border-0 modalPrimary">
         <button
           style={{
             position: "absolute",
@@ -47,43 +58,40 @@ const LoginForm = ({
         <Modal.Title>tumblr</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body className='modalPrimary'>
+      <Modal.Body className="modalPrimary">
         <Form
-          className='centerForm'
+          className="centerForm"
           onSubmit={handleSubmit}
-          encType='multipart/form-data'
+          encType="multipart/form-data"
         >
           <Form.Group>
             <Form.Control
-              type='email'
-              placeholder='Email'
+              type="email"
+              placeholder="Email"
               required
               value={formData.email}
-              onChange={e =>
+              onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
             />
           </Form.Group>
           <Form.Group>
             <Form.Control
-              type='password'
-              placeholder='Enter password'
+              type="password"
+              placeholder="Enter password"
               required
               value={formData.password}
-              onChange={e =>
+              onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
               }
             />
           </Form.Group>
           <Form.Group>
-            <Form.Control type='submit' value='Submit' />
+            <Form.Control type="submit" value="Submit" />
           </Form.Group>
         </Form>
       </Modal.Body>
     </Modal>
   );
 };
-const mapDispatchToProps = {
-  auth,
-};
-export default connect(null, mapDispatchToProps)(LoginForm);
+export default LoginForm;

@@ -31,16 +31,16 @@ export const createPost = (data: any) => async (dispatch: Dispatch) => {
       type: CREATE_POST,
       payload: response.data,
     });
-  } catch (err) {
+  } catch (err: any) {
     alert(err.response.data.msg);
   }
 };
 
-export const fetchPost = (id: any) => async (dispatch: Dispatch) => {
+export const fetchPost = (id: string) => async (dispatch: Dispatch) => {
   try {
     const response = await baseUrl.get(`/posts/${id}`);
     dispatch({ type: FETCH_POST, payload: response.data });
-  } catch (err) {
+  } catch (err: any) {
     alert(err.response.data.msg);
   }
 };
@@ -62,7 +62,7 @@ export const deletePost = (id: any) => async (dispatch: Dispatch) => {
     alert(err.response.data.msg);
   }
 };
-export const selectedPost = data => ({
+export const selectedPost = (data) => ({
   type: "SELECTED_POST",
   payload: data,
 });
