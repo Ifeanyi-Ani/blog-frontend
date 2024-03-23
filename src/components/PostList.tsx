@@ -4,16 +4,21 @@ import Avater from "./Avater";
 import PostCard from "./PostCard";
 
 const PostList = () => {
-  // FIX: why is it showing 1-2 argument expected 0 provided in useGetPostsQuery()
   const { data: posts, isLoading, error } = useGetPostsQuery(null);
 
   let content: JSX.Element;
   if (isLoading) {
     content = <div>Fetching Data</div>;
   } else if (error) {
-    // TODO: find the right type to resolve the error showing in the error.data
-    content = <div>{error?.data?.message}</div>;
-    console.log(error);
+    if ("status" in error) {
+      content = (
+        <div>{"error" in error ? error.error : JSON.stringify(error.data)}</div>
+      );
+    } else {
+      // TODO: find the right type to resolve the error showing in the error.data
+      content = <div>{error?.message}</div>;
+      console.log(error);
+    }
   } else if (posts) {
     console.log(posts);
     content = (
