@@ -105,14 +105,31 @@ const PostCard = ({ children, post }: PostCardProps) => {
         {children}
         <UserHeader currentUser={currentUser} post={post} />
         <Card.Body>
-          <Link to={`/post/${post.id}`}>
+          <Link
+            to={`/post/${post.id}`}
+            className="text-decoration-none fs-3 text-dark text-decoration-hover"
+          >
             <Card.Title>{post?.title}</Card.Title>
           </Link>
-          <Card.Img src={post?.image} alt="content" />
-          {post?.body}
+          {post?.image ? (
+            <Card.Img
+              src={post?.image}
+              alt="content"
+              className="img-fluid"
+              style={{
+                width: "500px",
+                height: "400px",
+                objectFit: "cover",
+              }}
+            />
+          ) : null}
+
+          <div className="" style={{ width: "50%" }}>
+            {post?.body}
+          </div>
           <Card.Text className="d-flex gap-1 flex-wrap">
             {post?.category
-              ? JSON.parse(post?.category).map(
+              ? post?.category.map(
                   (item: { value: string; label: string }, idx: number) => (
                     <span key={idx}>#{item.label}</span>
                   ),

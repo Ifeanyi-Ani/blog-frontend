@@ -7,7 +7,8 @@ const getToken = (): string | null => {
 export const apiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://tumblr-bkend.onrender.com",
+    // baseUrl: "https://tumblr-bkend.onrender.com",
+    baseUrl: "http://127.0.0.1:4000/",
     prepareHeaders: (headers) => {
       const Token = getToken();
       if (Token) {
