@@ -1,8 +1,8 @@
-import React, { MouseEventHandler } from "react";
+import React, { MouseEventHandler, useEffect } from "react";
 import { Form, Modal } from "react-bootstrap";
 import { useState } from "react";
-import { useAppDispatch } from "../app/hook";
-import { login } from "../features/users/userSlice";
+import { useLoginMutation } from "../features/users/userSlice";
+import { toast } from "react-hot-toast";
 
 interface LoginFormProps {
   showLogin: boolean;
@@ -18,7 +18,8 @@ const LoginForm = ({
   handleModal2,
   handlePrevModal,
 }: LoginFormProps) => {
-  const dispatch = useAppDispatch();
+  const [login, { isSuccess, isLoading, isError, error, data }] =
+    useLoginMutation();
 
   const [formData, setFormData] = useState(INIT_STATE);
 
@@ -29,15 +30,30 @@ const LoginForm = ({
       // data.append("email", formData.email);
       // data.append("password", formData.password);
 
-      await dispatch(login(formData)).unwrap();
-
-      setFormData(INIT_STATE);
+      await login(formData).unwrap();
 
       handleModal2();
     } catch (error) {
       console.log(error);
     }
   }
+  useEffect(() => {
+    if (isSuccess) {
+      const message = data?.message || "user logged in successfully";
+      toast.success(message);
+      setFormData(INIT_STATE);
+    }
+    if (isError) {
+      if ("data" in error!) {
+        const errorData = error as any;
+        const message =
+          errorData?.data.msg ||
+          errorData?.data?.message ||
+          "something went wrong";
+        toast.error(message);
+      }
+    }
+  }, [isSuccess, isError]);
   return (
     <Modal centered show={showLogin} onHide={handleModal2}>
       <Modal.Header className="d-flex justify-content-center border-0 modalPrimary">
@@ -87,7 +103,7 @@ const LoginForm = ({
             />
           </Form.Group>
           <Form.Group>
-            <Form.Control type="submit" value="Submit" />
+            <Form.Control type="submit" value="Submit" disabled={isLoading} />
           </Form.Group>
         </Form>
       </Modal.Body>

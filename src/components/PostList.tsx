@@ -2,13 +2,18 @@ import { useGetPostsQuery } from "../features/posts/postSlice";
 
 import Avater from "./Avater";
 import PostCard from "./PostCard";
+import { SpinnerCircle } from "./SpinnerCircle";
 
 const PostList = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery(null);
 
   let content: JSX.Element;
   if (isLoading) {
-    content = <div>Fetching Data</div>;
+    content = (
+      <div>
+        <SpinnerCircle />
+      </div>
+    );
   } else if (error) {
     if ("status" in error) {
       content = (

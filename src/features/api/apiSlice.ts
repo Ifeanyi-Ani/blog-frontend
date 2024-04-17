@@ -1,23 +1,23 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const getToken = (): string | null => {
-  return localStorage.getItem("currentUser");
-};
+const baseQuery = fetchBaseQuery({
+  // baseUrl: "https://tumblr-bkend.onrender.com",
+  baseUrl: "http://127.0.0.1:4000/",
+  credentials: "include" as const,
+  prepareHeaders: (headers, { getState }: { getState: any }) => {
+    const Token = getState().auth.token;
+    if (Token) {
+      headers.set("Authorization", `Bearer ${Token}`);
+    }
+    headers.set("Content-Type", "application/json");
+
+    return headers;
+  },
+});
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({
-    // baseUrl: "https://tumblr-bkend.onrender.com",
-    baseUrl: "http://127.0.0.1:4000/",
-    prepareHeaders: (headers) => {
-      const Token = getToken();
-      if (Token) {
-        headers.set("Authorization", `Bearer ${JSON.parse(Token).token}`);
-      }
-      headers.set("Content-Type", "application/json");
-
-      return headers;
-    },
-  }),
-  endpoints: (builder) => ({}),
+  baseQuery,
+  tagTypes: ["users", "posts", "comments", "likes"],
+  endpoints: () => ({}),
 });

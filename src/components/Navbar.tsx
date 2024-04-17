@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import {
@@ -14,11 +14,15 @@ import Avater from "./Avater";
 import Login_Signup from "./Login_Signup";
 import { ContextData } from "../contexts/contextData";
 import CreatePostForm from "./CreatePostForm";
+import { useAppSelector } from "../app/hook";
+import { useLogOutMutation } from "../features/users/userSlice";
+import { toast } from "react-hot-toast";
 
 const Navbar = function () {
   const navigate = useNavigate();
-  const { currentUser, toggleCreateModal, setToggleCreateModal } =
-    useContext(ContextData);
+  const { toggleCreateModal, setToggleCreateModal } = useContext(ContextData);
+  const { currentUser } = useAppSelector((state) => state.auth);
+  const [logOut, { isSuccess, isError }] = useLogOutMutation();
 
   const [searchInput, setSearchInput] = useState<string>("");
   const [show, setShow] = useState<boolean>(false);
@@ -27,10 +31,18 @@ const Navbar = function () {
     setShow(val);
   }
 
+  function getCurrentUser() {}
+
   async function handleLogOut(e: React.FormEvent) {
     e.stopPropagation();
-    // logOut();
-    navigate("/");
+    await logOut(null).unwrap();
+
+    if (isError) {
+      toast.error("something went wrong");
+    } else if (isSuccess) {
+      toast.success("user logout successfully");
+      navigate("/");
+    }
   }
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
@@ -88,7 +100,7 @@ const Navbar = function () {
                       </Nav.Link>
                     </>
                   ) : null}
-                  {currentUser.user ? (
+                  {currentUser && (
                     <>
                       <NavDropdown
                         title={<i className="bi bi-person-fill"></i>}
@@ -110,15 +122,11 @@ const Navbar = function () {
                           <div className="offSetImg">
                             <Avater src={currentUser?.photo} />
                           </div>
-                          <ProfileAction
-                            username={currentUser.username}
-                            email={currentUser.email}
-                            id={currentUser.id}
-                          />
+                          <ProfileAction currentUser={currentUser} />
                         </div>
                       </NavDropdown>
                     </>
-                  ) : null}
+                  )}
                   <Nav.Link
                     role="button"
                     className="btnConfig bg-info px-3 rounded-1"

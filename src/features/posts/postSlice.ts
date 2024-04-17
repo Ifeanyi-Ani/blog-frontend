@@ -8,6 +8,11 @@ const postsSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
       query: () => "/posts",
+      keepUnusedDataFor: 5,
+      providesTags: (result, _error, _arg) =>
+        result
+          ? [...result.map(({ id }: { id: string }) => ({ type: 'posts' as const, id })), 'posts']
+          : ['posts'],
     }),
 
     getPost: builder.query({
@@ -19,6 +24,7 @@ const postsSlice = apiSlice.injectEndpoints({
         url: "posts",
         method: "POST",
         body: postData,
+        invalidatesTags: (_result, _error, arg) => [{ type: 'posts', id: arg.id }],
       }),
     }),
 
@@ -33,6 +39,7 @@ const postsSlice = apiSlice.injectEndpoints({
         url: `posts/${postId}`,
         method: "PATCH",
         body: postData,
+        invalidatesTags: (_result, _error, arg) => [{ type: 'posts', id: arg.id }],
       }),
     }),
 
@@ -40,6 +47,7 @@ const postsSlice = apiSlice.injectEndpoints({
       query: (postId: string) => ({
         url: `posts/${postId}`,
         method: "DELETE",
+        invalidatesTags: (_result, _error, arg) => [{ type: 'posts', id: arg.id }],
       }),
     }),
   }),

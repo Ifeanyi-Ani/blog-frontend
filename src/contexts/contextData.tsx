@@ -13,7 +13,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
 
       setCurrentUser(user.currentUser);
     }
-  }, [profile]);
+  }, [profile, currentUser]);
+
   const dataValue = {
     currentUser,
     toggleCreateModal,
