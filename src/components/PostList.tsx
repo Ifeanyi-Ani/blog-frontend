@@ -22,10 +22,9 @@ const PostList = () => {
     } else {
       // TODO: find the right type to resolve the error showing in the error.data
       content = <div>{error?.message}</div>;
-      console.log(error);
+      console.error(error);
     }
   } else if (posts) {
-    console.log(posts);
     content = (
       <>
         {posts ? (

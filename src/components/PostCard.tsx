@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { ReactNode, useContext, useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 
-import { useAppDispatch } from "../app/hook";
+import { useAppDispatch, useAppSelector } from "../app/hook";
 import UserHeader from "./UserHeader";
 import { IPost } from "../types/type";
 import { ContextData } from "../contexts/contextData";
@@ -12,7 +12,6 @@ import liked from "../assets/heart-filled.svg";
 import repost from "../assets/repost.svg";
 import reply from "../assets/reply.svg";
 import share from "../assets/share.svg";
-import API from "../apis/baseUrl";
 
 type PostCardProps = {
   post: IPost;
@@ -20,7 +19,7 @@ type PostCardProps = {
 };
 
 const PostCard = ({ children, post }: PostCardProps) => {
-  const { currentUser } = useContext(ContextData);
+  const { currentUser } = useAppSelector((state) => state.auth);
   const [show, setShow] = useState(false);
   const [checkLike, setCheckLike] = useState(false);
   const dispatch = useAppDispatch();
@@ -41,7 +40,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
         return null;
       }
       const data = { userId: currentUser?.id };
-      const response = await API.post(`/${postId}/like`, data);
+      // const response = await API.post(`/${postId}/like`, data);
       return alert(await response.data);
 
       // await dispatch(likeAndunlikePost(data, postId, LIKE));

@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import {
@@ -30,8 +30,6 @@ const Navbar = function () {
   function handleModal1(val: boolean) {
     setShow(val);
   }
-
-  function getCurrentUser() {}
 
   async function handleLogOut(e: React.FormEvent) {
     e.stopPropagation();
