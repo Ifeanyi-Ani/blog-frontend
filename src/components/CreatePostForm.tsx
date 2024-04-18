@@ -3,8 +3,8 @@ import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
 import Select from "react-select";
 import { ContextData } from "../contexts/contextData";
-import { useAppDispatch } from "../app/hook";
-import { createPost } from "../features/posts/postSlice";
+import { useAppDispatch, useAppSelector } from "../app/hook";
+import { useCreatePostMutation } from "../features/posts/postSlice";
 
 type CategoryOption = {
   value: string;
@@ -20,9 +20,9 @@ type InitProps = {
 };
 
 const CreatePostForm = () => {
-  const dispatch = useAppDispatch();
-  const { currentUser, toggleCreateModal, setToggleCreateModal } =
-    useContext(ContextData);
+  const [createPost, { isLoading, isSuccess }] = useCreatePostMutation();
+  const { toggleCreateModal, setToggleCreateModal } = useContext(ContextData);
+  const { currentUser } = useAppSelector((state) => state.auth);
   const INIT_STATE: InitProps = {
     title: "",
     body: "",
@@ -32,7 +32,6 @@ const CreatePostForm = () => {
   };
   const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
-  const [loading, setLoading] = useState(false);
 
   const handleClose = () => {
     setPost(INIT_STATE);
@@ -60,7 +59,6 @@ const CreatePostForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     const formData = new FormData();
     formData.append("title", post.title);
     formData.append("body", post.body);
@@ -68,9 +66,8 @@ const CreatePostForm = () => {
     formData.append("category", JSON.stringify(post.category));
     formData.append("userId", post.userId);
 
-    await dispatch(createPost(formData));
+    await createPost(formData);
     setPost(INIT_STATE);
-    setLoading(false);
     setToggleCreateModal(false);
   };
   return (
@@ -147,8 +144,8 @@ const CreatePostForm = () => {
               <Form.Select role="button">
                 <option>For Everyone</option>
               </Form.Select>
-              <button type="submit" disabled={loading}>
-                {loading ? "Posting..." : "Post now"}
+              <button type="submit" disabled={isLoading}>
+                {isLoading ? "Posting..." : "Post now"}
               </button>
             </Form.Group>
           </Form>

@@ -1,12 +1,11 @@
-import { Card, Stack } from "react-bootstrap";
-import avater from "../assets/avater.jpg";
+import { Card } from "react-bootstrap";
+import { useGetPostsQuery } from "../features/posts/postSlice";
+import { IPost } from "../types/type";
 
-import { connect } from "react-redux";
-// import { useEffect } from "react";
+const CardItem = function () {
+  const { data: posts } = useGetPostsQuery(null);
 
-const CardItem = function (posts) {
   const getRandomPosts = () => {
-    // If data is available and contains users, shuffle the users and get a random subset
     if (posts && posts?.posts?.data?.posts?.length > 0) {
       const shuffledPosts = posts.posts.data.posts.sort(
         () => 0.5 - Math.random(),
@@ -15,7 +14,6 @@ const CardItem = function (posts) {
       return randomSubset;
     }
 
-    // If data is not available or doesn't contain users, return an empty array
     return [];
   };
 
@@ -23,7 +21,7 @@ const CardItem = function (posts) {
   return (
     <Card>
       {randomPost.length > 0
-        ? randomPost.map((post) => (
+        ? randomPost.map((post: IPost) => (
             <div key={post._id}>
               <Card.Header
                 style={{
@@ -53,7 +51,7 @@ const CardItem = function (posts) {
                     }}
                   />
                 </div>
-                <span role="button">todayontumblr </span>
+                <span role="button">today on tumblr </span>
                 <span className="text-primary" role="button">
                   follow
                 </span>
@@ -74,7 +72,7 @@ const CardItem = function (posts) {
                 <Card.Title>{post.title}</Card.Title>
                 <Card.Img src={post.image} alt="content" />
                 <Card.Text className="ps-3 d-flex gap-1 flex-wrap">
-                  {JSON.parse(post.category).map((tag, idx) => (
+                  {post.category.map((tag, idx) => (
                     <span key={idx}>#{tag.label}</span>
                   ))}
                 </Card.Text>
@@ -85,8 +83,4 @@ const CardItem = function (posts) {
     </Card>
   );
 };
-const mapStateToProps = ({ posts: { posts } }) => ({ posts });
-// const mapDispatchToProps = {
-//   fetchPosts,
-// };
-export default connect(mapStateToProps)(CardItem);
+export default CardItem;

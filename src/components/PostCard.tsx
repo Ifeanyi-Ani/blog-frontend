@@ -1,11 +1,10 @@
 import { Link } from "react-router-dom";
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { ReactNode, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 
-import { useAppDispatch, useAppSelector } from "../app/hook";
+import { useAppSelector } from "../app/hook";
 import UserHeader from "./UserHeader";
 import { IPost } from "../types/type";
-import { ContextData } from "../contexts/contextData";
 
 import like from "../assets/heart-gray.svg";
 import liked from "../assets/heart-filled.svg";
@@ -20,9 +19,9 @@ type PostCardProps = {
 
 const PostCard = ({ children, post }: PostCardProps) => {
   const { currentUser } = useAppSelector((state) => state.auth);
-  const [show, setShow] = useState(false);
+  // const [show, setShow] = useState(false);
   const [checkLike, setCheckLike] = useState(false);
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   function checkLikeUser() {
     const likedIndex = post.likes.findIndex(
@@ -49,10 +48,10 @@ const PostCard = ({ children, post }: PostCardProps) => {
     }
   }
 
-  useEffect(() => {
-    // getAllComments();
-    checkLikeUser();
-  }, []);
+  // useEffect(() => {
+  //   // getAllComments();
+  //   checkLikeUser();
+  // }, []);
   // const dispatch = useAppDispatch();
   // const [check, setCheck] = useState(false);
   // const comments = useSelector((state) => state.comment?.comments);

@@ -7,8 +7,7 @@ import { UserFormPassword } from "./UserFormPassword";
 import { UserFormBithYear } from "./UserFormBithYear";
 import { useState } from "react";
 import { UserFormUsername } from "./UserFormUsername";
-import { auth } from "../redux/user/user.action";
-import { SIGN_UP } from "../redux/user/user.type";
+import { useSignUpMutation } from "../features/users/userSlice";
 
 type FormData = {
   email: string;
@@ -31,20 +30,16 @@ type SignupWithEmailProp = {
   handleModal2: any;
   handlePrevModal: any;
   closeModal: any;
-} & ConnectedProps<typeof connector>;
+};
 
-const SignupWithEmail = ({
-  isOpen,
-  handleModal2,
-  handlePrevModal,
-  closeModal,
-  // isLoggedin,
-  auth,
-}: SignupWithEmailProp) => {
+const SignupWithEmail: React.FC<SignupWithEmailProp> = (props) => {
+  const { isOpen, handleModal2, handlePrevModal, closeModal } = props;
+
+  const [signUp, { isLoading, isSuccess }] = useSignUpMutation();
   const [data, setData] = useState(INITIAL_DATA);
 
   function updateFields(fields: Partial<FormData>) {
-    setData(prev => {
+    setData((prev) => {
       return { ...prev, ...fields };
     });
   }
@@ -60,7 +55,7 @@ const SignupWithEmail = ({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!isLastStep) return next();
-    await auth(data, SIGN_UP);
+    await signUp(data);
     // isLoggedin();
     closeModal();
   }
@@ -74,7 +69,7 @@ const SignupWithEmail = ({
         handleModal2();
       }}
     >
-      <Modal.Header className='d-flex justify-content-center border-0 modalPrimary'>
+      <Modal.Header className="d-flex justify-content-center border-0 modalPrimary">
         {isFirstStep ? (
           <button
             style={{
@@ -109,15 +104,15 @@ const SignupWithEmail = ({
         <Modal.Title>tumblr</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body className='modalPrimary'>
+      <Modal.Body className="modalPrimary">
         <Form
-          className='centerForm'
+          className="centerForm"
           onSubmit={handleSubmit}
-          enctype='multipart/form-data'
+          encType="multipart/form-data"
         >
           {step}
           <Form.Group>
-            <Form.Control type='submit' value='Next ⇛' />
+            <Form.Control type="submit" value="Next ⇛" />
           </Form.Group>
         </Form>
       </Modal.Body>
@@ -125,9 +120,4 @@ const SignupWithEmail = ({
   );
 };
 
-const mapDispatchToProps = {
-  // isLoggedin,
-  auth,
-};
-
-export default connect(null, mapDispatchToProps)(SignupWithEmail);
+export default SignupWithEmail;

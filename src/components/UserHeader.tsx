@@ -1,21 +1,16 @@
 import { Card, Dropdown, DropdownButton } from "react-bootstrap";
-import { connect } from "react-redux";
-import { deletePost, selectedPost } from "../redux/posts/posts.action";
-import { toggleEditForm } from "../redux/modals/modals.actions";
-import EditForm from "./EditForm";
 
 const UserHeader = ({ currentUser, post }: { currentUser: any; post: any }) => {
   async function handleDelete(id: string, cb: () => void) {
     if (confirm("Are sure you want to delete this post")) {
-      await deletePost(id);
-
-      cb();
+      // await deletePost(id);
+      // cb();
     }
   }
 
   function handleEdit(post) {
-    selectedPost(post);
-    toggleEditForm();
+    // selectedPost(post);
+    // toggleEditForm();
   }
 
   return (

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import { SideBar } from "../components/SideBar";
-import { connect } from "react-redux";
 
 import advert from "../assets/advert.png";
 import ProfileAction from "../components/ProfileAction";
-import { editUser } from "../redux/user/user.action";
 import { useParams } from "react-router-dom";
+import { useAppSelector } from "../app/hook";
+import { IUser } from "../types/type";
+import { useUpdateUserMutation } from "../features/users/userSlice";
+import { toast } from "react-hot-toast";
 
 type EditUserInput = {
   username: string;
@@ -15,7 +17,9 @@ type EditUserInput = {
   photo?: any;
 };
 
-const Profile = ({ currentUser, editUser }) => {
+const Profile = () => {
+  const { currentUser } = useAppSelector((state) => state.auth);
+  const [updateUser, { isLoading, isSuccess }] = useUpdateUserMutation();
   const { id } = useParams();
   const INIT_STATE: EditUserInput = {
     username: "",
@@ -30,18 +34,18 @@ const Profile = ({ currentUser, editUser }) => {
   useEffect(() => {
     if (currentUser) {
       setUser({
-        username: currentUser?.data?.user?.username,
-        email: currentUser?.data?.user?.email,
-        dob: currentUser?.data?.user?.dob,
+        username: currentUser?.username,
+        email: currentUser?.email,
+        dob: currentUser?.dob.toString(),
       });
       setLoading(false); // Data fetched, set loading to false
     }
   }, [currentUser]);
 
-  async function handleSubmit(e) {
-    const id = currentUser?.data?.user?._id;
-
+  async function handleSubmit(e: any) {
     e.preventDefault();
+    const id = currentUser?.id as string;
+
     const formData = new FormData();
     formData.append("username", user.username);
     // formData.append("password", user.password);
@@ -52,9 +56,11 @@ const Profile = ({ currentUser, editUser }) => {
       formData.append("photo", user.photo, user.photo.name);
     }
 
-    await editUser(formData, id);
+    await updateUser({ formData, id });
     setUser(INIT_STATE);
-    alert("user successfully updated");
+    if (isSuccess) {
+      toast.success("user successfully updated");
+    }
   }
   if (!id) {
     return <div>Loading...</div>;
@@ -65,35 +71,35 @@ const Profile = ({ currentUser, editUser }) => {
 
   return (
     <>
-      <div className='profileP'>
+      <div className="profileP">
         <Form
-          className='centerForm'
+          className="centerForm"
           onSubmit={handleSubmit}
-          encType='multipart/form-data'
+          encType="multipart/form-data"
         >
           <Form.Group>
             <Form.Control
-              type='email'
-              placeholder='Email'
+              type="email"
+              placeholder="Email"
               value={user.email}
               disabled
-              onChange={e => setUser({ ...user, email: e.target.value })}
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
           </Form.Group>
           <Form.Group>
             <Form.Control
-              type='text'
-              placeholder='Username'
+              type="text"
+              placeholder="Username"
               value={user.username}
-              onChange={e => setUser({ ...user, username: e.target.value })}
+              onChange={(e) => setUser({ ...user, username: e.target.value })}
             />
           </Form.Group>
           <Form.Group>
             <Form.Control
-              type='date'
-              placeholder='Date of Birth'
+              type="date"
+              placeholder="Date of Birth"
               value={user.dob}
-              onChange={e => setUser({ ...user, dob: e.target.value })}
+              onChange={(e) => setUser({ ...user, dob: e.target.value })}
             />
           </Form.Group>
 
@@ -117,32 +123,23 @@ const Profile = ({ currentUser, editUser }) => {
           </Form.Group> */}
           <Form.Group>
             <Form.Control
-              type='file'
-              onChange={e => setUser({ ...user, photo: e.target.files[0] })}
+              type="file"
+              onChange={(e: any) =>
+                setUser({ ...user, photo: e.target.files[0] })
+              }
             />
           </Form.Group>
           <Form.Group>
-            <Form.Control type='submit' value='Submit' />
+            <Form.Control type="submit" value="Submit" />
           </Form.Group>
         </Form>
 
-        <SideBar cardHeader='Radar' title='' header='Sponsored' Src={advert}>
-          <ProfileAction
-            username={currentUser?.data?.user?.username}
-            email={currentUser?.data?.user?.email}
-            id={currentUser?.data.user._id}
-          />
+        <SideBar cardHeader="Radar" title="" header="Sponsored" Src={advert}>
+          <ProfileAction currentUser={currentUser as IUser} />
         </SideBar>
       </div>
     </>
   );
 };
-const mapStateToProps = state => ({
-  currentUser: state.auth.currentUser,
-  // posts,
-});
-const mapDispatchToProps = {
-  editUser,
-};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default Profile;

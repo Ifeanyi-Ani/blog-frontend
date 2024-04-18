@@ -23,7 +23,7 @@ const postsSlice = apiSlice.injectEndpoints({
     }),
 
     createPost: builder.mutation({
-      query: (postData: Partial<IPost>) => ({
+      query: (postData: Partial<IPost | any>) => ({
         url: "posts",
         method: "POST",
         body: postData,

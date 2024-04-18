@@ -3,10 +3,13 @@
 import React, { useState, ChangeEvent, KeyboardEvent, useEffect } from "react";
 import { Form, Modal } from "react-bootstrap";
 import Avater from "./Avater";
-import { connect, ConnectedProps } from "react-redux";
 import Select, { ValueType } from "react-select";
-import { editPost } from "../redux/posts/posts.action";
-import { fetchPosts } from "../redux/posts/posts.action";
+import { useAppSelector } from "../app/hook";
+import {
+  useGetPostsQuery,
+  useUpdatePostMutation,
+} from "../features/posts/postSlice";
+import { IPost } from "../types/type";
 
 type CategoryOption = {
   value: string;
@@ -27,20 +30,24 @@ type InitProps = {
   userId: string;
 };
 
-const EditForm: React.FC<EditFormProps & ReduxProps> = ({
+const EditForm: React.FC<EditFormProps> = ({
   editForm,
   toggleEditForm,
-  editPost,
-  currentUser,
-  fetchPosts,
   data,
 }) => {
+  const { currentUser } = useAppSelector((state) => state.auth);
+  const {
+    data: fetchPosts,
+    isLoading: postsisLoading,
+    isSuccess: postsisSuccess,
+  } = useGetPostsQuery(null);
+  const [editPost, { isLoading, isSuccess }] = useUpdatePostMutation();
   const INIT_STATE: InitProps = {
     title: "",
     body: "",
     image: null,
     category: [],
-    userId: currentUser?.data?.user?._id || "",
+    userId: currentUser?.id || "",
   };
   const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
@@ -51,11 +58,11 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
       setPost({
         title: data.title || "",
         body: data.body || "",
-        category: data.category ? JSON.parse(data.category) : [],
-        userId: currentUser?.data?.user?._id || "",
+        category: data.category,
+        userId: currentUser?.id || "",
       });
     }
-  }, [currentUser?.data?.user?._id, data]);
+  }, [currentUser?.id, data]);
   const handleClose = () => {
     toggleEditForm();
   };
@@ -88,12 +95,12 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
     const formData = new FormData();
     formData.append("title", post.title);
     formData.append("body", post.body);
-    formData.append("category", JSON.stringify(post.category));
+    formData.append("category", post.category);
     formData.append("userId", post.userId);
     if (post.image) {
       formData.append("image", post.image, post.image.name);
     }
-    await editPost(data._id, formData)
+    await editPost({ postId: data.id, postData: formData as any })
       .then(() => {
         setLoading(false); // Step 3: Hide loading spinner on success
         cb();
@@ -114,10 +121,10 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
       backdrop="static"
     >
       <Modal.Body className="customBody">
-        <Avater src={currentUser?.data?.user?.photo} />
+        <Avater src={currentUser?.photo || ""} />
         <div className="modalForm">
           <div className="title">
-            <div className="nameCon">{currentUser?.data?.user?.username}</div>
+            <div className="nameCon">{currentUser?.username}</div>
             <div className="icons"></div>
           </div>
           <Form
@@ -152,7 +159,7 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
               <Form.Control
                 type="file"
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setPost({ ...post, image: e.target.files[0] })
+                  setPost({ ...post, image: e.target.files![0] })
                 }
               />
             </Form.Group>
@@ -193,19 +200,4 @@ const EditForm: React.FC<EditFormProps & ReduxProps> = ({
   );
 };
 
-const mapStateToProps = (state: {
-  auth: { currentUser: any };
-  posts: { data: any };
-}) => ({
-  currentUser: state.auth.currentUser,
-  data: state.posts.data,
-});
-const mapDispatchToProps = {
-  editPost,
-  fetchPosts,
-};
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-type ReduxProps = ConnectedProps<typeof connector>;
-
-export default connector(EditForm);
+export default EditForm;
