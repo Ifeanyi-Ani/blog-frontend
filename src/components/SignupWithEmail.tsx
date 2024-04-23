@@ -1,6 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
 import { Form, Modal } from "react-bootstrap";
-import { connect, ConnectedProps } from "react-redux";
 import { useMutistepForm } from "./useMutistepForm";
 import { UserFromEmail } from "./UserFromEmail";
 import { UserFormPassword } from "./UserFormPassword";

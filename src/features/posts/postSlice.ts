@@ -1,4 +1,4 @@
-import { IPost } from "../../types/type";
+import { ICREATEPOST } from "../../types/type";
 import { apiSlice } from "../api/apiSlice";
 
 const postsSlice = apiSlice.injectEndpoints({
@@ -23,7 +23,7 @@ const postsSlice = apiSlice.injectEndpoints({
     }),
 
     createPost: builder.mutation({
-      query: (postData: Partial<IPost | any>) => ({
+      query: (postData: Partial<ICREATEPOST | any>) => ({
         url: "posts",
         method: "POST",
         body: postData,
@@ -39,7 +39,7 @@ const postsSlice = apiSlice.injectEndpoints({
         postData,
       }: {
         postId: string;
-        postData: Partial<IPost>;
+        postData: Partial<ICREATEPOST>;
       }) => ({
         url: `posts/${postId}`,
         method: "PATCH",

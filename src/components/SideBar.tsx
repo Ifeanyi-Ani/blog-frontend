@@ -11,13 +11,8 @@ interface SideBarProps {
   cardHeader: string;
 }
 
-export function SideBar({
-  children,
-  header,
-  title,
-  Src,
-  cardHeader,
-}: SideBarProps) {
+export function SideBar(props: SideBarProps) {
+  const { children, header, title, Src, cardHeader } = props;
   return (
     <div className="sideBar">
       {children}

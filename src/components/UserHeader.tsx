@@ -1,21 +1,25 @@
 import { Card, Dropdown, DropdownButton } from "react-bootstrap";
+import { useDeletePostMutation } from "../features/posts/postSlice";
+import { toast } from "react-hot-toast";
 
 const UserHeader = ({ currentUser, post }: { currentUser: any; post: any }) => {
-  async function handleDelete(id: string, cb: () => void) {
-    if (confirm("Are sure you want to delete this post")) {
-      // await deletePost(id);
-      // cb();
-    }
-  }
+  const [deletePost, { isLoading, isSuccess, isError }] =
+    useDeletePostMutation();
 
-  function handleEdit(post) {
-    // selectedPost(post);
-    // toggleEditForm();
+  async function handleDelete(id: string) {
+    if (confirm("Are sure you want to delete this post")) {
+      await deletePost(id);
+      if (isSuccess) {
+        toast.success("post deleted successfully");
+      } else if (isError) {
+        toast.error("something went wrong");
+      }
+    }
   }
 
   return (
     <>
-      {post?.userId ? (
+      {post?.userId && (
         <Card.Header
           style={{
             position: "relative",
@@ -38,34 +42,27 @@ const UserHeader = ({ currentUser, post }: { currentUser: any; post: any }) => {
               transform: "translate(-50%, -50%)",
             }}
           >
-            <DropdownButton
-              variant="light"
-              drop="start"
-              id="dropdown-button-drop-start"
-              title="..."
-            >
-              {currentUser?.role === "admin" ||
-              post.userId.id === currentUser?.id ? (
-                <>
+            {post.userId.id === currentUser?.id && (
+              <>
+                <DropdownButton
+                  variant="light"
+                  drop="start"
+                  id="dropdown-button-drop-start"
+                  title="..."
+                >
                   <Dropdown.Item
-                    // onClick={() => handleDelete(post._id, fetchPosts)}
+                    onClick={() => handleDelete(post._id)}
                     role="button"
+                    disabled={isLoading}
                   >
-                    delete
+                    {isLoading ? "deleting" : "delete"}
                   </Dropdown.Item>
-                </>
-              ) : null}
-              {/* {user.id === currentUser?.id ? (
-                <Dropdown.Item onClick={() => handleEdit(post)}>
-                  edit
-                </Dropdown.Item>
-              ) : null} */}
-            </DropdownButton>
-
-            {/* <EditForm toggleEditForm={toggleEditForm} editForm={editForm} /> */}
+                </DropdownButton>
+              </>
+            )}
           </div>
         </Card.Header>
-      ) : null}
+      )}
     </>
   );
 };

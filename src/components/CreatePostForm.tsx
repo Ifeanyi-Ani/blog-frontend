@@ -14,9 +14,8 @@ type CategoryOption = {
 type InitProps = {
   title: string;
   body: string;
-  image: any;
-  category: CategoryOption[];
-  userId: string;
+  image: any | null;
+  category: any;
 };
 
 const CreatePostForm = () => {
@@ -28,7 +27,7 @@ const CreatePostForm = () => {
     body: "",
     image: "",
     category: [],
-    userId: currentUser?.id || "",
+    // userId: currentUser?.id || "",
   };
   const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
@@ -59,14 +58,8 @@ const CreatePostForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append("title", post.title);
-    formData.append("body", post.body);
-    formData.append("image", post.image, post.image.name);
-    formData.append("category", JSON.stringify(post.category));
-    formData.append("userId", post.userId);
-
-    await createPost(formData);
+    console.log(post);
+    await createPost(post);
     setPost(INIT_STATE);
     setToggleCreateModal(false);
   };
@@ -79,7 +72,7 @@ const CreatePostForm = () => {
       backdrop="static"
     >
       <Modal.Body className="customBody">
-        <Avater src={currentUser?.photo} />
+        <Avater src={currentUser?.photo || ""} />
         <div className="modalForm">
           <div className="title">
             <div className="nameCon">{currentUser?.username}</div>
@@ -92,7 +85,11 @@ const CreatePostForm = () => {
                 placeholder="Title"
                 value={post.title}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setPost({ ...post, title: e.target.value })
+                  setPost({
+                    ...post,
+                    title: e.target.value,
+                    // userId: currentUser?.id as string,
+                  })
                 }
               />
             </Form.Group>
