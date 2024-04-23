@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap";
-import { useGetPostsQuery } from "../features/posts/postSlice";
-import { IPost } from "../types/type";
+import { useGetPostsQuery } from "./postSlice";
+import { IPost } from "../../types/type";
 
 const CardItem = function () {
   const { data: posts } = useGetPostsQuery(null);

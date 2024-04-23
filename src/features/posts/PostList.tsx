@@ -1,8 +1,7 @@
-import { useGetPostsQuery } from "../features/posts/postSlice";
-
-import Avater from "./Avater";
+import { useGetPostsQuery } from "./postSlice";
 import PostCard from "./PostCard";
-import { SpinnerCircle } from "./SpinnerCircle";
+import Avater from "../users/Avater";
+import { SpinnerCircle } from "../../ui/SpinnerCircle";
 
 const PostList = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery(null);

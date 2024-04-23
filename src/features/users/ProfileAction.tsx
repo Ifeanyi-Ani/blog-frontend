@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Container, Stack } from "react-bootstrap";
-import { IUser } from "../types/type";
+import { IUser } from "../../types/type";
 
 const ProfileAction = ({ currentUser }: { currentUser: IUser }) => {
   const { id, username } = currentUser;

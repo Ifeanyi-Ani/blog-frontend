@@ -1,19 +1,21 @@
 import Container from "react-bootstrap/esm/Container";
-import { ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 
-import Navbar from "../components/Navbar";
-import { SideBar } from "../components/SideBar";
-import CardInfo from "../components/CardInfo";
 import theme from "../assets/theme.jpg";
 import advert from "../assets/advert.png";
-import Main from "../components/Main";
+import Navbar from "./Navbar";
+import Main from "./Main";
+import { SideBar } from "./SideBar";
+import CardInfo from "../features/users/CardInfo";
 
-function Layout({ children }: { children: React.ReactElement }): ReactNode {
+function Layout() {
   return (
     <Container fluid className="page-wrapper p-0">
       <Navbar />
       <div className="d-flex justify-content-center gap-3 pt-3 homeHead">
-        <Main>{children}</Main>
+        <Main>
+          <Outlet />
+        </Main>
         <SideBar
           cardHeader="Radar"
           header="Sponsored"

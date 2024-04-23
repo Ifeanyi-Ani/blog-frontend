@@ -2,15 +2,14 @@ import { Link } from "react-router-dom";
 import { ReactNode, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 
-import { useAppSelector } from "../app/hook";
-import UserHeader from "./UserHeader";
-import { IPost } from "../types/type";
-
-import like from "../assets/heart-gray.svg";
-import liked from "../assets/heart-filled.svg";
-import repost from "../assets/repost.svg";
-import reply from "../assets/reply.svg";
-import share from "../assets/share.svg";
+import like from "../../assets/heart-gray.svg";
+import liked from "../../assets/heart-filled.svg";
+import repost from "../../assets/repost.svg";
+import reply from "../../assets/reply.svg";
+import share from "../../assets/share.svg";
+import { useAppSelector } from "../../app/hook";
+import UserHeader from "../users/UserHeader";
+import { IPost } from "../../types/type";
 
 type PostCardProps = {
   post: IPost;

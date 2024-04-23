@@ -1,6 +1,6 @@
 import { Card, Dropdown, DropdownButton } from "react-bootstrap";
-import { useDeletePostMutation } from "../features/posts/postSlice";
 import { toast } from "react-hot-toast";
+import { useDeletePostMutation } from "../posts/postSlice";
 
 const UserHeader = ({ currentUser, post }: { currentUser: any; post: any }) => {
   const [deletePost, { isLoading, isSuccess, isError }] =

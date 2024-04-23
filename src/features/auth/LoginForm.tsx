@@ -1,8 +1,8 @@
 import React, { MouseEventHandler, useEffect } from "react";
 import { Form, Modal } from "react-bootstrap";
 import { useState } from "react";
-import { useLoginMutation } from "../features/users/userSlice";
 import { toast } from "react-hot-toast";
+import { useLoginMutation } from "../users/userSlice";
 
 interface LoginFormProps {
   showLogin: boolean;

@@ -3,9 +3,9 @@ import { Button, Modal, Stack } from "react-bootstrap";
 import SignupWithEmail from "./SignupWithEmail";
 import LoginForm from "./LoginForm";
 
-import googleLogo from "../assets/googleLogo.jpg";
-import appleLogo from "../assets/appleLogo.jpg";
-import emailLogo from "../assets/messLogo.jpg";
+import googleLogo from "../../assets/googleLogo.jpg";
+import appleLogo from "../../assets/appleLogo.jpg";
+import emailLogo from "../../assets/messLogo.jpg";
 
 interface Login_SignupProps {
   show: boolean;

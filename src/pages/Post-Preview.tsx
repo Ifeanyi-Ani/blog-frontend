@@ -1,12 +1,14 @@
 import { useParams } from "react-router-dom";
-import PostCard from "../components/PostCard";
 import { useGetPostQuery } from "../features/posts/postSlice";
 import toast from "react-hot-toast";
+import PostCard from "../features/posts/PostCard";
 
 const PostPreview = () => {
   const { id } = useParams<{ id: string }>();
   const { data: post, isLoading, error } = useGetPostQuery(id!);
+
   let content: JSX.Element;
+
   if (isLoading) {
     content = <div>Loading</div>;
   } else if (error) {

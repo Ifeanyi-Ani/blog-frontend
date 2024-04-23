@@ -1,7 +1,7 @@
 import { Card, ListGroup, ListGroupItem } from "react-bootstrap";
-import { IUser } from "../types/type";
-import { useGetUsersQuery } from "../features/users/userSlice";
-import { SpinnerCircle } from "./SpinnerCircle";
+import { IUser } from "../../types/type";
+import { useGetUsersQuery } from "./userSlice";
+import { SpinnerCircle } from "../../ui/SpinnerCircle";
 
 const CardInfo = function () {
   const { data: users, isLoading, error } = useGetUsersQuery(null);

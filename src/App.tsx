@@ -4,38 +4,24 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Profile from "./pages/Profile";
 import PostPreview from "./pages/Post-Preview";
-import Layout from "./pages/Layout.tsx";
+import Layout from "./ui/Layout.tsx";
+import Home from "./pages/Home";
+import Preview from "./pages/Preview";
 
 const App = () => {
-  const Home = lazy(() => import("./pages/Home"));
-  const Preview = lazy(() => import("./pages/Preview"));
   return (
     <>
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <Suspense fallback={null}>
-                  <Home />
-                </Suspense>
-              }
-            />
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Home />} />
 
             <Route path="/post/:id" element={<PostPreview />} />
 
-            <Route
-              path="/blog/:username"
-              element={
-                <Suspense fallback={<div>...Loading</div>}>
-                  <Preview />
-                </Suspense>
-              }
-            />
+            <Route path="/blog/:username" element={<Preview />} />
             <Route path="/profile/:id" element={<Profile />} />
-          </Routes>
-        </Layout>
+          </Route>
+        </Routes>
       </BrowserRouter>
     </>
   );

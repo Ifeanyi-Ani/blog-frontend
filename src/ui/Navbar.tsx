@@ -9,14 +9,14 @@ import {
   Navbar as NavbarBs,
   NavDropdown,
 } from "react-bootstrap";
-import ProfileAction from "./ProfileAction";
-import Avater from "./Avater";
-import Login_Signup from "./Login_Signup";
 import { ContextData } from "../contexts/contextData";
-import CreatePostForm from "./CreatePostForm";
 import { useAppSelector } from "../app/hook";
 import { useLogOutMutation } from "../features/users/userSlice";
 import { toast } from "react-hot-toast";
+import Avater from "../features/users/Avater";
+import ProfileAction from "../features/users/ProfileAction";
+import CreatePostForm from "../features/posts/CreatePost";
+import Login_Signup from "../features/auth/Login_Signup";
 
 const Navbar = function () {
   const navigate = useNavigate();

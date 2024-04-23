@@ -1,11 +1,11 @@
 import { Form, Modal } from "react-bootstrap";
-import { useMutistepForm } from "./useMutistepForm";
 import { UserFromEmail } from "./UserFromEmail";
 import { UserFormPassword } from "./UserFormPassword";
 import { UserFormBithYear } from "./UserFormBithYear";
 import { useState } from "react";
 import { UserFormUsername } from "./UserFormUsername";
-import { useSignUpMutation } from "../features/users/userSlice";
+import { useSignUpMutation } from "../users/userSlice";
+import { useMutistepForm } from "../../utils/useMutistepForm";
 
 type FormData = {
   email: string;

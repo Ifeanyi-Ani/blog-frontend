@@ -1,12 +1,12 @@
 import { Container } from "react-bootstrap";
 
-import Avater from "../components/Avater";
-import PostCard from "../components/PostCard";
 import { useGetPostsQuery } from "../features/posts/postSlice";
 import { useAppSelector } from "../app/hook";
-import { SpinnerCircle } from "../components/SpinnerCircle";
 import { IPost } from "../types/type";
 import { useEffect, useState } from "react";
+import { SpinnerCircle } from "../ui/SpinnerCircle";
+import Avater from "../features/users/Avater";
+import PostCard from "../features/posts/PostCard";
 
 const Preview = () => {
   const { currentUser } = useAppSelector((state) => state.auth);
@@ -16,7 +16,7 @@ const Preview = () => {
   let content: JSX.Element;
 
   const getPostsById = (id: string, Posts: IPost[]) => {
-    const filterPost = Posts.filter((post: IPost) => post.userId.id === id);
+    const filterPost = Posts.filter((post: IPost) => post.userId === id);
     return filterPost;
   };
   useEffect(() => {
@@ -34,12 +34,14 @@ const Preview = () => {
       <section>
         <Container className="mansoryLayout listView">
           {data
-            ? data.map((post: any) => (
-                <div className="gridItem" key={post._id}>
-                  <Avater src={post?.userId?.photo} />
-                  <PostCard post={post} />
-                </div>
-              ))
+            ? data.map((post: any) => {
+                return (
+                  <div className="gridItem" key={post._id}>
+                    <Avater src={post?.userId?.photo} />
+                    <PostCard post={post} />
+                  </div>
+                );
+              })
             : "You have not post anything yet"}
         </Container>
       </section>

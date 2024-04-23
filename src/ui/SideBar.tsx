@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 
 import { Footer } from "./Footer";
-import CardItem from "./CardItem";
+import CardItem from "../features/posts/CardItem";
 
 interface SideBarProps {
   children: React.ReactNode;

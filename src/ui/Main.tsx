@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Stack } from "react-bootstrap";
+
 function Main({ children }: { children: React.ReactNode }) {
   const [toggle, setToggle] = useState<boolean>(false);
   function handleToggle(val: boolean) {

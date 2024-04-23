@@ -1,70 +1,40 @@
-/* eslint-disable react-refresh/only-export-components */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, ChangeEvent, KeyboardEvent, useEffect } from "react";
+import React, { useState, ChangeEvent, KeyboardEvent, useContext } from "react";
 import { Form, Modal } from "react-bootstrap";
-import Avater from "./Avater";
-import Select, { ValueType } from "react-select";
-import { useAppSelector } from "../app/hook";
-import {
-  useGetPostsQuery,
-  useUpdatePostMutation,
-} from "../features/posts/postSlice";
-import { IPost } from "../types/type";
+import Select from "react-select";
+import { useCreatePostMutation } from "./postSlice";
+import { ContextData } from "../../contexts/contextData";
+import { useAppSelector } from "../../app/hook";
+import Avater from "../users/Avater";
 
 type CategoryOption = {
   value: string;
   label: string;
 };
 
-type EditFormProps = {
-  editForm: boolean;
-  toggleEditForm: () => void;
-  data: object;
-};
-
 type InitProps = {
   title: string;
   body: string;
-  image?: any;
-  category: CategoryOption[];
-  userId: string;
+  image: any | null;
+  category: any;
 };
 
-const EditForm: React.FC<EditFormProps> = ({
-  editForm,
-  toggleEditForm,
-  data,
-}) => {
+const CreatePostForm = () => {
+  const [createPost, { isLoading, isSuccess }] = useCreatePostMutation();
+  const { toggleCreateModal, setToggleCreateModal } = useContext(ContextData);
   const { currentUser } = useAppSelector((state) => state.auth);
-  const {
-    data: fetchPosts,
-    isLoading: postsisLoading,
-    isSuccess: postsisSuccess,
-  } = useGetPostsQuery(null);
-  const [editPost, { isLoading, isSuccess }] = useUpdatePostMutation();
   const INIT_STATE: InitProps = {
     title: "",
     body: "",
-    image: null,
+    image: "",
     category: [],
-    userId: currentUser?.id || "",
+    // userId: currentUser?.id || "",
   };
   const [post, setPost] = useState<InitProps>(INIT_STATE);
   const [inputValue, setInputValue] = useState<string>("");
-  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (data) {
-      setPost({
-        title: data.title || "",
-        body: data.body || "",
-        category: data.category,
-        userId: currentUser?.id || "",
-      });
-    }
-  }, [currentUser?.id, data]);
   const handleClose = () => {
-    toggleEditForm();
+    setPost(INIT_STATE);
+    setToggleCreateModal(false);
   };
 
   const handleInputChange = (inputValue: string) => {
@@ -86,37 +56,18 @@ const EditForm: React.FC<EditFormProps> = ({
     }
   };
 
-  const handleSubmit = async (
-    e: React.FormEvent,
-    cb: { (): Promise<void>; (): void },
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const formData = new FormData();
-    formData.append("title", post.title);
-    formData.append("body", post.body);
-    formData.append("category", post.category);
-    formData.append("userId", post.userId);
-    if (post.image) {
-      formData.append("image", post.image, post.image.name);
-    }
-    await editPost({ postId: data.id, postData: formData as any })
-      .then(() => {
-        setLoading(false); // Step 3: Hide loading spinner on success
-        cb();
-        setPost(INIT_STATE);
-        toggleEditForm();
-      })
-      .catch((error) => {
-        setLoading(false); // Hide loading spinner on error if needed
-        console.error("Error editing post:", error);
-      });
+    console.log(post);
+    await createPost(post);
+    setPost(INIT_STATE);
+    setToggleCreateModal(false);
   };
   return (
     <Modal
       centered
-      show={editForm}
-      onHide={toggleEditForm}
+      show={toggleCreateModal}
+      onHide={() => setToggleCreateModal(false)}
       className="modalSecon"
       backdrop="static"
     >
@@ -127,17 +78,18 @@ const EditForm: React.FC<EditFormProps> = ({
             <div className="nameCon">{currentUser?.username}</div>
             <div className="icons"></div>
           </div>
-          <Form
-            onSubmit={(e) => handleSubmit(e, fetchPosts)}
-            encType="multipart/form-data"
-          >
+          <Form onSubmit={(e) => handleSubmit(e)} encType="multipart/form-data">
             <Form.Group>
               <Form.Control
                 type="text"
                 placeholder="Title"
                 value={post.title}
                 onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setPost({ ...post, title: e.target.value })
+                  setPost({
+                    ...post,
+                    title: e.target.value,
+                    // userId: currentUser?.id as string,
+                  })
                 }
               />
             </Form.Group>
@@ -170,7 +122,7 @@ const EditForm: React.FC<EditFormProps> = ({
                 placeholder="#add tags to help people find your post"
                 value={post.category}
                 options={post.category}
-                onChange={(selectedOptions: ValueType<CategoryOption, true>) =>
+                onChange={(selectedOptions) =>
                   setPost({
                     ...post,
                     category: selectedOptions as CategoryOption[],
@@ -189,8 +141,8 @@ const EditForm: React.FC<EditFormProps> = ({
               <Form.Select role="button">
                 <option>For Everyone</option>
               </Form.Select>
-              <button type="submit">
-                {loading ? "Saving..." : "Save Post"}
+              <button type="submit" disabled={isLoading}>
+                {isLoading ? "Posting..." : "Post now"}
               </button>
             </Form.Group>
           </Form>
@@ -200,4 +152,4 @@ const EditForm: React.FC<EditFormProps> = ({
   );
 };
 
-export default EditForm;
+export default CreatePostForm;

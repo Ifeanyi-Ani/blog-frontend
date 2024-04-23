@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import { SideBar } from "../components/SideBar";
 
-import advert from "../assets/advert.png";
-import ProfileAction from "../components/ProfileAction";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../app/hook";
-import { IUser } from "../types/type";
 import { useUpdateUserMutation } from "../features/users/userSlice";
 import { toast } from "react-hot-toast";
 
@@ -133,10 +129,6 @@ const Profile = () => {
             <Form.Control type="submit" value="Submit" />
           </Form.Group>
         </Form>
-
-        <SideBar cardHeader="Radar" title="" header="Sponsored" Src={advert}>
-          <ProfileAction currentUser={currentUser as IUser} />
-        </SideBar>
       </div>
     </>
   );
