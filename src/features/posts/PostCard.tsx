@@ -102,6 +102,7 @@ const PostCard = ({ children, post }: PostCardProps) => {
         {children}
         <UserHeader currentUser={currentUser} post={post} />
         <Card.Body>
+          <div className="" />
           <Link
             to={`/post/${post.id}`}
             className="text-decoration-none fs-3 text-dark text-decoration-hover"

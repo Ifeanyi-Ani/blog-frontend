@@ -1,15 +1,15 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, useState } from "react";
 
 export function useMutistepForm(steps: ReactElement[]) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   function next() {
-    setCurrentStepIndex(i => {
+    setCurrentStepIndex((i) => {
       if (i >= steps.length - 1) return i;
       return i + 1;
     });
   }
   function back() {
-    setCurrentStepIndex(i => {
+    setCurrentStepIndex((i) => {
       if (i <= 0) return i;
       return i - 1;
     });

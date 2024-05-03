@@ -12,7 +12,7 @@ export interface IPost {
   likes: ILike[];
   title: string;
   updatedAt: Date;
-  userId: string;
+  userId: IUser;
 }
 export interface ICREATEPOST {
   title: string;

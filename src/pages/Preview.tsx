@@ -16,12 +16,14 @@ const Preview = () => {
   let content: JSX.Element;
 
   const getPostsById = (id: string, Posts: IPost[]) => {
-    const filterPost = Posts.filter((post: IPost) => post.userId === id);
+    const filterPost = Posts.filter((post: IPost) => post.userId.id === id);
     return filterPost;
   };
   useEffect(() => {
-    setData(getPostsById(currentUser?.id as string, posts));
-  }, []);
+    if (isSuccess) {
+      setData(getPostsById(currentUser?.id as string, posts));
+    }
+  }, [isSuccess]);
 
   if (isLoading) {
     content = (
