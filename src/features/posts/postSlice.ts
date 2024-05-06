@@ -1,7 +1,7 @@
 import { ICREATEPOST } from "../../types/type";
 import { apiSlice } from "../api/apiSlice";
 
-const postsSlice = apiSlice.injectEndpoints({
+export const postsSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
       query: () => "/posts",
@@ -27,10 +27,10 @@ const postsSlice = apiSlice.injectEndpoints({
         url: "posts",
         method: "POST",
         body: postData,
-        invalidatesTags: (_result: any, _error: any, arg: any) => [
-          { type: "posts", id: arg.id },
-        ],
       }),
+      invalidatesTags: (_result: any, _error: any, arg: any) => [
+        { type: "posts", id: arg.id },
+      ],
     }),
 
     updatePost: builder.mutation({
@@ -44,20 +44,22 @@ const postsSlice = apiSlice.injectEndpoints({
         url: `posts/${postId}`,
         method: "PATCH",
         body: postData,
-        invalidatesTags: (_result: any, _error: any, arg: any) => [
-          { type: "posts", id: arg.id },
-        ],
       }),
+
+      invalidatesTags: (_result: any, _error: any, arg: any) => [
+        { type: "posts", id: arg.id },
+      ],
     }),
 
     deletePost: builder.mutation({
       query: (postId: string) => ({
         url: `posts/${postId}`,
         method: "DELETE",
-        invalidatesTags: (_result: any, _error: any, arg: any) => [
-          { type: "posts", id: arg.id },
-        ],
       }),
+
+      invalidatesTags: (_result: any, _error: any, arg: any) => [
+        { type: "posts", id: arg.id },
+      ],
     }),
   }),
 });

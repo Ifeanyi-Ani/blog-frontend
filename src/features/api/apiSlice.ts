@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { UserLogin, UserLogout } from "../users/authSlice";
 
 const baseQuery = fetchBaseQuery({
   // baseUrl: "https://tumblr-bkend.onrender.com",
@@ -15,9 +16,34 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
+const baseQueryWithReauth = async (arg: any, api: any, extraOptions: any) => {
+  let result = await baseQuery(arg, api, extraOptions);
+
+  if (result?.error?.status === 401) {
+    console.log("sending refresh token");
+
+    const refreshResult = (await baseQuery(
+      "auth/refresh",
+      api,
+      extraOptions,
+    )) as any;
+    console.log(refreshResult);
+    api.dispatch(
+      UserLogin({
+        token: refreshResult.data.token,
+        currentUser: refreshResult.data.currentUser,
+      }),
+    );
+    result = await baseQuery(arg, api, extraOptions);
+  } else {
+    api.dispatch(UserLogout());
+  }
+  return result;
+};
+
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery,
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["users", "posts", "comments", "likes"],
   endpoints: () => ({}),
 });

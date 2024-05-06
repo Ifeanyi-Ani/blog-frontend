@@ -2,9 +2,11 @@ import { useGetPostsQuery } from "./postSlice";
 import PostCard from "./PostCard";
 import Avater from "../users/Avater";
 import { SpinnerCircle } from "../../ui/SpinnerCircle";
+import { IPost } from "../../types/type";
 
 const PostList = () => {
   const { data: posts, isLoading, error } = useGetPostsQuery(null);
+  console.log(posts);
 
   let content: JSX.Element;
   if (isLoading) {
@@ -26,10 +28,10 @@ const PostList = () => {
   } else if (posts) {
     content = (
       <>
-        {posts ? (
-          [...posts].reverse().map((post) => (
-            <div className="gridItem" key={post.id}>
-              <Avater src={post?.userId?.photo} />
+        {posts?.length ? (
+          posts.map((post: IPost) => (
+            <div className="gridItem" key={post._id}>
+              <Avater src={post.userId.photo} />
               <PostCard post={post} />
             </div>
           ))

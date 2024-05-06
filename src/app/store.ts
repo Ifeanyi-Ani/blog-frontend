@@ -12,13 +12,13 @@ export const store = configureStore({
     getDefaultMiddleware().concat(apiSlice.middleware),
 });
 
-const initializeApp = async () => {
-  await store.dispatch(
-    apiSlice.endpoints.refresh.initiate({}, { forceRefetch: true }),
-  );
-};
-
-initializeApp();
+// const initializeApp = async () => {
+//   await store.dispatch(
+//     apiSlice.endpoints.refresh.initiate({}, { forceRefetch: true }),
+//   );
+// };
+//
+// initializeApp();
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
