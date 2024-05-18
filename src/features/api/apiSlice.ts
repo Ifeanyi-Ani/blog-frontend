@@ -5,21 +5,22 @@ const baseQuery = fetchBaseQuery({
   // baseUrl: "https://tumblr-bkend.onrender.com",
   baseUrl: "http://127.0.0.1:4000/",
   credentials: "include" as const,
-  prepareHeaders: (headers, { getState }: { getState: any }) => {
-    const Token = getState().auth.token;
-    if (Token) {
-      headers.set("Authorization", `Bearer ${Token}`);
-    }
-    headers.set("Content-Type", "application/json");
-
-    return headers;
-  },
+  // prepareHeaders: (headers, { getState }: { getState: any }) => {
+  //   const Token = getState().auth.token;
+  //   if (Token) {
+  //     headers.set("Authorization", `Bearer ${Token}`);
+  //   }
+  //   headers.set("Content-Type", "application/json");
+  //
+  //   return headers;
+  // },
 });
 
 const baseQueryWithReauth = async (arg: any, api: any, extraOptions: any) => {
   let result = await baseQuery(arg, api, extraOptions);
 
-  if (result?.error?.status === 401) {
+  console.log(result);
+  if (result?.error?.status === 403) {
     console.log("sending refresh token");
 
     const refreshResult = (await baseQuery(
@@ -27,16 +28,24 @@ const baseQueryWithReauth = async (arg: any, api: any, extraOptions: any) => {
       api,
       extraOptions,
     )) as any;
-    console.log(refreshResult);
-    api.dispatch(
-      UserLogin({
-        token: refreshResult.data.token,
-        currentUser: refreshResult.data.currentUser,
-      }),
-    );
-    result = await baseQuery(arg, api, extraOptions);
-  } else {
-    api.dispatch(UserLogout());
+    if (refreshResult?.data) {
+      api.dispatch(
+        UserLogin({
+          token: refreshResult.data.token,
+          currentUser: refreshResult.data.currentUser,
+        }),
+      );
+      localStorage.setItem(
+        "currentUser",
+        JSON.parse(refreshResult.data.currentUser),
+      );
+      console.log(refreshResult);
+    } else {
+      if (refreshResult?.error?.status === 403) {
+        refreshResult.error.data.message = "Your login has expired";
+      }
+      return refreshResult;
+    }
   }
   return result;
 };
