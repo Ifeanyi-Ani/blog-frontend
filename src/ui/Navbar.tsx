@@ -1,6 +1,5 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-
 import {
   Container,
   Nav,
@@ -33,14 +32,7 @@ const Navbar = function () {
 
   async function handleLogOut(e: React.FormEvent) {
     e.stopPropagation();
-    await logOut(null).unwrap();
-
-    if (isError) {
-      toast.error("something went wrong");
-    } else if (isSuccess) {
-      toast.success("user logout successfully");
-      navigate("/");
-    }
+    await logOut({}).unwrap();
   }
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
@@ -48,6 +40,16 @@ const Navbar = function () {
     setSearchInput(query);
     // search(query);
   }
+  console.log(currentUser);
+  useEffect(() => {
+    if (isError) {
+      toast.error("something went wrong");
+    }
+    if (isSuccess) {
+      toast.success("user logout successfully");
+      navigate("/");
+    }
+  }, [isError, isSuccess]);
 
   return (
     <>
@@ -91,7 +93,7 @@ const Navbar = function () {
                     <i className="bi bi-house-fill"></i>
                   </Nav.Link>
 
-                  {currentUser.role === "admin" ? (
+                  {currentUser?.role === "admin" ? (
                     <>
                       <Nav.Link as={Link} to="/admin">
                         <i className="bi bi-compass"></i>

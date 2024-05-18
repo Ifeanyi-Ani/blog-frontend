@@ -7,7 +7,7 @@ interface UserState {
 }
 const initialState: UserState = {
   token: "",
-  currentUser: null,
+  currentUser: JSON.parse(localStorage.getItem("currentUser")!) || null,
 };
 const authSlice = createSlice({
   name: "auth",
@@ -16,10 +16,12 @@ const authSlice = createSlice({
     UserLogin: (state, { payload }) => {
       state.token = payload.token;
       state.currentUser = payload.currentUser;
+      localStorage.setItem("currentUser", JSON.stringify(payload.currentUser));
     },
     UserLogout: (state) => {
       state.token = "";
       state.currentUser = null;
+      localStorage.removeItem("currentUser");
     },
   },
 });

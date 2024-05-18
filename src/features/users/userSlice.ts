@@ -49,6 +49,9 @@ const usersSlice = apiSlice.injectEndpoints({
           console.error(error);
         }
       },
+      invalidatesTags: (_result, _error, arg: any) => [
+        { type: "users", id: arg.id },
+      ],
     }),
 
     logOut: builder.mutation({
@@ -60,6 +63,7 @@ const usersSlice = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           dispatch(UserLogout());
+          apiSlice.util.resetApiState();
         } catch (error) {
           console.error(error);
         }
@@ -70,6 +74,16 @@ const usersSlice = apiSlice.injectEndpoints({
       query: () => ({
         url: "users",
       }),
+      providesTags: (result, _error, _arg) =>
+        result
+          ? [
+              ...result.map(({ id }: { id: string }) => ({
+                type: "users" as const,
+                id,
+              })),
+              "users",
+            ]
+          : ["users"],
     }),
 
     updateUser: builder.mutation({
@@ -78,6 +92,9 @@ const usersSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: formData,
       }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: "users", id: arg.id },
+      ],
     }),
 
     deleteUser: builder.mutation({
@@ -85,15 +102,19 @@ const usersSlice = apiSlice.injectEndpoints({
         url: `users/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["users"],
     }),
 
     getUser: builder.query({
       query: (id: string) => ({
         url: `users/${id}`,
       }),
+      providesTags: (_result, _error, arg: any) => [
+        { type: "users", id: arg.id },
+      ],
     }),
 
-    refresh: builder.query({
+    refresh: builder.mutation({
       query: () => ({
         url: "auth/refresh",
         method: "GET",
@@ -102,12 +123,14 @@ const usersSlice = apiSlice.injectEndpoints({
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
           const result = await queryFulfilled;
-          dispatch(
-            UserLogin({
-              token: result.data.token,
-              currentUser: result.data.currentUser,
-            }),
-          );
+          setTimeout(() => {
+            dispatch(
+              UserLogin({
+                token: result.data.token,
+                currentUser: result.data.currentUser,
+              }),
+            );
+          }, 1000);
         } catch (error) {
           console.error(error);
         }
@@ -120,7 +143,7 @@ export const {
   useLoginMutation,
   useSignUpMutation,
   useLogOutMutation,
-  useRefreshQuery,
+  useRefreshMutation,
   useGetUsersQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
