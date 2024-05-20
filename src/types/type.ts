@@ -2,16 +2,26 @@ export interface IPost {
   __v: number;
   _id: string;
   body: string;
-  category: string;
+  category: {
+    value: string;
+    label: string;
+  }[];
   createdAt: Date;
   id: string;
   image: string;
   likes: ILike[];
   title: string;
   updatedAt: Date;
-  userId: IUserID;
+  userId: IUser;
 }
-
+export interface ICREATEPOST {
+  title: string;
+  body: string;
+  category: {
+    value: string;
+    label: string;
+  }[];
+}
 export interface ILike {
   user: string;
 }
