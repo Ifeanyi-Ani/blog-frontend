@@ -3,6 +3,7 @@ import { useGetPostQuery } from "../features/posts/postSlice";
 import PostCard from "../features/posts/PostCard";
 import { useEffect } from "react";
 import { SpinnerCircle } from "../ui/SpinnerCircle";
+import CreateComment from "../features/comments/createComment";
 
 const PostPreview = () => {
   const { id } = useParams<{ id: string }>();
@@ -22,7 +23,14 @@ const PostPreview = () => {
     }
   }
   if (isSuccess) {
-    return <PostCard post={postData} />;
+    return (
+      <>
+        <PostCard post={postData} />
+        <div>
+          <CreateComment />
+        </div>
+      </>
+    );
   }
 
   return null;

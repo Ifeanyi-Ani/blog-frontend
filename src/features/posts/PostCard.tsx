@@ -14,10 +14,16 @@ import { IPost } from "../../types/type";
 type PostCardProps = {
   post: IPost;
   children?: ReactNode;
+  iscomment?: boolean;
+  comments: [
+    userId: {
+      photo: string;
+    },
+  ];
 };
 
 const PostCard = (props: PostCardProps) => {
-  const { children, post } = props;
+  const { children, post, iscomment, comments } = props;
   const { currentUser } = useAppSelector((state) => state.auth);
   const [checkLike, setCheckLike] = useState(false);
 
@@ -47,23 +53,23 @@ const PostCard = (props: PostCardProps) => {
   }
 
   return (
-    <div>
+    <article className="flex-1 pl-4 rounded-xl">
       <Card>
         {children}
         <UserHeader currentUser={currentUser} post={post} />
         <Card.Body>
-          <div className="" />
+          <div />
           <Link
             to={`/post/${post._id}`}
-            className="text-decoration-none fs-3 text-dark text-decoration-hover"
+            className="no-underline font-bold text-blue-900 hover:underline"
           >
-            <Card.Title>{post?.title}</Card.Title>
+            <Card.Title className="">{post?.title}</Card.Title>
           </Link>
           {post?.image ? (
             <Card.Img
               src={post?.image}
               alt="content"
-              className="img-fluid"
+              className="w-full"
               style={{
                 width: "500px",
                 height: "400px",
@@ -75,7 +81,7 @@ const PostCard = (props: PostCardProps) => {
           <div className="" style={{ width: "50%" }}>
             {post?.body}
           </div>
-          <Card.Text className="d-flex gap-1 flex-wrap">
+          <Card.Text className="flex gap-1 flex-wrap">
             {post?.category
               ? post?.category.map(
                   (item: { value: string; label: string }, idx: number) => (
@@ -85,42 +91,62 @@ const PostCard = (props: PostCardProps) => {
               : null}
           </Card.Text>
         </Card.Body>
-        <Card.Footer style={{ borderTop: "none" }} className="d-flex">
-          <Stack className="footer-img gap-3" direction="horizontal">
+        <Card.Footer className="flex border-none">
+          <Stack className="gap-3" direction="horizontal">
             <img
               src={checkLike ? liked : like}
               alt="like"
-              className="cursor-pointer object-fit-contain"
+              className="cursor-pointer object-cover w-6 h-6"
               role="button"
               onClick={() => handleLike(post.id)}
-              style={{ width: "24px", height: "24px" }}
             />
-            <Link to={`/post/${post.id}`}>
-              <img
-                src={reply}
-                alt="reply"
-                className="cursor-pointer object-fit-contain"
-                style={{ width: "24px", height: "24px" }}
-              />
-            </Link>
+            <img
+              src={reply}
+              alt="reply"
+              className="cursor-pointer object-cover w-6 h-6"
+            />
+            {iscomment && comments.length > 0 && (
+              <Link to={`/post/${post.id}`}>
+                {comments.length} repl{comments.length > 1 ? "ies" : "y"}
+              </Link>
+            )}
             <img
               src={repost}
               alt="repost"
-              className="cursor-pointer object-fit-contain"
+              className="cursor-pointer object-cover w-6 h-6"
               role="button"
-              style={{ width: "24px", height: "24px" }}
             />
             <img
               src={share}
               alt="share"
-              className="cursor-pointer object-fit-contain"
+              className="cursor-pointer object-cover w-6 h-6"
               role="button"
-              style={{ width: "24px", height: "24px" }}
             />
           </Stack>
         </Card.Footer>
       </Card>
-    </div>
+
+      {/* {!iscomment && comments.length > 0 && ( */}
+      {/*   <div className="ml-1 mt-3 flex items-center gap-2"> */}
+      {/*     {comments.slice(0, 2).map((comment, index) => ( */}
+      {/*       <img */}
+      {/*         key={index} */}
+      {/*         src={comment.photo} */}
+      {/*         alt={`user_${index}`} */}
+      {/*         width={24} */}
+      {/*         height={24} */}
+      {/*         className={`${index !== 0 && "-ml-5"} rounded-full object-cover`} */}
+      {/*       /> */}
+      {/*     ))} */}
+      {/**/}
+      {/*     <Link to={`/post/${post._id}`}> */}
+      {/*       <p className="mt-1 text-subtle-medium text-gray-1"> */}
+      {/*         {comments.length} repl{comments.length > 1 ? "ies" : "y"} */}
+      {/*       </p> */}
+      {/*     </Link> */}
+      {/*   </div> */}
+      {/* )} */}
+    </article>
   );
 };
 
