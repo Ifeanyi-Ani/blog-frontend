@@ -23,11 +23,12 @@ const PostPreview = () => {
     }
   }
   if (isSuccess) {
+    console.log(postData);
     return (
       <>
         <PostCard post={postData} />
         <div>
-          <CreateComment />
+          <CreateComment postId={postData._id} />
         </div>
       </>
     );

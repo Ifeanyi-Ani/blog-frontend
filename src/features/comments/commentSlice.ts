@@ -3,16 +3,16 @@ import { apiSlice } from "../api/apiSlice";
 const commentSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getComments: builder.query({
-      query: (postId) => `posts/${postId}/comments`,
+      query: (postId) => `comments/${postId}/`,
     }),
 
     getComment: builder.query({
-      query: ({ postId, commentId }) => `posts/${postId}/comments/${commentId}`,
+      query: ({ postId, commentId }) => `comments/posts/${postId}/${commentId}`,
     }),
 
     createComment: builder.mutation({
       query: ({ formData, postId }) => ({
-        url: `posts/${postId}/comments`,
+        url: `comments/${postId}`,
         method: "POST",
         body: formData,
       }),
@@ -20,7 +20,7 @@ const commentSlice = apiSlice.injectEndpoints({
 
     updateComment: builder.mutation({
       query: ({ formData, postId, commentId }) => ({
-        url: `posts/${postId}/comments/${commentId}`,
+        url: `comments/${postId}/${commentId}`,
         method: "PATCH",
         body: formData,
       }),
@@ -28,7 +28,7 @@ const commentSlice = apiSlice.injectEndpoints({
 
     deleteComment: builder.mutation({
       query: ({ postId, commentId }) => ({
-        url: `posts/${postId}/comments/${commentId}`,
+        url: `comments/posts/${postId}/${commentId}`,
         method: "DELETE",
       }),
     }),
