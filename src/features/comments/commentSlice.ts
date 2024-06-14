@@ -4,10 +4,30 @@ const commentSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getComments: builder.query({
       query: (postId) => `comments/${postId}/`,
+      providesTags: (result, _error, _arg) =>
+        result
+          ? [
+              ...result.map(({ id }: { id: string }) => {
+                return {
+                  type: "comments" as const,
+                  id,
+                };
+              }),
+              "comments",
+            ]
+          : ["coments"],
     }),
 
     getComment: builder.query({
       query: ({ postId, commentId }) => `comments/posts/${postId}/${commentId}`,
+      providesTags: (_result, _error, arg) => {
+        return [
+          {
+            type: "comments" as const,
+            id: arg.id,
+          },
+        ];
+      },
     }),
 
     createComment: builder.mutation({
@@ -16,6 +36,9 @@ const commentSlice = apiSlice.injectEndpoints({
         method: "POST",
         body: formData,
       }),
+      invalidatesTags: (_result, _error, arg) => {
+        return [{ type: "comments", id: arg.id }];
+      },
     }),
 
     updateComment: builder.mutation({
@@ -24,6 +47,14 @@ const commentSlice = apiSlice.injectEndpoints({
         method: "PATCH",
         body: formData,
       }),
+      invalidatesTags: (_result, _error, arg) => {
+        return [
+          {
+            type: "comments",
+            id: arg.id,
+          },
+        ];
+      },
     }),
 
     deleteComment: builder.mutation({
@@ -31,6 +62,9 @@ const commentSlice = apiSlice.injectEndpoints({
         url: `comments/posts/${postId}/${commentId}`,
         method: "DELETE",
       }),
+      invalidatesTags: (_result, _error, arg) => {
+        return [{ type: "comments", id: arg.id }];
+      },
     }),
   }),
 });
