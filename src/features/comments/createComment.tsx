@@ -1,56 +1,58 @@
 import { useState } from "react";
-import { Form, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useCreateCommentMutation } from "./commentSlice";
 import { useAppSelector } from "../../app/hook";
 import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
-type Props = {
-  postId: string;
-};
 
-type DataProps = {
-  text: string;
-  userId: string;
-};
-
-const CreateComment = (props: Props) => {
+const CreateComment = () => {
   const { id: postId } = useParams();
   const { currentUser } = useAppSelector((state) => state.auth);
-  const [comment, setComment] = useState<DataProps>();
   const [createComment, { isLoading, isSuccess, isError }] =
     useCreateCommentMutation();
-
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+  const [isTextareaFocused, setIsTextareaFocused] = useState(false);
 
   const handleCreateComment = async (data: any) => {
     const formData = { ...data, userId: currentUser?.id };
     console.log(formData, errors);
     if (!formData?.userId) {
-      return toast.error("user not found");
+      return toast.error("User not found");
     }
     await createComment({ formData, postId });
+    reset(); // Reset the form fields after comment is created
+    setIsTextareaFocused(false); // Hide the textarea after submitting
   };
+
   return (
-    <form className="comment-form" onSubmit={handleSubmit(handleCreateComment)}>
-      <fieldset>
-        <input
-          type="text"
-          placeholder="comment..."
-          className="no-focus text-blue-900 outline-none"
-          {...register("text", { required: "this field is required" })}
-        />
-      </fieldset>
-      <button
-        type="submit"
-        className="rounded-lg bg-blue-500 px-5 py-1.5"
-        disabled={isLoading}
+    <form className="mt-2" onSubmit={handleSubmit(handleCreateComment)}>
+      <fieldset
+        className={`relative bg-blue-600 p-2 rounded-md ${
+          isTextareaFocused ? "h-40" : "h-auto"
+        }`}
       >
-        {isLoading ? "Replying" : "Reply"}
-      </button>
+        <textarea
+          placeholder="Post your reply..."
+          className={`no-focus text-stone-200 outline-none w-full bg-[unset] transition-all duration-200 ease-in-out ${
+            isTextareaFocused ? "h-24 pb-10" : "h-8"
+          }`}
+          {...register("text", { required: "This field is required" })}
+          onFocus={() => setIsTextareaFocused(true)}
+          onMouseLeave={() => setIsTextareaFocused(false)}
+        />
+        <button
+          type="submit"
+          className="rounded-lg bg-blue-700 px-5 py-1.5 absolute bottom-2 right-2 transition-all duration-200 ease-in-out"
+          disabled={isLoading}
+        >
+          {isLoading ? "Replying" : "Reply"}
+        </button>
+      </fieldset>
     </form>
   );
 };
