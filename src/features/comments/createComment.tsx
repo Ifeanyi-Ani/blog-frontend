@@ -5,9 +5,8 @@ import { useAppSelector } from "../../app/hook";
 import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
-const CreateComment = () => {
-  const { id: postId } = useParams();
-  const { currentUser } = useAppSelector((state) => state.auth);
+const CreateComment = (props: any) => {
+  const { currentUser, postId } = props;
   const [createComment, { isLoading, isSuccess, isError }] =
     useCreateCommentMutation();
   const {
