@@ -53,7 +53,7 @@ const PostCard = (props: PostCardProps) => {
   }
 
   return (
-    <article className="flex-1 pl-4 rounded-xl">
+    <article className="flex-1 rounded-xl">
       <Card>
         {children}
         <UserHeader currentUser={currentUser} post={post} />
@@ -105,11 +105,11 @@ const PostCard = (props: PostCardProps) => {
               alt="reply"
               className="cursor-pointer object-cover w-6 h-6"
             />
-            {iscomment && comments.length > 0 && (
-              <Link to={`/post/${post.id}`}>
-                {comments.length} repl{comments.length > 1 ? "ies" : "y"}
-              </Link>
-            )}
+            {/* {iscomment && comments.length > 0 && ( */}
+            {/*   <Link to={`/post/${post.id}`}> */}
+            {/*     {comments.length} repl{comments.length > 1 ? "ies" : "y"} */}
+            {/*   </Link> */}
+            {/* )} */}
             <img
               src={repost}
               alt="repost"

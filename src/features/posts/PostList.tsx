@@ -5,8 +5,7 @@ import { SpinnerCircle } from "../../ui/SpinnerCircle";
 import { IPost } from "../../types/type";
 
 const PostList = () => {
-  const { data: posts, isLoading, error } = useGetPostsQuery(null);
-  console.log(posts);
+  const { data: posts, isLoading, error } = useGetPostsQuery({});
 
   let content: JSX.Element;
   if (isLoading) {
