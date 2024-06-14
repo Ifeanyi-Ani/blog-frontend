@@ -42,15 +42,24 @@ const CreateComment = (props: any) => {
           }`}
           {...register("text", { required: "This field is required" })}
           onFocus={() => setIsTextareaFocused(true)}
-          onMouseLeave={() => setIsTextareaFocused(false)}
         />
-        <button
-          type="submit"
-          className="rounded-lg bg-blue-700 px-5 py-1.5 absolute bottom-2 right-2 transition-all duration-200 ease-in-out"
-          disabled={isLoading}
-        >
-          {isLoading ? "Replying" : "Reply"}
-        </button>
+        {isTextareaFocused && (
+          <div className="absolute bottom-2 right-2 flex gap-4 transition-all duration-200 ease-in-out">
+            <button
+              className="rounded-lg bg-blue-500 px-5 py-1.5"
+              onClick={(e) => setIsTextareaFocused(false)}
+            >
+              close
+            </button>
+            <button
+              type="submit"
+              className="rounded-lg bg-blue-700 px-5 py-1.5"
+              disabled={isLoading}
+            >
+              {isLoading ? "Replying" : "Reply"}
+            </button>
+          </div>
+        )}
       </fieldset>
     </form>
   );
