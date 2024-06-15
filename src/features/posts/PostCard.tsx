@@ -2,14 +2,10 @@ import { Link } from "react-router-dom";
 import { ReactNode, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 
-import like from "../../assets/heart-gray.svg";
-import liked from "../../assets/heart-filled.svg";
-import repost from "../../assets/repost.svg";
-import reply from "../../assets/reply.svg";
-import share from "../../assets/share.svg";
 import { useAppSelector } from "../../app/hook";
 import UserHeader from "../users/UserHeader";
 import { IPost } from "../../types/type";
+import Actions from "./Actions";
 
 type PostCardProps = {
   post: IPost;
@@ -25,32 +21,6 @@ type PostCardProps = {
 const PostCard = (props: PostCardProps) => {
   const { children, post, iscomment, comments } = props;
   const { currentUser } = useAppSelector((state) => state.auth);
-  const [checkLike, setCheckLike] = useState(false);
-
-  function checkLikeUser() {
-    const likedIndex = post.likes.findIndex(
-      (like) => like.user.toString() === currentUser?.id,
-    );
-    if (likedIndex === -1) {
-      return setCheckLike(false);
-    }
-    return setCheckLike(true);
-  }
-
-  async function handleLike(postId: string) {
-    try {
-      if (!currentUser) {
-        return null;
-      }
-      const data = { userId: currentUser?.id };
-      // const response = await API.post(`/${postId}/like`, data);
-      return alert(await response.data);
-
-      // await dispatch(likeAndunlikePost(data, postId, LIKE));
-    } catch (error: any) {
-      alert(error.response.data.message);
-    }
-  }
 
   return (
     <article className="flex-1 rounded-xl">
@@ -92,60 +62,9 @@ const PostCard = (props: PostCardProps) => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="flex border-none">
-          <Stack className="gap-3" direction="horizontal">
-            <img
-              src={checkLike ? liked : like}
-              alt="like"
-              className="cursor-pointer object-cover w-6 h-6"
-              role="button"
-              onClick={() => handleLike(post.id)}
-            />
-            <img
-              src={reply}
-              alt="reply"
-              className="cursor-pointer object-cover w-6 h-6"
-            />
-            {/* {iscomment && comments.length > 0 && ( */}
-            {/*   <Link to={`/post/${post.id}`}> */}
-            {/*     {comments.length} repl{comments.length > 1 ? "ies" : "y"} */}
-            {/*   </Link> */}
-            {/* )} */}
-            <img
-              src={repost}
-              alt="repost"
-              className="cursor-pointer object-cover w-6 h-6"
-              role="button"
-            />
-            <img
-              src={share}
-              alt="share"
-              className="cursor-pointer object-cover w-6 h-6"
-              role="button"
-            />
-          </Stack>
+          <Actions post={post} />
         </Card.Footer>
       </Card>
-
-      {/* {!iscomment && comments.length > 0 && ( */}
-      {/*   <div className="ml-1 mt-3 flex items-center gap-2"> */}
-      {/*     {comments.slice(0, 2).map((comment, index) => ( */}
-      {/*       <img */}
-      {/*         key={index} */}
-      {/*         src={comment.photo} */}
-      {/*         alt={`user_${index}`} */}
-      {/*         width={24} */}
-      {/*         height={24} */}
-      {/*         className={`${index !== 0 && "-ml-5"} rounded-full object-cover`} */}
-      {/*       /> */}
-      {/*     ))} */}
-      {/**/}
-      {/*     <Link to={`/post/${post._id}`}> */}
-      {/*       <p className="mt-1 text-subtle-medium text-gray-1"> */}
-      {/*         {comments.length} repl{comments.length > 1 ? "ies" : "y"} */}
-      {/*       </p> */}
-      {/*     </Link> */}
-      {/*   </div> */}
-      {/* )} */}
     </article>
   );
 };
