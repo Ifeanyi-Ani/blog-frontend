@@ -4,14 +4,15 @@ import { SpinnerCircle } from "../../ui/SpinnerCircle";
 import CommentItem from "./CommentItem";
 
 const CommentList = (props: any) => {
-  const { postId } = props;
   const {
-    data: commentsData,
+    postId,
+    isReplayingTo,
+    setisReplayingTo,
+    commentsData,
     isLoading,
     isSuccess,
     error,
-    isError,
-  } = useGetCommentsQuery(postId);
+  } = props;
   let content: JSX.Element;
 
   if (isLoading) {
@@ -29,8 +30,16 @@ const CommentList = (props: any) => {
   } else if (isSuccess) {
     content =
       commentsData.length > 0 &&
-      commentsData.map((comment) => {
-        return <CommentItem comment={comment} />;
+      commentsData.map((comment: any) => {
+        return (
+          <CommentItem
+            comment={comment}
+            postId={postId}
+            key={comment._id}
+            isReplayingTo={isReplayingTo}
+            setisReplayingTo={setisReplayingTo}
+          />
+        );
       });
   }
   return content!;

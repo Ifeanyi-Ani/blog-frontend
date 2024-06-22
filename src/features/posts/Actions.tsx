@@ -6,10 +6,19 @@ import reply from "../../assets/reply.svg";
 import share from "../../assets/share.svg";
 import { useState } from "react";
 import { useAppSelector } from "../../app/hook";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Actions = ({ post }: { post: any }) => {
+const Actions = (props: any) => {
+  const { post, postId, setisReplayingTo } = props;
   const { currentUser } = useAppSelector((state) => state.auth);
   const [checkLike, setCheckLike] = useState(false);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  const handleReplyBox = () => {
+    console.log(post?.id);
+  };
+
   function checkLikeUser() {
     const likedIndex = post.likes.findIndex(
       (like) => like.user.toString() === currentUser?.id,
@@ -37,12 +46,9 @@ const Actions = ({ post }: { post: any }) => {
           src={reply}
           alt="reply"
           className="cursor-pointer object-cover w-6 h-6"
+          role="button"
+          onClick={() => setisReplayingTo((prev: boolean) => !prev)}
         />
-        {/* {iscomment && comments.length > 0 && ( */}
-        {/*   <Link to={`/post/${post.id}`}> */}
-        {/*     {comments.length} repl{comments.length > 1 ? "ies" : "y"} */}
-        {/*   </Link> */}
-        {/* )} */}
         <img
           src={repost}
           alt="repost"

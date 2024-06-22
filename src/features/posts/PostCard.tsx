@@ -10,16 +10,10 @@ import Actions from "./Actions";
 type PostCardProps = {
   post: IPost;
   children?: ReactNode;
-  iscomment?: boolean;
-  comments: [
-    userId: {
-      photo: string;
-    },
-  ];
 };
 
 const PostCard = (props: PostCardProps) => {
-  const { children, post, iscomment, comments } = props;
+  const { children, post } = props;
   const { currentUser } = useAppSelector((state) => state.auth);
 
   return (
