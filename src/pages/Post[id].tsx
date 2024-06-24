@@ -32,7 +32,7 @@ const PostPreview = () => {
     }
   }
   if (isSuccess) {
-    console.log(postData);
+    console.log("commentData", commentsData);
     return (
       <>
         <PostCard post={postData} />
@@ -46,6 +46,7 @@ const PostPreview = () => {
           isError={commentError}
           error={error}
           postId={postId}
+          currentUser={currentUser}
         />
       </>
     );

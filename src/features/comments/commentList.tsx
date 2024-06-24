@@ -4,15 +4,8 @@ import { SpinnerCircle } from "../../ui/SpinnerCircle";
 import CommentItem from "./CommentItem";
 
 const CommentList = (props: any) => {
-  const {
-    postId,
-    isReplayingTo,
-    setisReplayingTo,
-    commentsData,
-    isLoading,
-    isSuccess,
-    error,
-  } = props;
+  const { postId, commentsData, currentUser, isLoading, isSuccess, error } =
+    props;
   let content: JSX.Element;
 
   if (isLoading) {
@@ -30,17 +23,18 @@ const CommentList = (props: any) => {
   } else if (isSuccess) {
     content =
       commentsData.length > 0 &&
-      commentsData.map((comment: any) => {
-        return (
-          <CommentItem
-            comment={comment}
-            postId={postId}
-            key={comment._id}
-            isReplayingTo={isReplayingTo}
-            setisReplayingTo={setisReplayingTo}
-          />
-        );
-      });
+      commentsData
+        .filter((comment: any) => !comment.parentId)
+        .map((comment: any) => {
+          return (
+            <CommentItem
+              comment={comment}
+              postId={postId}
+              currentUser={currentUser}
+              key={comment._id}
+            />
+          );
+        });
   }
   return content!;
 };

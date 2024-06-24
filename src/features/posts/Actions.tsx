@@ -7,9 +7,18 @@ import share from "../../assets/share.svg";
 import { useState } from "react";
 import { useAppSelector } from "../../app/hook";
 import { useLocation, useNavigate } from "react-router-dom";
+import { IPost } from "../../types/type";
+
+type Props = {
+  post: IPost;
+  postId: string;
+  setisReplayingTo: (isReplyingTo: boolean) => void;
+  showReply: boolean;
+  toggleShowReply: (showReply: boolean) => void;
+};
 
 const Actions = (props: any) => {
-  const { post, postId, setisReplayingTo } = props;
+  const { post, postId, setisReplayingTo, showReply, toggleShowReply } = props;
   const { currentUser } = useAppSelector((state) => state.auth);
   const [checkLike, setCheckLike] = useState(false);
   const { pathname } = useLocation();
