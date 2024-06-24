@@ -56,7 +56,7 @@ const CreateComment = (props: any) => {
               className="rounded-lg bg-blue-700 px-5 py-1.5"
               disabled={isLoading}
             >
-              {isLoading ? "Replying" : "Reply"}
+              {isLoading ? "Commenting" : "Comment"}
             </button>
           </div>
         )}
