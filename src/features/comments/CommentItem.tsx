@@ -41,7 +41,7 @@ const CommentItem = (props: Props) => {
             />
           )}
         </div>
-        {comment?.replies?.length > 0 && (
+        {showReply && (
           <div className="pl-6">
             {comment?.replies?.map((reply: any) => (
               <CommentItem
