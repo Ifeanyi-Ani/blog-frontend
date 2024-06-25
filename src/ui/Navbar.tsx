@@ -40,7 +40,6 @@ const Navbar = function () {
     setSearchInput(query);
     // search(query);
   }
-  console.log(currentUser);
   useEffect(() => {
     if (isError) {
       toast.error("something went wrong");

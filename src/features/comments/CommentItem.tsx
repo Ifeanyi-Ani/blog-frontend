@@ -12,7 +12,7 @@ const CommentItem = (props: Props) => {
   const { comment, postId, currentUser } = props;
   const [isReplayingTo, setisReplayingTo] = useState(false);
   const [showReply, toggleShowReply] = useState(false);
-  console.log(comment);
+
   return (
     <div className="flex w-full gap-2 mt-4">
       <div className="w-6 h-6 relative">
@@ -32,6 +32,8 @@ const CommentItem = (props: Props) => {
             setisReplayingTo={setisReplayingTo}
             showReply={showReply}
             toggleShowReply={toggleShowReply}
+            isReplyingTo={isReplayingTo}
+            comment={comment}
           />
           {isReplayingTo && (
             <ReplyComment

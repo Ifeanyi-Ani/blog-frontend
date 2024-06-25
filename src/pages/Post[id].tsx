@@ -32,7 +32,6 @@ const PostPreview = () => {
     }
   }
   if (isSuccess) {
-    console.log("commentData", commentsData);
     return (
       <>
         <PostCard post={postData} />
