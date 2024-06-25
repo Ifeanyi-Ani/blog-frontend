@@ -112,9 +112,9 @@ const EditPost: React.FC<EditPostProps> = (props) => {
       className="modalSecon"
       backdrop="static"
     >
-      <Modal.Body className="customBody">
+      <Modal.Body className="gap-7 grid grid-cols-[0.1fr_2fr]">
         <Avater src={currentUser?.photo || ""} />
-        <div className="modalForm">
+        <div className="bg-white p-2 rounded">
           <div className="title">
             <div className="nameCon">{currentUser?.username}</div>
             <div className="icons"></div>

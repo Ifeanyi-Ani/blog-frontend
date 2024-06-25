@@ -23,22 +23,9 @@ const CardItem = function () {
       {randomPost.length > 0
         ? randomPost.map((post: IPost) => (
             <div key={post._id}>
-              <Card.Header
-                style={{
-                  position: "relative",
-                  borderBottom: "none",
-                  paddingLeft: "55px",
-                }}
-              >
+              <Card.Header className="relative border-b-0 pl-14">
                 <div
-                  style={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "30px",
-                    transform: "translate(-50%, -50%)",
-                    width: "35px",
-                    height: "35px",
-                  }}
+                  className="absolute top-2/4 left-7 w-[35px] transform -translate-x-2/4 -translate-y-2/4"
                   role="button"
                 >
                   <img

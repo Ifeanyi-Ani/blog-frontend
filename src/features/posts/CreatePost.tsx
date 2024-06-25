@@ -58,7 +58,6 @@ const CreatePostForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(post);
     await createPost(post);
     setPost(INIT_STATE);
     setToggleCreateModal(false);

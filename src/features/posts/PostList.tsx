@@ -5,8 +5,7 @@ import { SpinnerCircle } from "../../ui/SpinnerCircle";
 import { IPost } from "../../types/type";
 
 const PostList = () => {
-  const { data: posts, isLoading, error } = useGetPostsQuery(null);
-  console.log(posts);
+  const { data: posts, isLoading, error } = useGetPostsQuery({});
 
   let content: JSX.Element;
   if (isLoading) {
@@ -30,7 +29,10 @@ const PostList = () => {
       <>
         {posts?.length ? (
           posts.map((post: IPost) => (
-            <div className="gridItem" key={post._id}>
+            <div
+              className="w-full mb-5 relative break-inside-avoid flex divide-x-2 divide-blue-800 gap-x-4"
+              key={post._id}
+            >
               <Avater src={post.userId.photo} />
               <PostCard post={post} />
             </div>
