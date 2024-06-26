@@ -56,7 +56,7 @@ const PostCard = (props: PostCardProps) => {
           </Card.Text>
         </Card.Body>
         <Card.Footer className="flex border-none">
-          <Actions post={post} />
+          <Actions post={post} comment={post.comments} />
         </Card.Footer>
       </Card>
     </article>

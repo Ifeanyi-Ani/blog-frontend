@@ -1,21 +1,13 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
 const CommentCount = (props: any) => {
-  const { comment, toggleShowReply, showReply, post, postId } = props;
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
+  const { comment, index } = props;
   return (
     <img
       src={comment.userId.photo}
       alt="repost"
-      className="cursor-pointer object-cover w-6 h-6"
-      role="button"
+      className={`${index !== 0 && "-ml-5"} w-6 h-6 object-cover rounded-full`}
       key={comment._id}
-      onClick={
-        pathname === `/post/${postId}`
-          ? () => toggleShowReply(!showReply)
-          : () => navigate(`/post/${post._id}`)
-      }
     />
   );
 };
