@@ -1,11 +1,9 @@
 import { Stack } from "react-bootstrap";
 import like from "../../assets/heart-gray.svg";
 import liked from "../../assets/heart-filled.svg";
-import repost from "../../assets/repost.svg";
 import reply from "../../assets/reply.svg";
 import { useState } from "react";
-import { useAppSelector } from "../../app/hook";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IPost } from "../../types/type";
 import CommentCount from "../comments/ComentCount";
 
@@ -30,9 +28,6 @@ const Actions = (props: Props) => {
     comment,
   } = props;
   const [checkLike, _setCheckLike] = useState(false);
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
-  console.log(post);
   async function handleLike(postId: string) {}
   return (
     <>
@@ -64,7 +59,7 @@ const Actions = (props: Props) => {
                 />
               ))
             : comment?.replies?.length > 0
-              ? comment.replies.map((comment) => (
+              ? comment.replies.map((comment: any) => (
                   <CommentCount
                     comment={comment}
                     toggleShowReply={toggleShowReply}
