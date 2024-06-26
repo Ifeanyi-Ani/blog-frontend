@@ -12,6 +12,15 @@ export default {
           800: "#001935",
         },
       },
+      fontSize: {
+        subtle: [
+          "12px",
+          {
+            lineHeight: "16px",
+            fontWeight: "500",
+          },
+        ],
+      },
     },
   },
   plugins: [],

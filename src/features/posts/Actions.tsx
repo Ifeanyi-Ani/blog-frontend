@@ -28,6 +28,8 @@ const Actions = (props: Props) => {
     comment,
   } = props;
   const [checkLike, _setCheckLike] = useState(false);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   async function handleLike(postId: string) {}
   return (
     <>
@@ -47,29 +49,64 @@ const Actions = (props: Props) => {
           onClick={() => setisReplayingTo(!isReplyingTo)}
         />
         <div>
-          {post?.comments?.length > 0
-            ? post?.comments?.map((comment) => (
-                <CommentCount
-                  comment={comment}
-                  toggleShowReply={toggleShowReply}
-                  showReply={showReply}
-                  post={post}
-                  postId={postId}
-                  key={comment._id}
-                />
-              ))
-            : comment?.replies?.length > 0
-              ? comment.replies.map((comment: any) => (
-                  <CommentCount
-                    comment={comment}
-                    toggleShowReply={toggleShowReply}
-                    showReply={showReply}
-                    post={post}
-                    postId={postId}
-                    key={comment._id}
-                  />
-                ))
-              : null}
+          <div className="flex items-center gap-2">
+            {post?.comments?.length > 0 ? (
+              <>
+                {post?.comments
+                  ?.slice(0, 3)
+                  .map((comment: any, idx: number) => (
+                    <CommentCount
+                      comment={comment}
+                      toggleShowReply={toggleShowReply}
+                      showReply={showReply}
+                      post={post}
+                      postId={postId}
+                      key={idx}
+                      index={idx}
+                    />
+                  ))}
+                <div
+                  className="cursor-pointer text-subtle text-blue-800"
+                  onClick={
+                    pathname === `/post/${postId}`
+                      ? () => toggleShowReply(!showReply)
+                      : () => navigate(`/post/${post?._id}`)
+                  }
+                >
+                  {post?.comments?.length} repl
+                  {post?.comments?.length > 1 ? "ies" : "y"}
+                </div>
+              </>
+            ) : comment?.replies?.length > 0 ? (
+              <>
+                {comment.replies
+                  .slice(0, 3)
+                  .map((comment: any, idx: number) => (
+                    <CommentCount
+                      comment={comment}
+                      toggleShowReply={toggleShowReply}
+                      showReply={showReply}
+                      post={post}
+                      postId={postId}
+                      key={idx}
+                      index={idx}
+                    />
+                  ))}
+
+                <div
+                  className="cursor-pointer text-subtle text-blue-800"
+                  onClick={
+                    pathname === `/post/${postId}`
+                      ? () => toggleShowReply(!showReply)
+                      : () => navigate(`/post/${post?._id}`)
+                  }
+                >
+                  {comment?.replies?.length} repl
+                  {comment?.replies?.length > 1 ? "ies" : "y"}
+                </div>
+              </>
+            ) : null}
+          </div>
         </div>
       </Stack>
     </>
