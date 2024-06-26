@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 
 const CommentCount = (props: any) => {
-  const { comment, toggleShowReply, showReply, post, postId, index } = props;
+  const { comment, index } = props;
   return (
     <img
       src={comment.userId.photo}

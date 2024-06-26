@@ -13,6 +13,7 @@ export interface IPost {
   title: string;
   updatedAt: Date;
   userId: IUser;
+  comments: any;
 }
 export interface ICREATEPOST {
   title: string;

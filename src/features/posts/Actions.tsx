@@ -9,11 +9,11 @@ import CommentCount from "../comments/ComentCount";
 
 type Props = {
   post?: IPost;
-  postId: string;
-  isReplyingTo: boolean;
-  setisReplayingTo: (isReplyingTo: boolean) => void;
-  showReply: boolean;
-  toggleShowReply: (showReply: boolean) => void;
+  postId?: string;
+  isReplyingTo?: boolean;
+  setisReplayingTo?: (isReplyingTo: boolean) => void;
+  showReply?: boolean;
+  toggleShowReply?: (showReply: boolean) => void;
   comment: any;
 };
 
@@ -46,67 +46,37 @@ const Actions = (props: Props) => {
           alt="reply"
           className="cursor-pointer object-cover w-6 h-6"
           role="button"
-          onClick={() => setisReplayingTo(!isReplyingTo)}
+          onClick={() => setisReplayingTo!(!isReplyingTo)}
         />
-        <div>
-          <div className="flex items-center gap-2">
-            {post?.comments?.length > 0 ? (
-              <>
-                {post?.comments
-                  ?.slice(0, 3)
-                  .map((comment: any, idx: number) => (
-                    <CommentCount
-                      comment={comment}
-                      toggleShowReply={toggleShowReply}
-                      showReply={showReply}
-                      post={post}
-                      postId={postId}
-                      key={idx}
-                      index={idx}
-                    />
-                  ))}
-                <div
-                  className="cursor-pointer text-subtle text-blue-800"
-                  onClick={
-                    pathname === `/post/${postId}`
-                      ? () => toggleShowReply(!showReply)
-                      : () => navigate(`/post/${post?._id}`)
-                  }
-                >
-                  {post?.comments?.length} repl
-                  {post?.comments?.length > 1 ? "ies" : "y"}
-                </div>
-              </>
-            ) : comment?.replies?.length > 0 ? (
-              <>
-                {comment.replies
-                  .slice(0, 3)
-                  .map((comment: any, idx: number) => (
-                    <CommentCount
-                      comment={comment}
-                      toggleShowReply={toggleShowReply}
-                      showReply={showReply}
-                      post={post}
-                      postId={postId}
-                      key={idx}
-                      index={idx}
-                    />
-                  ))}
-
-                <div
-                  className="cursor-pointer text-subtle text-blue-800"
-                  onClick={
-                    pathname === `/post/${postId}`
-                      ? () => toggleShowReply(!showReply)
-                      : () => navigate(`/post/${post?._id}`)
-                  }
-                >
-                  {comment?.replies?.length} repl
-                  {comment?.replies?.length > 1 ? "ies" : "y"}
-                </div>
-              </>
-            ) : null}
-          </div>
+        <div className="flex items-center gap-2">
+          {comment?.length > 0 && (
+            <>
+              {comment
+                ?.slice(0, 3)
+                .map((item: any, idx: number) => (
+                  <CommentCount
+                    comment={item}
+                    toggleShowReply={toggleShowReply}
+                    showReply={showReply}
+                    post={post}
+                    postId={postId}
+                    key={idx}
+                    index={idx}
+                  />
+                ))}
+              <div
+                className="cursor-pointer text-subtle text-blue-800"
+                onClick={
+                  pathname === `/post/${postId}`
+                    ? () => toggleShowReply!(!showReply)
+                    : () => navigate(`/post/${post?._id}`)
+                }
+              >
+                {comment?.length} repl
+                {comment?.length > 1 ? "ies" : "y"}
+              </div>
+            </>
+          )}
         </div>
       </Stack>
     </>

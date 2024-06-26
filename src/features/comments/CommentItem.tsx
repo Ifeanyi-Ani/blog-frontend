@@ -33,7 +33,7 @@ const CommentItem = (props: Props) => {
             showReply={showReply}
             toggleShowReply={toggleShowReply}
             isReplyingTo={isReplayingTo}
-            comment={comment}
+            comment={comment.replies}
           />
           {isReplayingTo && (
             <ReplyComment
