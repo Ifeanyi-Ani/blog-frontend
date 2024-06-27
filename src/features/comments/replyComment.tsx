@@ -4,7 +4,7 @@ import { useCreateReplyMutation } from "./commentSlice";
 import { toast } from "react-hot-toast";
 
 const ReplyComment = (props: any) => {
-  const { currentUser, postId, parentId } = props;
+  const { currentUser, postId, parentId, parentAuthor } = props;
   const [createReply, { isLoading, isSuccess, isError }] =
     useCreateReplyMutation();
   const {
@@ -16,8 +16,7 @@ const ReplyComment = (props: any) => {
   const [isTextareaFocused, setIsTextareaFocused] = useState(false);
 
   const handleCreateReply = async (data: any) => {
-    const formData = { ...data, userId: currentUser?.id };
-    console.log(formData, errors, parentId);
+    const formData = { ...data, userId: currentUser?.id, parentAuthor };
     if (!formData?.userId) {
       return toast.error("User not found");
     }
