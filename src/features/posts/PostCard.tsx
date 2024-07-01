@@ -6,6 +6,8 @@ import { useAppSelector } from "../../app/hook";
 import UserHeader from "../users/UserHeader";
 import { IPost } from "../../types/type";
 import Actions from "./Actions";
+import DeleteBtn from "../../utils/DeleteBtn";
+import { useDeletePostMutation } from "./postSlice";
 
 type PostCardProps = {
   post: IPost;
@@ -15,10 +17,29 @@ type PostCardProps = {
 const PostCard = (props: PostCardProps) => {
   const { children, post } = props;
   const { currentUser } = useAppSelector((state) => state.auth);
+  const [
+    deletePost,
+    {
+      isLoading: deletePostisLoading,
+      isSuccess: deletPostisSucess,
+      isError: deletePostisError,
+    },
+  ] = useDeletePostMutation();
+
+  const deletePostData = post?._id;
 
   return (
     <article className="flex-1 rounded-xl">
-      <Card>
+      <Card className="relative">
+        {post?.userId?.id === currentUser?.id && (
+          <DeleteBtn
+            deleteData={deletePost}
+            deleteDetails={deletePostData}
+            isLoading={deletePostisLoading}
+            isSuccess={deletPostisSucess}
+            isError={deletePostisError}
+          />
+        )}
         {children}
         <UserHeader currentUser={currentUser} post={post} />
         <Card.Body>
