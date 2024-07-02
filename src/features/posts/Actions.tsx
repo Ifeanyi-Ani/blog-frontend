@@ -44,9 +44,13 @@ const Actions = (props: Props) => {
         <img
           src={reply}
           alt="reply"
-          className="cursor-pointer object-cover w-6 h-6"
+          className="object-cover w-6 h-6"
           role="button"
-          onClick={() => setisReplayingTo!(!isReplyingTo)}
+          onClick={
+            pathname !== `/post/${postId}`
+              ? () => navigate(`/post/${post?._id}`)
+              : () => setisReplayingTo(!isReplyingTo)
+          }
         />
         <div className="flex items-center gap-2">
           {comment?.length > 0 && (

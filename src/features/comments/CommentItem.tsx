@@ -2,6 +2,8 @@ import { useState } from "react";
 import avater from "../../assets/avater.jpg";
 import Actions from "../posts/Actions";
 import ReplyComment from "./replyComment";
+import DeleteBtn from "../../utils/DeleteBtn";
+import { useDeleteCommentMutation } from "./commentSlice";
 type Props = {
   comment: any;
   postId: string;
@@ -13,6 +15,19 @@ const CommentItem = (props: Props) => {
   const { comment, postId, currentUser, index } = props;
   const [isReplayingTo, setisReplayingTo] = useState(false);
   const [showReply, toggleShowReply] = useState(false);
+  const deleteDetials = {
+    postId,
+    commentId: comment?._id,
+  };
+
+  const [
+    deleteComment,
+    {
+      isLoading: deleteCommentisLoading,
+      isSuccess: deleteCommentisSuccess,
+      isError: deleteCommentisError,
+    },
+  ] = useDeleteCommentMutation();
 
   return (
     <>
@@ -26,7 +41,16 @@ const CommentItem = (props: Props) => {
         </div>
 
         <div className="flex-1 overflow-hidden rounded flex flex-col">
-          <div className="bg-blue-600 p-2">
+          <div className="bg-blue-600 p-2 relative">
+            {comment?.userId?._id === currentUser?._id && (
+              <DeleteBtn
+                deleteDetails={deleteDetials}
+                deleteData={deleteComment}
+                isLoading={deleteCommentisLoading}
+                isSuccess={deleteCommentisSuccess}
+                isError={deleteCommentisError}
+              />
+            )}
             <h5>
               <strong>{comment?.userId?.username} </strong>
               {comment.parentAuthor && (

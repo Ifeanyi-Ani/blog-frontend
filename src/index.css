@@ -2,6 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.7;
+  box-sizing: border-box;
+}
+
 .page-wrapper {
   background-color: #001935;
   color: #fff;
