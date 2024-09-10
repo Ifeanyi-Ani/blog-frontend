@@ -11,7 +11,10 @@ const App = () => {
     <>
       <BrowserRouter>
         <Routes>
-          <Route element={<Layout />}>
+          <Route
+            element={<Layout />}
+            errorElement={<div>Something went wrong</div>}
+          >
             <Route path="/" element={<Home />} />
             <Route path="/post/:id" element={<PostPreview />} />
             <Route path="/blog/:username" element={<Preview />} />

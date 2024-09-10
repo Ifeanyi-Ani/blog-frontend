@@ -8,7 +8,7 @@ export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const usePersist = () => {
   const [persist, setPersist] = useState(
-    JSON.parse(localStorage.getItem("persist")!) || false,
+    JSON.parse(localStorage.getItem("persist") as string) || false,
   );
 
   useEffect(() => {

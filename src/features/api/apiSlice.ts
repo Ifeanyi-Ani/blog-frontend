@@ -1,9 +1,9 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { UserLogin, UserLogout } from "../users/authSlice";
+import { UserLogin } from "../users/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "https://tumblr-bkend.onrender.com",
-  baseUrl: "http://127.0.0.1:4000/",
+  // baseUrl: "https://blog-backend-youe.onrender.com/",
+  baseUrl: "http://127.0.0.1:40000/",
   credentials: "include" as const,
   // prepareHeaders: (headers, { getState }: { getState: any }) => {
   //   const Token = getState().auth.token;
@@ -17,7 +17,7 @@ const baseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithReauth = async (arg: any, api: any, extraOptions: any) => {
-  let result = await baseQuery(arg, api, extraOptions);
+  const result = await baseQuery(arg, api, extraOptions);
 
   if (result?.error?.status === 403) {
     console.log("sending refresh token");

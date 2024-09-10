@@ -4,13 +4,14 @@ import { useGetUsersQuery } from "./userSlice";
 import { SpinnerCircle } from "../../ui/SpinnerCircle";
 
 const CardInfo = function () {
+  let content: JSX.Element | null = null;
+
   const { data: users, isLoading, error } = useGetUsersQuery(null);
-  let content: JSX.Element;
 
   const getRandomUsers = (item: IUser[]): IUser[] => {
     if (item && item.length > 0) {
       const shuffledUsers = [...item].sort(() => 0.5 - Math.random());
-      const randomSubset = shuffledUsers.slice(0, 5); // Get a random subset of 2 users
+      const randomSubset = shuffledUsers.slice(0, 5);
       return randomSubset;
     }
 
@@ -64,6 +65,7 @@ const CardInfo = function () {
       <>
         <Card className="mySecondaryb text-light">
           <Card.Header className="navbarbs nameCon">Trending Blogs</Card.Header>
+
           <Card.Body>
             <ListGroup
               style={{ padding: "unset !important" }}
@@ -75,11 +77,12 @@ const CardInfo = function () {
                 )
               ) : (
                 <ListGroupItem className="mySecondaryb border-0 d-flex justify-content-between align-items-center p-0 text-white">
-                  Loading...
+                  No user found
                 </ListGroupItem>
               )}
             </ListGroup>
           </Card.Body>
+
           <Card.Footer className="d-flex justify-content-center navbarts">
             <Card.Link href="#" className="text-decoration-none act">
               Show more blogs
@@ -90,6 +93,6 @@ const CardInfo = function () {
     );
   }
 
-  return content!;
+  return content;
 };
 export default CardInfo;
