@@ -1,152 +1,100 @@
-import { useContext, useEffect, useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
-import {
-  Container,
-  Nav,
-  Stack,
-  Button,
-  Navbar as NavbarBs,
-  NavDropdown,
-} from "react-bootstrap";
-import { ContextData } from "../contexts/contextData";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Plus, Menu, X, Search } from "lucide-react";
 import { useAppSelector } from "../app/hook";
-import { useLogOutMutation } from "../features/users/userSlice";
-import { toast } from "react-hot-toast";
-import Avater from "../features/users/Avater";
-import ProfileAction from "../features/users/ProfileAction";
-import CreatePostForm from "../features/posts/CreatePost";
-import Login_Signup from "../features/auth/Login_Signup";
+import { Input } from "./shared/Input";
+import { Account } from "./shared/Account";
 
 const Navbar = function () {
-  const navigate = useNavigate();
-  const { toggleCreateModal, setToggleCreateModal } = useContext(ContextData);
   const { currentUser } = useAppSelector((state) => state.auth);
-  const [logOut, { isSuccess, isError }] = useLogOutMutation();
-
-  const [searchInput, setSearchInput] = useState<string>("");
-  const [show, setShow] = useState<boolean>(false);
-
-  function handleModal1(val: boolean) {
-    setShow(val);
-  }
-
-  async function handleLogOut(e: React.FormEvent) {
-    e.stopPropagation();
-    await logOut({}).unwrap();
-  }
-
-  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-    const query = e.target.value;
-    setSearchInput(query);
-    // search(query);
-  }
-  useEffect(() => {
-    if (isError) {
-      toast.error("something went wrong");
-    }
-    if (isSuccess) {
-      toast.success("user logout successfully");
-      navigate("/");
-    }
-  }, [isError, isSuccess]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <>
-      <NavbarBs className="navbarbs position-sticky top-0 w-100 myPrimaryb maxZ">
-        <Container>
-          <NavbarBs.Brand to="/" className="link-light fs-1" as={NavLink}>
-            t
-          </NavbarBs.Brand>
-          <form onSubmit={(e) => e.preventDefault()}>
-            <div className="searchItem">
-              <i className="bi bi-search"></i>
-              <input
-                type="text"
-                placeholder="Search Tumblr"
-                value={searchInput}
-                onChange={handleSearch}
-              />
-            </div>
-          </form>
-          <NavbarBs.Toggle aria-controls="basic-navbar-nav" />
-          <NavbarBs.Collapse id="basic-navbar-nav">
-            <Nav
-              className="ms-auto my-2 my-lg-0"
-              style={{ maxHeight: "100px" }}
+    <nav className="w-full bg-customBlue-900 border-b border-customBlue-700 shadow-lg py-2 mb-4">
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Link
+              to="/"
+              className="text-3xl font-extrabold text-customBlue-100"
             >
-              {!currentUser ? (
-                <>
-                  <Stack direction="horizontal" gap={3}>
-                    <Button variant="info">Click for frogs</Button>
-                    <Button
-                      variant="success"
-                      onClick={() => handleModal1(true)}
-                    >
-                      Log in
-                    </Button>
-                  </Stack>
-                </>
+              devTalk
+            </Link>
+          </div>
+          <div className="hidden md:block flex-1 max-w-md mx-4">
+            <form onSubmit={(e) => e.preventDefault()} className="relative">
+              <Input placeholder="Search" className="pl-10" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-customBlue-500 w-5 h-5" />
+            </form>
+          </div>
+          <div className="hidden md:flex items-center space-x-4">
+            <Link
+              to={!currentUser ? "/auth/login" : "/posts/new"}
+              className="flex items-center bg-customBlue-600 hover:bg-customBlue-500 text-customBlue-100 rounded-full px-4 py-2 transition duration-150 ease-in-out"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Create
+            </Link>
+            {!currentUser ? (
+              <Link
+                to="/auth/login"
+                className="text-customBlue-300 hover:text-customBlue-100 px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
+              >
+                Login
+              </Link>
+            ) : (
+              <Account />
+            )}
+          </div>
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-customBlue-300 hover:text-customBlue-100 focus:outline-none focus:text-customBlue-100"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
               ) : (
-                <>
-                  <Nav.Link as={Link} to="/">
-                    <i className="bi bi-house-fill"></i>
-                  </Nav.Link>
-
-                  {currentUser?.role === "admin" ? (
-                    <>
-                      <Nav.Link as={Link} to="/admin">
-                        <i className="bi bi-compass"></i>
-                      </Nav.Link>
-                    </>
-                  ) : null}
-                  {currentUser && (
-                    <>
-                      <NavDropdown
-                        title={<i className="bi bi-person-fill"></i>}
-                        id="basic-nav-dropdown"
-                        className="dropDownConfig"
-                      >
-                        <NavDropdown.Item as={Button} className="secBreak">
-                          <div>Account</div>
-                          <div
-                            role="button"
-                            className="btnConfig"
-                            onClick={(e) => handleLogOut(e)}
-                          >
-                            Log out
-                          </div>
-                        </NavDropdown.Item>
-
-                        <div className="profileActx">
-                          <div className="offSetImg">
-                            <Avater src={currentUser?.photo} />
-                          </div>
-                          <ProfileAction currentUser={currentUser} />
-                        </div>
-                      </NavDropdown>
-                    </>
-                  )}
-                  <Nav.Link
-                    role="button"
-                    className="btnConfig bg-info px-3 rounded-1"
-                    onClick={() => setToggleCreateModal(!toggleCreateModal)}
-                  >
-                    <i className="bi bi-pencil-fill"></i>
-                  </Nav.Link>
-                </>
+                <Menu className="h-6 w-6" />
               )}
-            </Nav>
-          </NavbarBs.Collapse>
-        </Container>
-      </NavbarBs>
+            </button>
+          </div>
+        </div>
+      </div>
 
-      <Login_Signup
-        show={show}
-        setShow={setShow}
-        handleModal1={() => handleModal1(false)}
-      />
-      {toggleCreateModal && <CreatePostForm />}
-    </>
+      {/* Mobile menu, show/hide based on menu state */}
+      {isMenuOpen && (
+        <div className="md:hidden">
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className="relative mb-3"
+            >
+              <Input placeholder="Search" className="pl-10" />
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-customBlue-500 w-5 h-5" />
+            </form>
+            <Link
+              to={!currentUser ? "/auth/login" : "/posts/new"}
+              className="flex items-center bg-customBlue-600 hover:bg-customBlue-500 text-customBlue-100 rounded-full px-4 py-2 transition duration-150 ease-in-out"
+            >
+              <Plus className="w-5 h-5 mr-2" />
+              Create
+            </Link>
+            {!currentUser ? (
+              <Link
+                to="/auth/login"
+                className="block text-customBlue-300 hover:text-customBlue-100 px-3 py-2 rounded-md text-base font-medium"
+              >
+                Login
+              </Link>
+            ) : (
+              <div className="px-3 py-2">
+                <Account />
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </nav>
   );
 };
 
