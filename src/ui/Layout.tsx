@@ -10,13 +10,17 @@ import CardInfo from "../features/users/CardInfo";
 
 function Layout() {
   return (
-    <Container fluid className="page-wrapper p-0">
+    <Container
+      fluid
+      className="grid grid-rows-[auto_1fr] h-screen bg-customBlue-950 text-stone-300"
+    >
       <Navbar />
-      <div className="d-flex justify-content-center gap-3 pt-3 homeHead">
-        <Main>
+      <div className="overflow-hidden grid md:grid-cols-12 grid-cols-[none] w-full max-w-screen-2xl mx-auto h-full">
+        <Main className="md:col-start-2 md:col-end-9 h-full overflow-y-scroll custom-scrollbar custom-scrollbar-thin">
           <Outlet />
         </Main>
         <SideBar
+          className="col-start-9 col-end-12 hidden md:block overflow-y-scroll no-scrollbar"
           cardHeader="Radar"
           header="Sponsored"
           title="Advertisement"
