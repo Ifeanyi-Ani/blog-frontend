@@ -1,113 +1,113 @@
-import React, { MouseEventHandler, useEffect } from "react";
-import { Form, Modal } from "react-bootstrap";
-import { useState } from "react";
+import * as z from "zod";
+import { Link, useNavigate } from "react-router-dom";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { FormField } from "../../ui/shared/FormField";
+import { SubmitBtn } from "../../ui/shared/SubmitBtn";
 import { useLoginMutation } from "../users/userSlice";
+import { useEffect } from "react";
 
-interface LoginFormProps {
-  showLogin: boolean;
-  handleModal2: () => void;
-  handlePrevModal: MouseEventHandler<HTMLButtonElement>;
-}
-const INIT_STATE = {
-  email: "",
-  password: "",
-};
-const LoginForm = ({
-  showLogin,
-  handleModal2,
-  handlePrevModal,
-}: LoginFormProps) => {
-  const [login, { isSuccess, isLoading, isError, error, data }] =
-    useLoginMutation();
+const LoginSchema = z.object({
+  email: z.string().min(3),
+  password: z.string().min(8),
+});
 
-  const [formData, setFormData] = useState(INIT_STATE);
+type FormValidation = z.infer<typeof LoginSchema>;
 
-  async function handleSubmit(e: React.FormEvent) {
-    try {
-      e.preventDefault();
-      // const data = new FormData();
-      // data.append("email", formData.email);
-      // data.append("password", formData.password);
+export const LoginForm = () => {
+  const [login, { isLoading, error, isSuccess }] = useLoginMutation();
+  const navigate = useNavigate();
 
-      await login(formData).unwrap();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValidation>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-      handleModal2();
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const onSubmit: SubmitHandler<FormValidation> = async (data) => {
+    await login(data).unwrap();
+  };
+
   useEffect(() => {
     if (isSuccess) {
-      const message = data?.message || "user logged in successfully";
-      toast.success(message);
-      setFormData(INIT_STATE);
+      toast.success("Successfully signed up");
+      navigate("/");
     }
-    if (isError) {
-      if ("data" in error!) {
-        const errorData = error as any;
-        const message =
-          errorData?.data.msg ||
-          errorData?.data?.message ||
-          "something went wrong";
-        toast.error(message);
+    if (error) {
+      if ("data" in error) {
+        toast.error(error.data?.message || "An error occurred");
+      } else {
+        toast.error("An unexpected error occurred");
       }
     }
-  }, [isSuccess, isError]);
-  return (
-    <Modal centered show={showLogin} onHide={handleModal2}>
-      <Modal.Header className="d-flex justify-content-center border-0 modalPrimary">
-        <button
-          style={{
-            position: "absolute",
-            left: "30px",
-            top: "20px",
-            backgroundColor: "unset",
-            border: "none",
-            color: "#fff",
-            fontWeight: "700",
-          }}
-          onClick={handlePrevModal}
-        >
-          ⇚
-        </button>
-        <Modal.Title>tumblr</Modal.Title>
-      </Modal.Header>
+  }, [isSuccess, error, navigate]);
 
-      <Modal.Body className="modalPrimary">
-        <Form
-          className="centerForm"
-          onSubmit={handleSubmit}
-          encType="multipart/form-data"
+  return (
+    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+      <div className="space-y-2">
+        <label
+          htmlFor="email"
+          className="text-sm font-medium text-electricCyan-300"
         >
-          <Form.Group>
-            <Form.Control
-              type="email"
-              placeholder="Email"
-              required
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({ ...formData, email: e.target.value })
-              }
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control
-              type="password"
-              placeholder="Enter password"
-              required
-              value={formData.password}
-              onChange={(e) =>
-                setFormData({ ...formData, password: e.target.value })
-              }
-            />
-          </Form.Group>
-          <Form.Group>
-            <Form.Control type="submit" value="Submit" disabled={isLoading} />
-          </Form.Group>
-        </Form>
-      </Modal.Body>
-    </Modal>
+          Email
+        </label>
+
+        <FormField
+          control={control}
+          name="email"
+          type="email"
+          placeholder="my@example.com"
+        />
+        {errors.email && (
+          <span className="text-xs text-customRed-400">
+            {errors.email.message}
+          </span>
+        )}
+      </div>
+      <div className="space-y-2">
+        <div className="flex items-center justify-between">
+          <label
+            htmlFor="password"
+            className="text-sm font-medium text-electricCyan-300"
+          >
+            Password
+          </label>
+          <Link
+            to="#"
+            className="text-sm text-neonPink-400 hover:text-neonPink-300 transition-colors"
+          >
+            Forgot password?
+          </Link>
+        </div>
+
+        <FormField
+          control={control}
+          name="password"
+          type="password"
+          placeholder="Enter your password"
+        />
+        {errors.password && (
+          <span className="text-xs text-customRed-400">
+            {errors.password.message}
+          </span>
+        )}
+      </div>
+
+      <SubmitBtn
+        type="submit"
+        isLoading={isLoading}
+        btnText="Login"
+        loadingBtnText="Logging in"
+      />
+    </form>
   );
 };
-export default LoginForm;
