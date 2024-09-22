@@ -1,3 +1,27 @@
+export interface Tag {
+  _id?: string;
+  id?: string;
+  text: string;
+}
+
+export interface Author {
+  _id: string;
+  username: string;
+  photo: string;
+}
+
+export interface Post {
+  _id: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  author: Author;
+  tags: Tag[];
+  likes: string[];
+  comments: any[];
+  images?: string[];
+}
+
 export interface IPost {
   __v: number;
   _id: string;
