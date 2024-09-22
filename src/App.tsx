@@ -1,16 +1,13 @@
-import { createBrowserRouter, Router, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Profile from "./pages/Profile";
-import PostPreview from "./pages/Post[id].tsx";
 import Layout from "./ui/Layout.tsx";
 import Home from "./pages/Home";
-import Preview from "./pages/Preview";
-import { Children } from "react";
-import LoginForm from "./features/auth/LoginForm.tsx";
 import AuthLayout from "./ui/AuthLayout.tsx";
 import LoginPage from "./pages/Login.tsx";
 import SignupPage from "./pages/Signup.tsx";
 import CreatePostPage from "./pages/CreatePost.tsx";
+import UserProfile from "./pages/UserProfile.tsx";
+import PostPreview from "./pages/Post[id].tsx";
 
 const App = () => {
   const route = createBrowserRouter([
@@ -27,12 +24,12 @@ const App = () => {
           element: <CreatePostPage />,
         },
         {
-          path: "/posts/:id",
-          element: <PostPreview />,
+          path: "users/:id",
+          element: <UserProfile />,
         },
         {
-          path: "/:user",
-          element: <div>Profile page</div>,
+          path: "posts/:postId",
+          element: <PostPreview />,
         },
       ],
     },
