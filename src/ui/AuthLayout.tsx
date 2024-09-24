@@ -7,8 +7,10 @@ export default function AuthLayout() {
     return <Navigate to="/" replace />;
   }
   return (
-    <div className="bg-customBlue-950 text-stone-100 flex min-h-screen w-full items-center justify-center">
-      <Outlet />
+    <div className="min-h-screen bg-gradient-to-br from-customBlue-950 via-customBlue-900 to-customBlue-800 flex items-center justify-center p-6">
+      <div className="w-full max-w-md space-y-8 bg-customBlue-900 p-8 rounded-xl shadow-xl border border-neonPink-700/30">
+        <Outlet />
+      </div>
     </div>
   );
 }

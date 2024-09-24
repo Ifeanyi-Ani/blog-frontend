@@ -1,7 +1,7 @@
 export interface Tag {
   _id?: string;
   id?: string;
-  text: string;
+  text?: string;
 }
 
 export interface Author {

@@ -1,6 +1,6 @@
 import { IUser } from "../../types/type";
 import { apiSlice } from "../api/apiSlice";
-import { UserLogin, UserLogout } from "./authSlice";
+import { UserLogin, UserLogout } from "../auth/authSlice";
 
 interface IUserData {
   formData: Partial<IUser | any>;
@@ -22,7 +22,7 @@ const usersSlice = apiSlice.injectEndpoints({
             UserLogin({
               token: result.data.token,
               currentUser: result.data.currentUser,
-            }),
+            })
           );
         } catch (error) {
           console.error(error);
@@ -43,7 +43,7 @@ const usersSlice = apiSlice.injectEndpoints({
             UserLogin({
               token: result.data.token,
               currentUser: result.data.currentUser,
-            }),
+            })
           );
         } catch (error) {
           console.error(error);
@@ -128,7 +128,7 @@ const usersSlice = apiSlice.injectEndpoints({
               UserLogin({
                 token: result.data.token,
                 currentUser: result.data.currentUser,
-              }),
+              })
             );
           }, 1000);
         } catch (error) {
