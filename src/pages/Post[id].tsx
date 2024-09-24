@@ -76,7 +76,7 @@ const PostPreview: React.FC<PostPreviewProps> = () => {
 
   if (isLoading) return <LoadingState />;
   if (error) return <CustomPageError error={error} title="Error" />;
-  if (!post)
+  if (!post.length)
     return (
       <NotFoundState
         title="Post Not Found"

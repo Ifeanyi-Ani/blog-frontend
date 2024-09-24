@@ -9,7 +9,7 @@ const Home = function () {
 
   if (isLoading) return <LoadingState />;
   if (error) return <CustomPageError error={error} title="Error" />;
-  if (!posts)
+  if (!posts.length)
     return (
       <NotFoundState
         title="No Post Found"
