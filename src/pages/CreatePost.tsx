@@ -13,7 +13,7 @@ const CreatePostPage = () => {
   return (
     <>
       <div className="mb-8">
-        <BackBtn text="Home" />
+        <BackBtn text="Back" />
       </div>
 
       <div className="space-y-2 text-center">

@@ -1,9 +1,13 @@
 import { Link } from "react-router-dom";
 import { LoginForm } from "../features/auth/LoginForm";
+import { BackBtn } from "../ui/shared/BackBtn";
 
 export default function LoginPage() {
   return (
     <>
+      <div className="mb-8">
+        <BackBtn text="Home" to="/" />
+      </div>
       <div className="space-y-2 text-center">
         <h1 className="text-4xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-neonPink-400 to-electricCyan-400 animate-glow">
           Login

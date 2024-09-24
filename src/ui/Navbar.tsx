@@ -10,7 +10,7 @@ const Navbar = function () {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="w-full bg-gradient-to-r from-customBlue-950 via-customBlue-900 to-customBlue-800 border-neonPink-700/30 shadow-lg py-2 mb-4">
+    <nav className="w-full bg-gradient-to-r from-customBlue-950 via-customBlue-900 to-customBlue-800 border-neonPink-700/30 shadow-lg py-2 md:mb-4">
       <div className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
