@@ -2,8 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { UserLogin } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
-  // baseUrl: "https://blog-backend-youe.onrender.com/",
-  baseUrl: "http://127.0.0.1:4000/",
+  baseUrl: "https://blog-backend-youe.onrender.com/",
+  // baseUrl: "http://127.0.0.1:4000/",
   credentials: "include" as const,
   // prepareHeaders: (headers, { getState }: { getState: any }) => {
   //   const Token = getState().auth.token;
