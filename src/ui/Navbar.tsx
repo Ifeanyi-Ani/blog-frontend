@@ -32,7 +32,7 @@ const Navbar = function () {
           </div>
           <div className="hidden md:flex items-center space-x-4">
             <Link
-              to={!currentUser ? "/auth/login" : "/posts/new"}
+              to={!currentUser ? "/auth/login" : "/new"}
               className="flex items-center bg-gradient-to-r from-neonPink-500 to-electricCyan-500 hover:from-neonPink-400 hover:to-electricCyan-400 text-customBlue-900 font-semibold rounded-full px-4 py-2 transition duration-300 ease-in-out shadow-md hover:shadow-lg hover:shadow-neonPink-500/20"
             >
               <Plus className="w-5 h-5 mr-2" />

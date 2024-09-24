@@ -15,6 +15,7 @@ export const FormField: React.FC<FormFieldProps> = ({
   type,
   placeholder,
   className,
+  ...props
 }) => {
   return (
     <Controller
@@ -26,6 +27,7 @@ export const FormField: React.FC<FormFieldProps> = ({
           type={type}
           placeholder={placeholder}
           className={`w-full bg-customBlue-800 border-customBlue-700 text-electricCyan-100 placeholder-customBlue-500 focus:border-electricCyan-500 focus:ring-electricCyan-500 ${className}`}
+          {...props}
           {...field}
         />
       )}

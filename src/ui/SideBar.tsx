@@ -36,7 +36,7 @@ const Sidebar: React.FC<SidebarProps> = ({ trendingBlogs, popularUsers }) => {
 
   return (
     <div className="absolute top-0 left-0 ">
-      <div className="fixed w-80 bg-customBlue-800/50 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-neonPink-500/20">
+      <div className="fixed w-80 bg-customBlue-900 backdrop-blur-sm p-6 rounded-xl shadow-xl">
         <h2 className="text-2xl font-bold mb-6 text-transparent bg-clip-text bg-gradient-to-r from-neonPink-400 to-electricCyan-400 flex items-center">
           {showTrending ? (
             <>
