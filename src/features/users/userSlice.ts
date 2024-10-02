@@ -1,6 +1,6 @@
 import { IUser } from "../../types/type";
 import { apiSlice } from "../api/apiSlice";
-import { UserLogin, UserLogout } from "../auth/authSlice";
+import { UserChangePassword, UserLogin, UserLogout } from "../auth/authSlice";
 
 interface IUserData {
   formData: Partial<IUser | any>;
@@ -54,6 +54,29 @@ const usersSlice = apiSlice.injectEndpoints({
       ],
     }),
 
+    changePassword: builder.mutation({
+      query: (formData) => ({
+        url: "auth/changePassword",
+        method: "POST",
+        body: formData,
+      }),
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            UserChangePassword({
+              token: result.data.token,
+              currentUser: result.data.currentUser,
+            })
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      },
+      invalidatesTags: (_result, _error, arg: any) => [
+        { type: "users", id: arg.id },
+      ],
+    }),
     logOut: builder.mutation({
       query: () => ({
         url: "auth/logOut",
@@ -144,6 +167,7 @@ export const {
   useSignUpMutation,
   useLogOutMutation,
   useRefreshMutation,
+  useChangePasswordMutation,
   useGetUsersQuery,
   useUpdateUserMutation,
   useDeleteUserMutation,
