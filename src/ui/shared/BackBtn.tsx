@@ -12,22 +12,17 @@ export const BackBtn: React.FC<BackBtnProps> = ({
   text = "Back",
 }) => {
   const navigate = useNavigate();
+  const style = `text-electricCyan-400 hover:text-electricCyan-300 transition-colors duration-200 inline-flex items-center ${className}`;
   if (to) {
     return (
-      <Link
-        to={to}
-        className={`text-electricCyan-400 hover:text-electricCyan-300 transition-colors duration-200 flex items-center ${className}`}
-      >
+      <Link to={to} className={style}>
         <ArrowLeft size={20} className="mr-2" />
         {text}
       </Link>
     );
   }
   return (
-    <div
-      className={`text-electricCyan-400 hover:text-electricCyan-300 transition-colors cursor-pointer duration-200 flex items-center ${className}`}
-      onClick={() => navigate(-1)}
-    >
+    <div className={style} onClick={() => navigate(-1)}>
       <ArrowLeft size={20} className="mr-2" />
       {text}
     </div>

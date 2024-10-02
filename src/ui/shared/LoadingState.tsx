@@ -4,7 +4,7 @@ export const LoadingState = () => {
       <div className="text-center">
         <div className="inline-block animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-neonPink-500"></div>
         <div className="mt-4 text-electricCyan-300 text-xl font-semibold">
-          Loading Cosmic Data...
+          Loading Data...
         </div>
       </div>
     </div>
