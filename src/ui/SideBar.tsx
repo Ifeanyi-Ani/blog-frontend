@@ -57,9 +57,12 @@ const Sidebar: React.FC<SidebarProps> = ({ trendingBlogs, popularUsers }) => {
                 key={blog._id}
                 className="bg-customBlue-900/50 p-4 rounded-lg hover:bg-customBlue-800/50 transition-colors duration-300 border border-neonPink-500/10 hover:border-neonPink-500/30"
               >
-                <h3 className="text-neonPink-300 font-semibold">
+                <Link
+                  to={`/posts/${blog._id}`}
+                  className="text-neonPink-300 font-semibold"
+                >
                   {blog.title}
-                </h3>
+                </Link>
                 <p className="text-electricCyan-300 text-sm mt-1">
                   by {blog.author.username}
                 </p>
@@ -90,7 +93,7 @@ const Sidebar: React.FC<SidebarProps> = ({ trendingBlogs, popularUsers }) => {
                     {user.username}
                   </h3>
                   <p className="text-electricCyan-300 text-xs">
-                    {user.followers} followers
+                    {user.followers.length} followers
                   </p>
                 </div>
               </Link>
