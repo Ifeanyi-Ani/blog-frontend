@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { LoginForm } from "../features/auth/LoginForm";
 import { BackBtn } from "../ui/shared/BackBtn";
+import { ForgotPassword } from "../features/auth/ForgotPassword";
 
 export default function LoginPage() {
   return (
@@ -17,7 +18,10 @@ export default function LoginPage() {
         </p>
       </div>
       <LoginForm />
-      <div className="relative">
+      <div className="text-center mt-4">
+        <ForgotPassword />
+      </div>
+      <div className="relative mt-6">
         <div className="absolute inset-0 flex items-center">
           <span className="w-full border-t border-customBlue-700"></span>
         </div>
@@ -30,7 +34,7 @@ export default function LoginPage() {
       <button className="w-full py-2 px-4 bg-customBlue-800 border border-customBlue-700 text-electricCyan-300 rounded-md font-medium hover:bg-customBlue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-customBlue-900 focus:ring-electricCyan-500 transition-colors duration-200">
         Login with Google
       </button>
-      <div className="text-center text-sm text-electricCyan-400">
+      <div className="text-center text-sm text-electricCyan-400 mt-4">
         Don't have an account?{" "}
         <Link
           to="/auth/register"

@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 
@@ -9,6 +9,7 @@ import { FormField } from "../../ui/shared/FormField";
 import { SubmitBtn } from "../../ui/shared/SubmitBtn";
 import { useLoginMutation } from "../users/userSlice";
 import { useEffect } from "react";
+import { ForgotPassword } from "./ForgotPassword";
 
 const LoginSchema = z.object({
   email: z.string().min(3),
@@ -81,12 +82,13 @@ export const LoginForm = () => {
           >
             Password
           </label>
-          <Link
-            to="#"
-            className="text-sm text-neonPink-400 hover:text-neonPink-300 transition-colors"
-          >
-            Forgot password?
-          </Link>
+          <ForgotPassword>Forgot password</ForgotPassword>
+          {/* <Link */}
+          {/*   to="#" */}
+          {/*   className="" */}
+          {/* > */}
+          {/*   Forgot password? */}
+          {/* </Link> */}
         </div>
 
         <FormField

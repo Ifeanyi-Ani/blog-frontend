@@ -23,7 +23,6 @@ export interface Post {
 }
 
 export interface IPost {
-  __v: number;
   _id: string;
   body: string;
   category: {
