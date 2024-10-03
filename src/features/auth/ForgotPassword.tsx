@@ -1,61 +1,53 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import { ReactNode, useEffect, useState } from "react";
+import { Control, SubmitHandler, useForm } from "react-hook-form";
 import Modal from "../../ui/shared/Modal";
 import { FormField } from "../../ui/shared/FormField";
 import { useMutistepForm } from "../../utils/useMutistepForm";
+import * as z from "zod";
+import { VerifyEmail } from "../../ui/VerifyEmail";
+import { PinStep } from "../../ui/PinStep";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useResetPasswordMutation } from "../users/userSlice";
+import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { SubmitBtn } from "../../ui/shared/SubmitBtn";
 
-export const ForgotPassword = ({ children }) => {
+const FormSchema = z.object({
+  pin: z.string().length(6),
+  newPassword: z.string().min(8),
+  confirmNewPassword: z.string().min(8),
+});
+
+type FormType = z.infer<typeof FormSchema>;
+
+export const ForgotPassword = ({ children }: { children: ReactNode }) => {
+  const navigate = useNavigate();
+  const [resetPassword, { isLoading, isSuccess, error, data: response }] =
+    useResetPasswordMutation();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { register, handleSubmit, control } = useForm();
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    trigger,
+  } = useForm<FormType>({
+    resolver: zodResolver(FormSchema),
+    defaultValues: {
+      pin: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+  });
 
-  const handleResetPassword = (data) => {
-    console.log("Password reset:", data);
-    setIsModalOpen(false);
+  const handleResetPassword: SubmitHandler<FormType> = async (data) => {
+    await resetPassword(data).unwrap();
   };
-  const onVerifyEmail = (data) => {
-    console.log(data);
-  };
-  const EmailStep = ({ onSubmit }) => (
-    <form onSubmit={handleSubmit(onVerifyEmail)} className="space-y-4">
-      <FormField
-        control={control}
-        name="email"
-        type="email"
-        placeholder="Enter your email address"
-      />
-      <button
-        type="button"
-        className="w-full bg-neonPink-600 text-customBlue-900 font-semibold py-3 px-4 rounded-lg flex justify-center items-center transition-colors duration-200 hover:bg-neonPink-500"
-        onClick={onSubmit}
-      >
-        Send Reset Link
-      </button>
-    </form>
-  );
 
-  const PinStep = ({ onSubmit }) => (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="flex justify-between">
-        {[1, 2, 3, 4, 5, 6].map((num) => (
-          <input
-            key={num}
-            {...register(`pin${num}`, { required: true, maxLength: 1 })}
-            type="text"
-            maxLength={1}
-            className="w-12 h-12 text-center text-2xl bg-customBlue-800 border-2 border-electricCyan-500 rounded-lg focus:outline-none focus:border-neonPink-500 text-electricCyan-300"
-          />
-        ))}
-      </div>
-      <button
-        type="submit"
-        className="w-full bg-neonPink-600 text-customBlue-900 font-semibold py-3 px-4 rounded-lg flex justify-center items-center transition-colors duration-200 hover:bg-neonPink-500"
-      >
-        Verify PIN
-      </button>
-    </form>
-  );
-
-  const NewPasswordStep = ({ onSubmit }) => (
+  const NewPasswordStep = ({
+    onSubmit,
+  }: {
+    onSubmit: SubmitHandler<FormType>;
+  }) => (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <FormField
         control={control}
@@ -69,23 +61,47 @@ export const ForgotPassword = ({ children }) => {
         type="password"
         placeholder="Confirm your new password"
       />
-      <button
+      <SubmitBtn
         type="submit"
-        className="w-full bg-neonPink-600 text-customBlue-900 font-semibold py-3 px-4 rounded-lg flex justify-center items-center transition-colors duration-200 hover:bg-neonPink-500"
-      >
-        Reset Password
-      </button>
+        loadingBtnText="Saving..."
+        btnText="Reset Password"
+        isLoading={isLoading}
+      />
     </form>
   );
 
-  const { currentStepIndex, step, isFirstStep, isLastStep, next, back } =
-    useMutistepForm([
-      <EmailStep onSubmit={() => next()} />,
-      <PinStep onSubmit={() => next()} />,
-      <NewPasswordStep onSubmit={handleResetPassword} />,
-    ]);
+  const { currentStepIndex, step, isFirstStep, next, back } = useMutistepForm([
+    <VerifyEmail nextField={() => next()} />,
+    <PinStep
+      onSubmit={() => next()}
+      control={control}
+      trigger={trigger}
+      errors={errors}
+    />,
+    <NewPasswordStep onSubmit={handleResetPassword} />,
+  ]);
 
   const stepTitles = ["Enter Email", "Verify PIN", "Set New Password"];
+
+  useEffect(
+    function () {
+      if (isSuccess) {
+        toast.success(response.data.message || "Password successfully changed");
+        // setIsModalOpen(false);
+        // navigate("/");
+      }
+      if (error) {
+        if ("data" in error) {
+          toast.error(
+            error.data.message || "An error occured while resetting password"
+          );
+        } else {
+          toast.error("An unexpected error occured");
+        }
+      }
+    },
+    [isSuccess, error]
+  );
 
   return (
     <>

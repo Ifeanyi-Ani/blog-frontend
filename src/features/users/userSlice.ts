@@ -53,6 +53,34 @@ const usersSlice = apiSlice.injectEndpoints({
         { type: "users", id: arg.id },
       ],
     }),
+    verifyEmail: builder.mutation({
+      query: (formData) => ({
+        url: "auth/forgotPassword",
+        method: "POST",
+        body: formData,
+      }),
+    }),
+
+    resetPassword: builder.mutation({
+      query: (formData) => ({
+        url: "auth/resetPassword",
+        method: "PATCH",
+        body: formData,
+      }),
+      async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
+        try {
+          const result = await queryFulfilled;
+          dispatch(
+            UserLogin({
+              token: result.data.token,
+              currentUser: result.data.currentUser,
+            })
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
 
     changePassword: builder.mutation({
       query: (formData) => ({
@@ -64,7 +92,7 @@ const usersSlice = apiSlice.injectEndpoints({
         try {
           const result = await queryFulfilled;
           dispatch(
-            UserChangePassword({
+            UserLogin({
               token: result.data.token,
               currentUser: result.data.currentUser,
             })
@@ -172,4 +200,6 @@ export const {
   useUpdateUserMutation,
   useDeleteUserMutation,
   useGetUserQuery,
+  useVerifyEmailMutation,
+  useResetPasswordMutation,
 } = usersSlice;
