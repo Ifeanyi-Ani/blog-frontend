@@ -3,12 +3,12 @@ import { Filter } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { SortDirection, SortableHeader } from "../../ui/shared/SortableHeader";
 import PostItem from "../../ui/shared/PostItem";
-import { Post } from "../../types/type";
+import { IPost } from "../../types/type";
 
 type PostSortField = "createdAt" | "title";
 
 interface PostListProps {
-  posts: Post[];
+  posts: IPost[];
 }
 
 const sortOptions: Array<{ field: PostSortField; label: string }> = [
@@ -64,10 +64,6 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
 
   return (
     <>
-      <h1 className="text-5xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-neonPink-400 to-electricCyan-400 animate-glow">
-        Cosmic Posts
-      </h1>
-
       <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
         <div className="flex items-center space-x-2 bg-customBlue-800 rounded-full p-2 border border-electricCyan-700 shadow-lg shadow-electricCyan-900/20 focus-within:ring-2 focus-within:ring-neonPink-500 focus-within:border-transparent">
           <Filter className="text-electricCyan-400 " />

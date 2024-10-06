@@ -5,7 +5,7 @@ import { useAppSelector } from "../app/hook";
 import { Input } from "./shared/Input";
 import { Account } from "./shared/Account";
 import MobileNav from "./MobileNav";
-import { Author } from "../types/type";
+import { IUser } from "../types/type";
 
 const Navbar = function () {
   const { currentUser } = useAppSelector((state) => state.auth);
@@ -51,7 +51,7 @@ const Navbar = function () {
             )}
           </div>
           <div className="md:hidden">
-            <MobileNav currentUser={currentUser as Author} />
+            <MobileNav currentUser={currentUser as IUser} />
           </div>
         </div>
       </div>

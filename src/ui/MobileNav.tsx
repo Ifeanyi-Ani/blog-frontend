@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { Menu, X, Search, Plus, User } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Input } from "./shared/Input";
-import { Author } from "../types/type";
+import { IUser } from "../types/type";
 
 interface MobileNavProps {
-  currentUser: Author;
+  currentUser: IUser;
 }
 const MobileNav: React.FC<MobileNavProps> = ({ currentUser }) => {
   const [isOpen, setIsOpen] = useState(false);
