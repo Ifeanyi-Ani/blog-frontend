@@ -2,8 +2,8 @@ import { apiSlice } from "../api/apiSlice";
 
 const commentSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getComments: builder.query({
-      query: (postId) => `comments/${postId}/`,
+    getPostComments: builder.query({
+      query: (postId) => `posts/${postId}/comments`,
       providesTags: (result, _error, _arg) =>
         result
           ? [
@@ -30,9 +30,24 @@ const commentSlice = apiSlice.injectEndpoints({
       },
     }),
 
+    getReplies: builder.query({
+      query: (parentId) => `comments/${parentId}/replies`,
+      providesTags: (result, _error, _arg) =>
+        result
+          ? [
+              ...result.map(({ id }: { id: string }) => {
+                return {
+                  type: "comments" as const,
+                  id,
+                };
+              }),
+              "comments",
+            ]
+          : ["coments"],
+    }),
     createComment: builder.mutation({
       query: ({ formData, postId }) => ({
-        url: `comments/${postId}`,
+        url: `posts/${postId}/comments`,
         method: "POST",
         body: formData,
       }),
@@ -42,8 +57,8 @@ const commentSlice = apiSlice.injectEndpoints({
     }),
 
     createReply: builder.mutation({
-      query: ({ formData, postId, parentId }) => ({
-        url: `comments/${postId}/${parentId}`,
+      query: ({ formData, parentId }) => ({
+        url: `comments/${parentId}/replies`,
         method: "POST",
         body: formData,
       }),
@@ -82,7 +97,8 @@ const commentSlice = apiSlice.injectEndpoints({
 
 export const {
   useGetCommentQuery,
-  useGetCommentsQuery,
+  useGetPostCommentsQuery,
+  useGetRepliesQuery,
   useCreateCommentMutation,
   useCreateReplyMutation,
   useDeleteCommentMutation,
