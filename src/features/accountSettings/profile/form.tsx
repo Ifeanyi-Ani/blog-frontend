@@ -10,16 +10,21 @@ import {
 import { useEffect, useState } from "react";
 import { useUpdateUserMutation } from "../../users/userSlice";
 import toast from "react-hot-toast";
+import { IUser } from "../../../types/type";
 
-export const ProfileForm = ({ user, userId }) => {
+interface ProfileFormProps {
+  user: IUser;
+  userId: string;
+}
+export const ProfileForm: React.FC<ProfileFormProps> = ({ user, userId }) => {
   const [updateUser, { isLoading, isSuccess, error }] = useUpdateUserMutation();
   const { control, handleSubmit: handleSubmitProfile } = useForm({
     defaultValues: {
       username: user?.username || "",
       email: user?.email,
-      bio: "Passionate about creating amazing web experiences",
-      github: "github link",
-      linkedin: "linkedin link",
+      bio: user?.bio,
+      github: user?.github || "github link",
+      linkedin: user?.linkedin || "linkedin link",
     },
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -100,6 +105,7 @@ export const ProfileForm = ({ user, userId }) => {
           <button
             type="submit"
             className="bg-neonPink-600 text-customBlue-900 px-4 py-2 rounded-lg flex items-center space-x-2"
+            disabled={isLoading}
           >
             <Save size={18} />
             <span>Save</span>

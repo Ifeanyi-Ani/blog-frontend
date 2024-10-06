@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Author } from "../../types/type";
+import { IUser } from "../../types/type";
 
 interface UserState {
   token: String;
-  currentUser: Author | null;
+  currentUser: IUser | null;
 }
 const initialState: UserState = {
   token: "",

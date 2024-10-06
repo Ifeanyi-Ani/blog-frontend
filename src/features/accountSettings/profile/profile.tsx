@@ -1,7 +1,7 @@
-import { Author } from "../../../types/type";
+import { IUser } from "../../../types/type";
 
 interface ProfileProps {
-  user: Partial<Author>;
+  user: Partial<IUser>;
   children: React.ReactNode;
 }
 export const Profile = ({ user, children }: ProfileProps) => {
