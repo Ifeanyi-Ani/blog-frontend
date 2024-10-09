@@ -1,15 +1,17 @@
-import * as z from "zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { FormField } from "./shared/FormField";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitBtn } from "./shared/SubmitBtn";
-import { useVerifyEmailMutation } from "../features/users/userSlice";
-import { useEffect } from "react";
-import { toast } from "react-hot-toast";
+import * as z from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { toast } from 'react-hot-toast';
+
+import { FormField } from './shared/FormField';
+import { SubmitBtn } from './shared/SubmitBtn';
+import { useVerifyEmailMutation } from '../features/users/userSlice';
 
 const VerifiyEmailSchema = z.object({
   email: z.string().email(),
 });
+
 type FormType = z.infer<typeof VerifiyEmailSchema>;
 
 export const VerifyEmail = ({ nextField }) => {
@@ -22,7 +24,7 @@ export const VerifyEmail = ({ nextField }) => {
   } = useForm<FormType>({
     resolver: zodResolver(VerifiyEmailSchema),
     defaultValues: {
-      email: "",
+      email: '',
     },
   });
 
@@ -31,16 +33,16 @@ export const VerifyEmail = ({ nextField }) => {
   };
   useEffect(function () {
     if (isSuccess) {
-      toast.success(response.message || "Reset code sent to Email");
+      toast.success(response.message || 'Reset code sent to Email');
       nextField();
     }
     if (error) {
-      if ("data" in error) {
+      if ('data' in error) {
         toast.error(
-          error.data.message || "An error occured while verifying email"
+          error.data.message || 'An error occured while verifying email'
         );
       } else {
-        toast.error("An unexpected error occurred");
+        toast.error('An unexpected error occurred');
       }
     }
   });

@@ -1,7 +1,7 @@
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronUp, ChevronDown } from 'lucide-react';
 
 export type SortField = string;
-export type SortDirection = "asc" | "desc";
+export type SortDirection = 'asc' | 'desc';
 
 interface SortOption<T extends SortField> {
   field: T;
@@ -56,23 +56,16 @@ function SortButton<T extends SortField>({
   return (
     <button
       onClick={onClick}
-      className={`
-        inline-flex items-center justify-center rounded-md text-sm font-medium
-        transition-colors focus-visible:outline-none focus-visible:ring-2
-        focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50
-        disabled:pointer-events-none ring-offset-background
-        ${
-          isActive
-            ? "bg-customBlue-700 text-customBlue-100"
-            : "bg-customBlue-800 text-customBlue-300 hover:bg-customBlue-700 hover:text-customBlue-100"
-        }
-        h-10 py-2 px-4
-      `}
+      className={`focus-visible:ring-ring ring-offset-background inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
+        isActive
+          ? 'bg-customBlue-700 text-customBlue-100'
+          : 'bg-customBlue-800 text-customBlue-300 hover:bg-customBlue-700 hover:text-customBlue-100'
+      } h-10 px-4 py-2`}
     >
       {label}
       {isActive && direction && (
         <span className="ml-2">
-          {direction === "asc" ? (
+          {direction === 'asc' ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
             <ChevronDown className="h-4 w-4" />

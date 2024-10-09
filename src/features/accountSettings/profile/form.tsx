@@ -1,30 +1,31 @@
-import { useForm } from "react-hook-form";
-import { FormField } from "../../../ui/shared/FormField";
 import {
   Edit2,
   Linkedin,
   Mail,
   Save,
   GithubIcon as GitHub,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import { useUpdateUserMutation } from "../../users/userSlice";
-import toast from "react-hot-toast";
-import { IUser } from "../../../types/type";
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+
+import { IUser } from '../../../types/type';
+import { FormField } from '../../../ui/shared/FormField';
+import { useUpdateUserMutation } from '../../users/userSlice';
 
 interface ProfileFormProps {
   user: IUser;
   userId: string;
 }
-export const ProfileForm: React.FC<ProfileFormProps> = ({ user, userId }) => {
+export const ProfileForm = ({ user, userId }: ProfileFormProps) => {
   const [updateUser, { isLoading, isSuccess, error }] = useUpdateUserMutation();
   const { control, handleSubmit: handleSubmitProfile } = useForm({
     defaultValues: {
-      username: user?.username || "",
+      username: user?.username || '',
       email: user?.email,
       bio: user?.bio,
-      github: user?.github || "github link",
-      linkedin: user?.linkedin || "linkedin link",
+      github: user?.github || 'github link',
+      linkedin: user?.linkedin || 'linkedin link',
     },
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -38,14 +39,14 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, userId }) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Update successful");
+      toast.success('Update successful');
       setIsEditing(false);
     }
     if (error) {
-      if ("data" in error) {
-        toast.error(error.data?.message || "An error occurred");
+      if ('data' in error) {
+        toast.error(error.data?.message || 'An error occurred');
       } else {
-        toast.error("An unexpected error occurred");
+        toast.error('An unexpected error occurred');
       }
     }
   }, [isSuccess, error]);
@@ -96,7 +97,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, userId }) => {
         {!isEditing ? (
           <button
             type="submit"
-            className="bg-electricCyan-600 text-customBlue-900 px-4 py-2 rounded-lg flex items-center space-x-2"
+            className="flex items-center space-x-2 rounded-lg bg-electricCyan-600 px-4 py-2 text-customBlue-900"
           >
             <Edit2 size={18} />
             <span>Edit</span>
@@ -104,7 +105,7 @@ export const ProfileForm: React.FC<ProfileFormProps> = ({ user, userId }) => {
         ) : (
           <button
             type="submit"
-            className="bg-neonPink-600 text-customBlue-900 px-4 py-2 rounded-lg flex items-center space-x-2"
+            className="flex items-center space-x-2 rounded-lg bg-neonPink-600 px-4 py-2 text-customBlue-900"
             disabled={isLoading}
           >
             <Save size={18} />

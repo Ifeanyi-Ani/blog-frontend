@@ -1,16 +1,17 @@
-import { ReactNode, useEffect, useState } from "react";
-import { Control, SubmitHandler, useForm } from "react-hook-form";
-import Modal from "../../ui/shared/Modal";
-import { FormField } from "../../ui/shared/FormField";
-import { useMutistepForm } from "../../utils/useMutistepForm";
-import * as z from "zod";
-import { VerifyEmail } from "../../ui/VerifyEmail";
-import { PinStep } from "../../ui/PinStep";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useResetPasswordMutation } from "../users/userSlice";
-import { toast } from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
-import { SubmitBtn } from "../../ui/shared/SubmitBtn";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ReactNode, useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import * as z from 'zod';
+
+import { PinStep } from '../../ui/PinStep';
+import { FormField } from '../../ui/shared/FormField';
+import Modal from '../../ui/shared/Modal';
+import { SubmitBtn } from '../../ui/shared/SubmitBtn';
+import { VerifyEmail } from '../../ui/VerifyEmail';
+import { useMutistepForm } from '../../utils/useMutistepForm';
+import { useResetPasswordMutation } from '../users/userSlice';
 
 const FormSchema = z.object({
   pin: z.string().length(6),
@@ -20,7 +21,7 @@ const FormSchema = z.object({
 
 type FormType = z.infer<typeof FormSchema>;
 
-export const ForgotPassword = ({ children }: { children: ReactNode }) => {
+export const ForgotPassword = ({ children }: { children?: ReactNode }) => {
   const navigate = useNavigate();
   const [resetPassword, { isLoading, isSuccess, error, data: response }] =
     useResetPasswordMutation();
@@ -33,9 +34,9 @@ export const ForgotPassword = ({ children }: { children: ReactNode }) => {
   } = useForm<FormType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      pin: "",
-      newPassword: "",
-      confirmNewPassword: "",
+      pin: '',
+      newPassword: '',
+      confirmNewPassword: '',
     },
   });
 
@@ -71,32 +72,35 @@ export const ForgotPassword = ({ children }: { children: ReactNode }) => {
   );
 
   const { currentStepIndex, step, isFirstStep, next, back } = useMutistepForm([
-    <VerifyEmail nextField={() => next()} />,
+    <VerifyEmail nextField={() => next()} key={1} />,
     <PinStep
       onSubmit={() => next()}
       control={control}
       trigger={trigger}
       errors={errors}
+      key={2}
     />,
-    <NewPasswordStep onSubmit={handleResetPassword} />,
+    <NewPasswordStep onSubmit={handleResetPassword} key={3} />,
   ]);
 
-  const stepTitles = ["Enter Email", "Verify PIN", "Set New Password"];
+  const stepTitles = ['Enter Email', 'Verify PIN', 'Set New Password'];
 
   useEffect(
     function () {
       if (isSuccess) {
-        toast.success(response.data.message || "Password successfully changed");
-        // setIsModalOpen(false);
-        // navigate("/");
+        toast.success(
+          response?.data?.message || 'Password successfully changed'
+        );
+        setIsModalOpen(false);
+        navigate('/');
       }
       if (error) {
-        if ("data" in error) {
+        if ('data' in error) {
           toast.error(
-            error.data.message || "An error occured while resetting password"
+            error?.data?.message || 'An error occured while resetting password'
           );
         } else {
-          toast.error("An unexpected error occured");
+          toast.error('An unexpected error occured');
         }
       }
     },
@@ -107,7 +111,7 @@ export const ForgotPassword = ({ children }: { children: ReactNode }) => {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="text-sm text-neonPink-400 hover:text-neonPink-300 transition-colors"
+        className="text-sm text-neonPink-400 transition-colors hover:text-neonPink-300"
       >
         {children}
       </button>

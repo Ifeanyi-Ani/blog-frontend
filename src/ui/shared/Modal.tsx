@@ -1,11 +1,11 @@
-import React from "react";
+import * as React from 'react';
 import {
   Dialog,
   DialogTitle,
   Transition,
   TransitionChild,
-} from "@headlessui/react";
-import { X, ChevronLeft } from "lucide-react";
+} from '@headlessui/react';
+import { X, ChevronLeft } from 'lucide-react';
 
 interface ModalProps {
   title?: string;
@@ -41,7 +41,7 @@ const Modal: React.FC<ModalProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div
+            <button
               onClick={onClose}
               className="fixed inset-0 bg-customBlue-950 bg-opacity-75 transition-opacity"
             />
@@ -62,12 +62,12 @@ const Modal: React.FC<ModalProps> = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-customBlue-900 border-2 border-electricCyan-500 shadow-xl rounded-2xl">
-              <div className="flex justify-between items-center mb-4">
+            <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl border-2 border-electricCyan-500 bg-customBlue-900 p-6 text-left align-middle shadow-xl transition-all">
+              <div className="mb-4 flex items-center justify-between">
                 {showBackButton ? (
                   <button
                     onClick={onBack}
-                    className="p-1 text-electricCyan-300 hover:text-electricCyan-400 transition-colors"
+                    className="p-1 text-electricCyan-300 transition-colors hover:text-electricCyan-400"
                   >
                     <ChevronLeft size={24} />
                   </button>
@@ -81,7 +81,7 @@ const Modal: React.FC<ModalProps> = ({
                   {title}
                 </DialogTitle>
                 <button
-                  className="p-1 text-neonPink-300 hover:text-neonPink-400 transition-colors"
+                  className="p-1 text-neonPink-300 transition-colors hover:text-neonPink-400"
                   onClick={onClose}
                 >
                   <X size={24} />

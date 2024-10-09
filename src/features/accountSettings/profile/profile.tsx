@@ -1,4 +1,4 @@
-import { IUser } from "../../../types/type";
+import { IUser } from '../../../types/type';
 
 interface ProfileProps {
   user: Partial<IUser>;
@@ -11,7 +11,7 @@ export const Profile = ({ user, children }: ProfileProps) => {
         <img
           src={user?.photo}
           alt="Profile"
-          className="w-24 h-24 rounded-full border-4 border-electricCyan-500"
+          className="h-24 w-24 rounded-full border-4 border-electricCyan-500"
         />
         <div>
           <h2 className="text-2xl font-bold text-electricCyan-300">

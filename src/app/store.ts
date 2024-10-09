@@ -1,10 +1,10 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { persistStore } from "redux-persist";
-import { PersistGate } from "redux-persist/es/integration/react";
-import persistentReducer from "./redux-persist-config";
-import { apiSlice } from "../features/api/apiSlice";
+import { configureStore } from '@reduxjs/toolkit';
+// import { persistStore } from 'redux-persist';
+// import { PersistGate } from 'redux-persist/es/integration/react';
+// import persistentReducer from './redux-persist-config';
 
-import authSlice from "../features/auth/authSlice";
+import { apiSlice } from '../features/api/apiSlice';
+import authSlice from '../features/auth/authSlice';
 
 export const store = configureStore({
   reducer: {

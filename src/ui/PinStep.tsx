@@ -1,5 +1,6 @@
-import React, { useRef, useEffect } from "react";
-import { Control, Controller, FieldErrors } from "react-hook-form";
+import * as React from 'react';
+import { useRef, useEffect } from 'react';
+import { Control, Controller, FieldErrors } from 'react-hook-form';
 
 interface PinStepProps {
   onSubmit: () => void;
@@ -27,7 +28,7 @@ export const PinStep: React.FC<PinStepProps> = ({
     event: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
-    if (event.key === "Backspace" && !event.currentTarget.value && index > 0) {
+    if (event.key === 'Backspace' && !event.currentTarget.value && index > 0) {
       inputRefs.current[index - 1]?.focus();
     }
   };
@@ -39,9 +40,9 @@ export const PinStep: React.FC<PinStepProps> = ({
     currentValue: string
   ) => {
     const newPin = value.slice(-1); // Only keep the last entered character
-    const updatedPin = currentValue.split("");
+    const updatedPin = currentValue.split('');
     updatedPin[index] = newPin;
-    const newPinString = updatedPin.join("");
+    const newPinString = updatedPin.join('');
     onChange(newPinString);
 
     if (newPin && index < 5) {
@@ -55,7 +56,7 @@ export const PinStep: React.FC<PinStepProps> = ({
   };
 
   const handleSubmit = () => {
-    console.log("complete 6");
+    console.log('complete 6');
     onSubmit();
   };
 
@@ -71,8 +72,8 @@ export const PinStep: React.FC<PinStepProps> = ({
                 key={num}
                 type="text"
                 maxLength={1}
-                className="w-12 h-12 text-center text-2xl bg-customBlue-800 border-2 border-electricCyan-500 rounded-lg focus:outline-none focus:border-neonPink-500 text-electricCyan-300"
-                value={value?.[num] || ""}
+                className="h-12 w-12 rounded-lg border-2 border-electricCyan-500 bg-customBlue-800 text-center text-2xl text-electricCyan-300 focus:border-neonPink-500 focus:outline-none"
+                value={value?.[num] || ''}
                 onKeyDown={(e) => handleKeyDown(e, num)}
                 onChange={(e) =>
                   handleInput(num, e.target.value, onChange, value)
@@ -89,7 +90,7 @@ export const PinStep: React.FC<PinStepProps> = ({
       <button
         type="button"
         onClick={() => {
-          trigger("pin").then((result) => {
+          trigger('pin').then((result: string) => {
             if (result) {
               handleSubmit();
             } else {
@@ -97,7 +98,7 @@ export const PinStep: React.FC<PinStepProps> = ({
             }
           });
         }}
-        className="w-full bg-neonPink-600 text-customBlue-900 font-semibold py-3 px-4 rounded-lg flex justify-center items-center transition-colors duration-200 hover:bg-neonPink-500"
+        className="flex w-full items-center justify-center rounded-lg bg-neonPink-600 px-4 py-3 font-semibold text-customBlue-900 transition-colors duration-200 hover:bg-neonPink-500"
       >
         Verify PIN
       </button>

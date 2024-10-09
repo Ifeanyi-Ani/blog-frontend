@@ -1,10 +1,11 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import { User, Settings, Users, Book, Award, ChevronRight } from "lucide-react";
-import { useGetUserQuery } from "../features/users/userSlice";
-import { CustomPageError } from "../ui/shared/CustomPageError";
-import { LoadingState } from "../ui/shared/LoadingState";
-import { NotFoundState } from "../ui/shared/NotFoundState";
+import * as React from 'react';
+import { useParams } from 'react-router-dom';
+import { Users, Book, Award } from 'lucide-react';
+
+import { useGetUserQuery } from '../features/users/userSlice';
+import { CustomPageError } from '../ui/shared/CustomPageError';
+import { LoadingState } from '../ui/shared/LoadingState';
+import { NotFoundState } from '../ui/shared/NotFoundState';
 
 const UserProfile: React.FC = () => {
   const { id } = useParams();
@@ -30,44 +31,44 @@ const UserProfile: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+      <div className="flex flex-col items-center space-y-6 md:flex-row md:items-start md:space-x-8 md:space-y-0">
         <img
           src={user.photo}
           alt={user.username}
-          className="w-40 h-40 rounded-full border-4 border-electricCyan-500 shadow-lg shadow-electricCyan-500/50"
+          className="h-40 w-40 rounded-full border-4 border-electricCyan-500 shadow-lg shadow-electricCyan-500/50"
         />
         <div className="flex-1 text-center md:text-left">
-          <h1 className="text-4xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-neonPink-400 to-electricCyan-400">
+          <h1 className="mb-2 bg-gradient-to-r from-neonPink-400 to-electricCyan-400 bg-clip-text text-4xl font-bold text-transparent">
             {user.username}
           </h1>
-          <p className="text-electricCyan-300 mb-4">
+          <p className="mb-4 text-electricCyan-300">
             @{user.username.toLowerCase()}
           </p>
-          <div className="flex justify-center md:justify-start items-center space-x-4 mb-6">
+          <div className="mb-6 flex items-center justify-center space-x-4 md:justify-start">
             <span className="text-neonPink-300">
-              <Users size={18} className="inline mr-2" />
+              <Users size={18} className="mr-2 inline" />
               {user.followers.length} followers
             </span>
-            <button className="bg-electricCyan-600 hover:bg-electricCyan-500 text-customBlue-900 font-bold py-2 px-4 rounded-full transition-colors duration-200">
+            <button className="rounded-full bg-electricCyan-600 px-4 py-2 font-bold text-customBlue-900 transition-colors duration-200 hover:bg-electricCyan-500">
               Follow
             </button>
           </div>
-          <p className="text-customBlue-100 mb-6">
+          <p className="mb-6 text-customBlue-100">
             Full-stack developer passionate about clean code and innovative
             solutions. Always learning, always coding.
           </p>
         </div>
       </div>
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="bg-customBlue-800 rounded-lg p-4 hover:shadow-md hover:shadow-neonPink-500/20 transition-all duration-200">
-          <h2 className="text-2xl font-semibold mb-2 text-neonPink-300">
+      <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="rounded-lg bg-customBlue-800 p-4 transition-all duration-200 hover:shadow-md hover:shadow-neonPink-500/20">
+          <h2 className="mb-2 text-2xl font-semibold text-neonPink-300">
             Recent Posts
           </h2>
           <ul className="space-y-2">
             {[
-              "Optimizing React Renders",
-              "GraphQL vs REST",
-              "Dockerizing Your App",
+              'Optimizing React Renders',
+              'GraphQL vs REST',
+              'Dockerizing Your App',
             ].map((post, index) => (
               <li
                 key={index}
@@ -79,15 +80,15 @@ const UserProfile: React.FC = () => {
             ))}
           </ul>
         </div>
-        <div className="bg-customBlue-800 rounded-lg p-4 hover:shadow-md hover:shadow-neonPink-500/20 transition-all duration-200">
-          <h2 className="text-2xl font-semibold mb-2 text-neonPink-300">
+        <div className="rounded-lg bg-customBlue-800 p-4 transition-all duration-200 hover:shadow-md hover:shadow-neonPink-500/20">
+          <h2 className="mb-2 text-2xl font-semibold text-neonPink-300">
             Achievements
           </h2>
           <ul className="space-y-2">
             {[
-              "Galactic Contributor",
-              "Nova Creator",
-              "Starlight Innovator",
+              'Galactic Contributor',
+              'Nova Creator',
+              'Starlight Innovator',
             ].map((achievement, index) => (
               <li
                 key={index}

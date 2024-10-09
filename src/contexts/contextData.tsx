@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState } from 'react';
 
 export const ContextData = createContext<any | null>(null);
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { Loader, MessageSquare, Send } from "lucide-react";
-import { useCreateCommentMutation } from "./commentSlice";
-import { toast } from "react-hot-toast";
-import { CommentItem } from "./CommentItem";
-import { IComment } from "../../types/type";
+import { Loader, MessageSquare, Send } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import * as React from 'react';
+import { toast } from 'react-hot-toast';
+
+import { CommentItem } from './CommentItem';
+import { useCreateCommentMutation } from './commentSlice';
+import { IComment } from '../../types/type';
 
 interface CommentSectionProps {
   initialComments: IComment[];
@@ -15,7 +17,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   postId,
 }) => {
   const [comments, setComments] = useState<IComment[]>([]);
-  const [newComment, setNewComment] = useState("");
+  const [newComment, setNewComment] = useState('');
   const [isMounted, setMount] = useState(false);
   const [createComment, { isLoading, isSuccess, error }] =
     useCreateCommentMutation();
@@ -28,9 +30,9 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 
   const handleLike = (commentId: string) => {
     setComments(
-      updateCommentRecursively(comments, commentId, (comment) => ({
+      updateCommentRecursively(comments, commentId, (comment: IComment) => ({
         ...comment,
-        likes: comment.likes + 1,
+        likes: comment.likes?.length + 1,
       }))
     );
   };
@@ -49,8 +51,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({
       id: Date.now(),
       content: replyContent,
       author: {
-        username: "Current User",
-        photo: "/path/to/user/photo.jpg",
+        username: 'Current User',
+        photo: '/path/to/user/photo.jpg',
       },
       createdAt: new Date().toISOString(),
       likes: 0,
@@ -84,14 +86,14 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   useEffect(
     function () {
       if (isSuccess) {
-        toast.success("You just comment to a post");
-        setNewComment("");
+        toast.success('You just comment to a post');
+        setNewComment('');
       }
       if (error) {
-        if ("data" in error) {
-          toast.error(error?.data?.message || "An error occured!");
+        if ('data' in error) {
+          toast.error(error?.data?.message || 'An error occured!');
         } else {
-          toast.error("An unexpected error occured");
+          toast.error('An unexpected error occured');
         }
       }
     },
@@ -112,8 +114,8 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     return null;
   }
   return (
-    <div className="mt-8 bg-customBlue-900 rounded-xl p-6 shadow-xl border border-neonPink-700/30">
-      <h3 className="text-2xl font-semibold text-neonPink-300 mb-6 flex items-center">
+    <div className="mt-8 rounded-xl border border-neonPink-700/30 bg-customBlue-900 p-6 shadow-xl">
+      <h3 className="mb-6 flex items-center text-2xl font-semibold text-neonPink-300">
         <MessageSquare className="mr-2" />
         Comments ({comments?.length})
       </h3>
@@ -123,22 +125,22 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           <img
             src="/path/to/user/photo.jpg"
             alt="Current User"
-            className="w-10 h-10 rounded-full border-2 border-electricCyan-500"
+            className="h-10 w-10 rounded-full border-2 border-electricCyan-500"
           />
           <input
             type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Add a comment..."
-            className="flex-grow bg-customBlue-800 text-customBlue-100 placeholder-customBlue-400 border border-neonPink-700/30 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-neonPink-500 focus:border-transparent transition-all duration-300"
+            className="flex-grow rounded-lg border border-neonPink-700/30 bg-customBlue-800 p-3 text-customBlue-100 placeholder-customBlue-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-neonPink-500"
           />
           <button
             type="submit"
-            className="bg-neonPink-600 hover:bg-neonPink-500 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center"
+            className="flex items-center rounded-lg bg-neonPink-600 px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-neonPink-500"
           >
             {isLoading ? (
               <span className="flex items-center justify-center">
-                <Loader className="animate-spin mr-2" size={16} />
+                <Loader className="mr-2 animate-spin" size={16} />
                 Commenting...
               </span>
             ) : (

@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { ChevronRight, MessageSquare, ThumbsUp } from "lucide-react";
-import { format } from "date-fns";
-import { IPost } from "../../types/type";
-import { DropDownMenu } from "./DropDownMenu";
-import { MenuItem, MenuItems } from "@headlessui/react";
-import CommentSection from "../../features/comments/CommentSection";
-import { useGetPostCommentsQuery } from "../../features/comments/commentSlice";
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronRight, MessageSquare, ThumbsUp } from 'lucide-react';
+import { format } from 'date-fns';
+import { MenuItem, MenuItems } from '@headlessui/react';
+
+import { IPost } from '../../types/type';
+import { DropDownMenu } from './DropDownMenu';
+import CommentSection from '../../features/comments/CommentSection';
+import { useGetPostCommentsQuery } from '../../features/comments/commentSlice';
 
 interface PostItemProps {
   post: IPost;
@@ -21,10 +23,10 @@ const PostItem: React.FC<PostItemProps> = ({ post, isPreview = false }) => {
   } = useGetPostCommentsQuery(post?._id);
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
     });
   };
   const [comments, setComments] = useState([]);
@@ -38,11 +40,11 @@ const PostItem: React.FC<PostItemProps> = ({ post, isPreview = false }) => {
   );
 
   return (
-    <div className="md:bg-customBlue-900 rounded-xl p-0 md:shadow-xl transition-all duration-300 md:p-6">
-      <div className="flex justify-between items-start mb-4">
+    <div className="rounded-xl p-0 transition-all duration-300 md:bg-customBlue-900 md:p-6 md:shadow-xl">
+      <div className="mb-4 flex items-start justify-between">
         <Link
           to={`/posts/${post._id}`}
-          className="text-3xl font-semibold text-neonPink-300 hover:text-neonPink-200 transition-colors duration-200"
+          className="text-3xl font-semibold text-neonPink-300 transition-colors duration-200 hover:text-neonPink-200"
         >
           {post.title}
         </Link>
@@ -54,8 +56,8 @@ const PostItem: React.FC<PostItemProps> = ({ post, isPreview = false }) => {
                   <button
                     className={`${
                       focus
-                        ? "bg-customBlue-700 text-electricCyan-300"
-                        : "text-electricCyan-400"
+                        ? 'bg-customBlue-700 text-electricCyan-300'
+                        : 'text-electricCyan-400'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
                   >
                     Edit
@@ -67,8 +69,8 @@ const PostItem: React.FC<PostItemProps> = ({ post, isPreview = false }) => {
                   <button
                     className={`${
                       focus
-                        ? "bg-customBlue-700 text-customRed-300"
-                        : "text-customRed-400"
+                        ? 'bg-customBlue-700 text-customRed-300'
+                        : 'text-customRed-400'
                     } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
                   >
                     Delete
@@ -82,33 +84,35 @@ const PostItem: React.FC<PostItemProps> = ({ post, isPreview = false }) => {
 
       {!isPreview && (
         <>
-          <div className="text-electricCyan-300 mb-4 flex items-center space-x-2 text-subtle">
+          <div className="mb-4 flex items-center space-x-2 text-subtle text-electricCyan-300">
             <img
               src={post.author.photo}
               alt={post.author.username}
-              className="w-8 h-8 rounded-full border-2 border-neonPink-500"
+              className="h-8 w-8 rounded-full border-2 border-neonPink-500"
             />
             <span>{post.author?.username}</span>
             <span>•</span>
-            <span>{format(new Date(post.createdAt), "MMM d, yyyy")}</span>
+            <span>
+              {format(new Date(post.createdAt as string), 'MMM d, yyyy')}
+            </span>
           </div>
         </>
       )}
       {isPreview && (
         <>
           {post.images && post.images.length > 0 && (
-            <div className="flex items-center mb-6">
+            <div className="mb-6 flex items-center">
               <img
                 src={post?.author?.photo}
                 alt={post.author.username}
-                className="w-12 h-12 rounded-full border-2 border-electricCyan-500"
+                className="h-12 w-12 rounded-full border-2 border-electricCyan-500"
               />
               <div className="ml-4">
-                <p className="text-electricCyan-300 font-semibold">
+                <p className="font-semibold text-electricCyan-300">
                   {post.author.username}
                 </p>
-                <p className="text-customBlue-300 text-sm">
-                  Posted on {formatDate(post.createdAt)} ·{" "}
+                <p className="text-sm text-customBlue-300">
+                  Posted on {formatDate(post.createdAt as string)} ·{' '}
                   {Math.ceil(post.content.length / 1000)} min read
                 </p>
               </div>
@@ -117,13 +121,13 @@ const PostItem: React.FC<PostItemProps> = ({ post, isPreview = false }) => {
         </>
       )}
       <div
-        className={`text-customBlue-100 mb-6 prose prose-sm max-w-none prose-headings:text-neonPink-300 prose-a:text-electricCyan-400 hover:prose-a:text-electricCyan-300 ${!isPreview && "line-clamp-3"}`}
+        className={`prose prose-sm prose-headings:text-neonPink-300 prose-a:text-electricCyan-400 hover:prose-a:text-electricCyan-300 mb-6 max-w-none text-customBlue-100 ${!isPreview && 'line-clamp-3'}`}
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
       {!isPreview && (
         <Link
           to={`/posts/${post._id}`}
-          className="text-neonPink-400 hover:text-neonPink-300 transition-colors duration-200 flex items-center"
+          className="flex items-center text-neonPink-400 transition-colors duration-200 hover:text-neonPink-300"
         >
           Read More
           <ChevronRight size={16} className="ml-1" />
@@ -135,35 +139,38 @@ const PostItem: React.FC<PostItemProps> = ({ post, isPreview = false }) => {
             <img
               key={index}
               src={image}
-              alt={`Post image ${index + 1}`}
-              className="w-full h-48 object-cover rounded-lg shadow-md transition-transform duration-300 hover:scale-105 border border-neonPink-500/30"
+              alt={`Post ${index + 1}`}
+              className="h-48 w-full rounded-lg border border-neonPink-500/30 object-cover shadow-md transition-transform duration-300 hover:scale-105"
             />
           ))}
         </div>
       )}
-      <div className="flex flex-wrap gap-2 mb-6">
-        {post.tags.map((tag) => (
+      <div className="mb-6 flex flex-wrap gap-2">
+        {post?.tags?.map((tag) => (
           <span
             key={tag._id}
-            className="bg-electricCyan-900 text-electricCyan-300 px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 hover:bg-electricCyan-800 hover:text-electricCyan-200 border border-electricCyan-700"
+            className="rounded-full border border-electricCyan-700 bg-electricCyan-900 px-3 py-1 text-xs font-medium text-electricCyan-300 transition-colors duration-200 hover:bg-electricCyan-800 hover:text-electricCyan-200"
           >
             {tag.text}
           </span>
         ))}
       </div>
       <div className="flex items-center space-x-6 text-neonPink-400">
-        <button className="flex items-center space-x-2 hover:text-neonPink-300 transition-colors duration-200">
+        <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-neonPink-300">
           <ThumbsUp size={18} />
-          <span>{post.likes.length}</span>
+          <span>{post.likes?.length}</span>
         </button>
 
-        <button className="flex items-center space-x-2 hover:text-neonPink-300 transition-colors duration-200">
+        <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-neonPink-300">
           <MessageSquare size={18} />
           <span>{initialComments?.length}</span>
         </button>
       </div>
       {isPreview && (
-        <CommentSection initialComments={initialComments} postId={post._id} />
+        <CommentSection
+          initialComments={initialComments}
+          postId={post._id as string}
+        />
       )}
     </div>
   );

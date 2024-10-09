@@ -1,6 +1,8 @@
-# .prettierrc or .prettierrc.yaml
-trailingComma: "es5"
-tabWidth: 2
-semi: true
-singleQuote: false
-"plugin": ["prettier-plugin-tailwindcss"]
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "useTabs": false,
+  "plugins": ["prettier-plugin-tailwindcss"]
+}

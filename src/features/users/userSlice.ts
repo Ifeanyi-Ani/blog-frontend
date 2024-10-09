@@ -1,6 +1,6 @@
-import { IUser } from "../../types/type";
-import { apiSlice } from "../api/apiSlice";
-import { UserChangePassword, UserLogin, UserLogout } from "../auth/authSlice";
+import { IUser } from '../../types/type';
+import { apiSlice } from '../api/apiSlice';
+import { UserChangePassword, UserLogin, UserLogout } from '../auth/authSlice';
 
 interface IUserData {
   formData: Partial<IUser | any>;
@@ -11,8 +11,8 @@ const usersSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: (formData) => ({
-        url: "auth/login",
-        method: "POST",
+        url: 'auth/login',
+        method: 'POST',
         body: formData,
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
@@ -32,8 +32,8 @@ const usersSlice = apiSlice.injectEndpoints({
 
     signUp: builder.mutation({
       query: (formData) => ({
-        url: "auth/signup",
-        method: "POST",
+        url: 'auth/signup',
+        method: 'POST',
         body: formData,
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
@@ -50,21 +50,21 @@ const usersSlice = apiSlice.injectEndpoints({
         }
       },
       invalidatesTags: (_result, _error, arg: any) => [
-        { type: "users", id: arg.id },
+        { type: 'users', id: arg.id },
       ],
     }),
     verifyEmail: builder.mutation({
       query: (formData) => ({
-        url: "auth/forgotPassword",
-        method: "POST",
+        url: 'auth/forgotPassword',
+        method: 'POST',
         body: formData,
       }),
     }),
 
     resetPassword: builder.mutation({
       query: (formData) => ({
-        url: "auth/resetPassword",
-        method: "PATCH",
+        url: 'auth/resetPassword',
+        method: 'PATCH',
         body: formData,
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
@@ -84,8 +84,8 @@ const usersSlice = apiSlice.injectEndpoints({
 
     changePassword: builder.mutation({
       query: (formData) => ({
-        url: "auth/changePassword",
-        method: "POST",
+        url: 'auth/changePassword',
+        method: 'POST',
         body: formData,
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
@@ -102,13 +102,13 @@ const usersSlice = apiSlice.injectEndpoints({
         }
       },
       invalidatesTags: (_result, _error, arg: any) => [
-        { type: "users", id: arg.id },
+        { type: 'users', id: arg.id },
       ],
     }),
     logOut: builder.mutation({
       query: () => ({
-        url: "auth/logOut",
-        method: "POST",
+        url: 'auth/logOut',
+        method: 'POST',
       }),
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {
         try {
@@ -123,37 +123,37 @@ const usersSlice = apiSlice.injectEndpoints({
 
     getUsers: builder.query({
       query: () => ({
-        url: "users",
+        url: 'users',
       }),
       providesTags: (result, _error, _arg) =>
         result
           ? [
               ...result.map(({ id }: { id: string }) => ({
-                type: "users" as const,
+                type: 'users' as const,
                 id,
               })),
-              "users",
+              'users',
             ]
-          : ["users"],
+          : ['users'],
     }),
 
     updateUser: builder.mutation({
       query: ({ formData, id }: IUserData) => ({
         url: `users/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: formData,
       }),
       invalidatesTags: (_result, _error, arg) => [
-        { type: "users", id: arg.id },
+        { type: 'users', id: arg.id },
       ],
     }),
 
     deleteUser: builder.mutation({
       query: (id: string) => ({
         url: `users/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: ["users"],
+      invalidatesTags: ['users'],
     }),
 
     getUser: builder.query({
@@ -161,14 +161,14 @@ const usersSlice = apiSlice.injectEndpoints({
         url: `users/${id}`,
       }),
       providesTags: (_result, _error, arg: any) => [
-        { type: "users", id: arg.id },
+        { type: 'users', id: arg.id },
       ],
     }),
 
     refresh: builder.mutation({
       query: () => ({
-        url: "auth/refresh",
-        method: "GET",
+        url: 'auth/refresh',
+        method: 'GET',
       }),
 
       async onQueryStarted(_arg, { queryFulfilled, dispatch }) {

@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { ChevronRight } from "lucide-react";
-import { FormField } from "../../../ui/shared/FormField";
-import Modal from "../../../ui/shared/Modal";
-import { useChangePasswordMutation } from "../../users/userSlice";
-import { toast } from "react-hot-toast";
-import { SubmitBtn } from "../../../ui/shared/SubmitBtn";
-import * as z from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ChevronRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import * as z from 'zod';
+
+import { FormField } from '../../../ui/shared/FormField';
+import Modal from '../../../ui/shared/Modal';
+import { SubmitBtn } from '../../../ui/shared/SubmitBtn';
+import { useChangePasswordMutation } from '../../users/userSlice';
 
 const FormSchema = z.object({
   password: z.string().min(8),
@@ -28,9 +29,9 @@ export const ChangePassword = () => {
   } = useForm<FormType>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      password: "",
-      newPassword: "",
-      confirmNewPassword: "",
+      password: '',
+      newPassword: '',
+      confirmNewPassword: '',
     },
   });
 
@@ -44,15 +45,15 @@ export const ChangePassword = () => {
   useEffect(
     function () {
       if (isSuccess) {
-        toast.success("User password updated successfully");
+        toast.success('User password updated successfully');
         setIsModalOpen(false);
         resetPasswordForm();
       }
       if (error) {
-        if ("data" in error) {
-          toast.error(error.data?.message || "An error occurred");
+        if ('data' in error) {
+          toast.error(error.data?.message || 'An error occurred');
         } else {
-          toast.error("An unexpected error occurred");
+          toast.error('An unexpected error occurred');
         }
       }
     },
@@ -66,7 +67,7 @@ export const ChangePassword = () => {
       </h2>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="w-full bg-customBlue-800 hover:bg-customBlue-700 text-electricCyan-300 font-semibold py-3 px-4 rounded-lg flex justify-between items-center transition-colors duration-200"
+        className="flex w-full items-center justify-between rounded-lg bg-customBlue-800 px-4 py-3 font-semibold text-electricCyan-300 transition-colors duration-200 hover:bg-customBlue-700"
       >
         <span>Change Password</span>
         <ChevronRight size={18} />
@@ -108,12 +109,12 @@ export const ChangePassword = () => {
         </form>
       </Modal>
 
-      <div className="space-y-4 mt-4">
-        <button className="w-full bg-customBlue-800 hover:bg-customBlue-700 text-electricCyan-300 font-semibold py-3 px-4 rounded-lg flex justify-between items-center transition-colors duration-200">
+      <div className="mt-4 space-y-4">
+        <button className="flex w-full items-center justify-between rounded-lg bg-customBlue-800 px-4 py-3 font-semibold text-electricCyan-300 transition-colors duration-200 hover:bg-customBlue-700">
           <span>Two-Factor Authentication</span>
           <ChevronRight size={18} />
         </button>
-        <button className="w-full bg-customBlue-800 hover:bg-customBlue-700 text-electricCyan-300 font-semibold py-3 px-4 rounded-lg flex justify-between items-center transition-colors duration-200">
+        <button className="flex w-full items-center justify-between rounded-lg bg-customBlue-800 px-4 py-3 font-semibold text-electricCyan-300 transition-colors duration-200 hover:bg-customBlue-700">
           <span>Active Sessions</span>
           <ChevronRight size={18} />
         </button>

@@ -1,8 +1,8 @@
-import PostList from "../features/posts/PostList";
-import { useGetPostsQuery } from "../features/posts/postSlice";
-import { CustomPageError } from "../ui/shared/CustomPageError";
-import { LoadingState } from "../ui/shared/LoadingState";
-import { NotFoundState } from "../ui/shared/NotFoundState";
+import PostList from '../features/posts/PostList';
+import { useGetPostsQuery } from '../features/posts/postSlice';
+import { CustomPageError } from '../ui/shared/CustomPageError';
+import { LoadingState } from '../ui/shared/LoadingState';
+import { NotFoundState } from '../ui/shared/NotFoundState';
 
 const Home = function () {
   const { data: posts, isLoading, error } = useGetPostsQuery(null);

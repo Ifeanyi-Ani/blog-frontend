@@ -1,43 +1,45 @@
-import React, { useState, useMemo } from "react";
-import { Filter } from "lucide-react";
-import { toast } from "react-hot-toast";
-import { SortDirection, SortableHeader } from "../../ui/shared/SortableHeader";
-import PostItem from "../../ui/shared/PostItem";
-import { IPost } from "../../types/type";
+import * as React from 'react';
+import { useState, useMemo } from 'react';
+import { Filter } from 'lucide-react';
+import { toast } from 'react-hot-toast';
 
-type PostSortField = "createdAt" | "title";
+import { SortDirection, SortableHeader } from '../../ui/shared/SortableHeader';
+import PostItem from '../../ui/shared/PostItem';
+import { IPost } from '../../types/type';
+
+type PostSortField = 'createdAt' | 'title';
 
 interface PostListProps {
   posts: IPost[];
 }
 
 const sortOptions: Array<{ field: PostSortField; label: string }> = [
-  { field: "title", label: "Sort by Title" },
-  { field: "createdAt", label: "Sort by Date" },
+  { field: 'title', label: 'Sort by Title' },
+  { field: 'createdAt', label: 'Sort by Date' },
 ];
 
 const PostList: React.FC<PostListProps> = ({ posts }) => {
-  const [sortField, setSortField] = useState<PostSortField>("createdAt");
-  const [sortDirection, setSortDirection] = useState<SortDirection>("desc");
-  const [filterTag, setFilterTag] = useState("");
+  const [sortField, setSortField] = useState<PostSortField>('createdAt');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+  const [filterTag, setFilterTag] = useState('');
 
   const sortedAndFilteredPosts = useMemo(() => {
     try {
-      let filteredPosts = filterTag
+      const filteredPosts = filterTag
         ? posts.filter((post) =>
-            post.tags.some((tag) =>
-              tag.text.toLowerCase().includes(filterTag.toLowerCase())
+            post.tags?.some((tag) =>
+              tag.text?.toLowerCase().includes(filterTag.toLowerCase())
             )
           )
         : posts;
 
       return [...filteredPosts].sort((a, b) => {
-        if (sortField === "createdAt") {
-          const dateA = new Date(a.createdAt).getTime();
-          const dateB = new Date(b.createdAt).getTime();
-          return sortDirection === "asc" ? dateA - dateB : dateB - dateA;
-        } else if (sortField === "title") {
-          return sortDirection === "asc"
+        if (sortField === 'createdAt') {
+          const dateA = new Date(a.createdAt as string).getTime();
+          const dateB = new Date(b.createdAt as string).getTime();
+          return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
+        } else if (sortField === 'title') {
+          return sortDirection === 'asc'
             ? a.title.localeCompare(b.title)
             : b.title.localeCompare(a.title);
         }
@@ -51,10 +53,10 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
 
   const handleSort = (field: PostSortField) => {
     if (field === sortField) {
-      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortField(field);
-      setSortDirection("asc");
+      setSortDirection('asc');
     }
   };
 
@@ -64,9 +66,9 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
 
   return (
     <>
-      <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
-        <div className="flex items-center space-x-2 bg-customBlue-800 rounded-full p-2 border border-electricCyan-700 shadow-lg shadow-electricCyan-900/20 focus-within:ring-2 focus-within:ring-neonPink-500 focus-within:border-transparent">
-          <Filter className="text-electricCyan-400 " />
+      <div className="mb-8 flex flex-col items-start justify-between space-y-4 sm:flex-row sm:items-center sm:space-y-0">
+        <div className="flex items-center space-x-2 rounded-full border border-electricCyan-700 bg-customBlue-800 p-2 shadow-lg shadow-electricCyan-900/20 focus-within:border-transparent focus-within:ring-2 focus-within:ring-neonPink-500">
+          <Filter className="text-electricCyan-400" />
           <input
             type="text"
             placeholder="Filter by tag"

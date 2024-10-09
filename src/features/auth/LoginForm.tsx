@@ -1,15 +1,14 @@
-import * as z from "zod";
-import { useNavigate } from "react-router-dom";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
+import * as z from 'zod';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-
-import { FormField } from "../../ui/shared/FormField";
-import { SubmitBtn } from "../../ui/shared/SubmitBtn";
-import { useLoginMutation } from "../users/userSlice";
-import { useEffect } from "react";
-import { ForgotPassword } from "./ForgotPassword";
+import { ForgotPassword } from './ForgotPassword';
+import { FormField } from '../../ui/shared/FormField';
+import { SubmitBtn } from '../../ui/shared/SubmitBtn';
+import { useLoginMutation } from '../users/userSlice';
 
 const LoginSchema = z.object({
   email: z.string().min(3),
@@ -29,8 +28,8 @@ export const LoginForm = () => {
   } = useForm<FormValidation>({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: '',
+      password: '',
     },
   });
 
@@ -40,14 +39,14 @@ export const LoginForm = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Successfully signed up");
-      navigate("/");
+      toast.success('Successfully signed up');
+      navigate('/');
     }
     if (error) {
-      if ("data" in error) {
-        toast.error(error.data?.message || "An error occurred");
+      if ('data' in error) {
+        toast.error(error.data?.message || 'An error occurred');
       } else {
-        toast.error("An unexpected error occurred");
+        toast.error('An unexpected error occurred');
       }
     }
   }, [isSuccess, error, navigate]);

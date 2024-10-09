@@ -27,8 +27,8 @@ export interface ILike {
 }
 
 enum Role {
-  user = "user",
-  admin = "admin",
+  user = 'user',
+  admin = 'admin',
 }
 export interface IUser {
   _id?: string;

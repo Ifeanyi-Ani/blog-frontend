@@ -7,12 +7,13 @@ import {
   ChevronDown,
   Send,
   Loader,
-} from "lucide-react";
-import { useCreateReplyMutation, useGetRepliesQuery } from "./commentSlice.ts";
-import { LoadingState } from "../../ui/shared/LoadingState";
-import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
-import { IComment } from "../../types/type.ts";
+} from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-hot-toast';
+
+import { useCreateReplyMutation, useGetRepliesQuery } from './commentSlice.ts';
+import { IComment } from '../../types/type.ts';
+import { LoadingState } from '../../ui/shared/LoadingState';
 
 interface CommentItemProps {
   comment: IComment;
@@ -22,15 +23,15 @@ interface CommentItemProps {
   postId: string;
 }
 
-export const CommentItem: React.FC<CommentItemProps> = ({
+export const CommentItem = ({
   comment,
   onLike,
   onDislike,
   onReply,
   postId,
-}) => {
+}: CommentItemProps) => {
   const [isReplying, setIsReplying] = useState(false);
-  const [replyContent, setReplyContent] = useState("");
+  const [replyContent, setReplyContent] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [createReply, { isLoading, isSuccess, error }] =
     useCreateReplyMutation();
@@ -58,16 +59,16 @@ export const CommentItem: React.FC<CommentItemProps> = ({
   useEffect(
     function () {
       if (isSuccess) {
-        toast.success("You just reply a comment");
-        setReplyContent("");
+        toast.success('You just reply a comment');
+        setReplyContent('');
         setIsReplying(false);
         setIsExpanded(true);
       }
       if (error) {
-        if ("data" in error) {
-          toast.error(error?.data?.message || "An error occured");
+        if ('data' in error) {
+          toast.error(error?.data?.message || 'An error occured');
         } else {
-          toast.error("An unexpected error occured");
+          toast.error('An unexpected error occured');
         }
       }
     },
@@ -76,60 +77,60 @@ export const CommentItem: React.FC<CommentItemProps> = ({
 
   return (
     <div
-      className={`rounded-lg ${!comment?.parentId && "bg-customBlue-800 p-4  shadow-md"}`}
+      className={`rounded-lg ${!comment?.parentId && 'bg-customBlue-800 p-4 shadow-md'}`}
     >
       <div className="flex items-center">
         <img
           src={comment?.userId?.photo}
-          alt={comment?.userId?.username || "avatar"}
-          className="w-8 h-8 rounded-full border border-electricCyan-500 mr-3"
+          alt={comment?.userId?.username || 'avatar'}
+          className="mr-3 h-8 w-8 rounded-full border border-electricCyan-500"
         />
         <span className="font-semibold text-electricCyan-300">
           {comment?.userId?.username}
         </span>
         {comment?.parentAuthor && (
           <>
-            <span className="text-customBlue-400 text-xs ml-1">replied</span>
-            <span className="font-semibold text-neonPink-300 ml-1 text-xs">
+            <span className="ml-1 text-xs text-customBlue-400">replied</span>
+            <span className="ml-1 text-xs font-semibold text-neonPink-300">
               {comment?.parentAuthor}
             </span>
           </>
         )}
-        <span className="text-customBlue-400 text-sm ml-2">
-          {new Date(comment?.createdAt)?.toLocaleDateString()}
+        <span className="ml-2 text-sm text-customBlue-400">
+          {new Date(comment?.createdAt).toLocaleDateString()}
         </span>
       </div>
-      <p className="text-customBlue-100 mb-3">{comment.content}</p>
-      <div className="flex items-center space-x-4 text-sm mb-3">
+      <p className="mb-3 text-customBlue-100">{comment.content}</p>
+      <div className="mb-3 flex items-center space-x-4 text-sm">
         <button
           onClick={() => onLike(comment._id)}
-          className="flex items-center text-neonPink-400 hover:text-neonPink-300 transition-colors duration-200"
+          className="flex items-center text-neonPink-400 transition-colors duration-200 hover:text-neonPink-300"
         >
           <ThumbsUp size={14} className="mr-1" />
           {comment?.likes?.length}
         </button>
         <button
           onClick={() => onDislike(comment._id)}
-          className="flex items-center text-neonPink-400 hover:text-neonPink-300 transition-colors duration-200"
+          className="flex items-center text-neonPink-400 transition-colors duration-200 hover:text-neonPink-300"
         >
           <ThumbsDown size={14} className="mr-1" />
           {comment?.dislikes?.length}
         </button>
         <button
           onClick={() => setIsReplying(!isReplying)}
-          className="flex items-center text-electricCyan-400 hover:text-electricCyan-300 transition-colors duration-200"
+          className="flex items-center text-electricCyan-400 transition-colors duration-200 hover:text-electricCyan-300"
         >
           {isReplying ? (
             <X size={14} className="mr-1" />
           ) : (
             <Reply size={14} className="mr-1" />
           )}
-          {isReplying ? "Cancel" : "Reply"}
+          {isReplying ? 'Cancel' : 'Reply'}
         </button>
         {repliesComment && repliesComment?.length > 0 && (
           <button
             onClick={toggleReplies}
-            className="flex items-center text-electricCyan-400 hover:text-electricCyan-300 transition-colors duration-200"
+            className="flex items-center text-electricCyan-400 transition-colors duration-200 hover:text-electricCyan-300"
           >
             {isExpanded ? (
               <ChevronUp size={14} className="mr-1" />
@@ -137,7 +138,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({
               <ChevronDown size={14} className="mr-1" />
             )}
             {isExpanded
-              ? "Hide Replies"
+              ? 'Hide Replies'
               : `Show Replies (${repliesComment?.length})`}
           </button>
         )}
@@ -151,16 +152,15 @@ export const CommentItem: React.FC<CommentItemProps> = ({
               value={replyContent}
               onChange={(e) => setReplyContent(e.target.value)}
               placeholder="Write a reply..."
-              className="flex-grow bg-customBlue-700 text-customBlue-100 placeholder-customBlue-400 border border-neonPink-700/30 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-neonPink-500 focus:border-transparent transition-all duration-300"
+              className="flex-grow rounded-lg border border-neonPink-700/30 bg-customBlue-700 p-2 text-customBlue-100 placeholder-customBlue-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-neonPink-500"
             />
             <button
               type="submit"
-              className="bg-neonPink-600 hover:bg-neonPink-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-300 flex items-center"
+              className="flex items-center rounded-lg bg-neonPink-600 px-4 py-2 font-bold text-white transition-colors duration-300 hover:bg-neonPink-500"
             >
-              
               {isLoading ? (
                 <span className="flex items-center justify-center">
-                  <Loader className="animate-spin mr-2" size={16} />
+                  <Loader className="mr-2 animate-spin" size={16} />
                   Replaying...
                 </span>
               ) : (

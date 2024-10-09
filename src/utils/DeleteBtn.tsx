@@ -1,11 +1,12 @@
-import { toast } from "react-hot-toast";
-import deleteBtn from "../assets/delete.svg";
-import { useEffect } from "react";
 import {
   MutationActionCreatorResult,
   MutationDefinition,
-} from "@reduxjs/toolkit/query";
+} from '@reduxjs/toolkit/query';
 
+import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
+
+import deleteBtn from '../assets/delete.svg';
 type Props = {
   deleteDetails: any;
   deleteData: any;
@@ -22,17 +23,17 @@ const DeleteBtn = (props: Props) => {
   };
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Successfully deleted");
+      toast.success('Successfully deleted');
     }
     if (isError) {
-      toast.error("unable to delete Comment");
+      toast.error('unable to delete Comment');
     }
   }, [isSuccess, isError]);
   return (
     <img
       src={deleteBtn}
       alt="deleteBtn"
-      className="absolute top-1 right-1 w-4 h-4"
+      className="absolute right-1 top-1 h-4 w-4"
       role="button"
       onClick={() => handleDelete(deleteDetails)}
       aria-disabled={isLoading}

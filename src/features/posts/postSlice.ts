@@ -1,21 +1,21 @@
-import { ICREATEPOST } from "../../types/type";
-import { apiSlice } from "../api/apiSlice";
+import { ICREATEPOST } from '../../types/type';
+import { apiSlice } from '../api/apiSlice';
 
 export const postsSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPosts: builder.query({
-      query: () => "/posts",
+      query: () => '/posts',
       keepUnusedDataFor: 5,
       providesTags: (result, _error, _arg) =>
         result
           ? [
               ...result.map(({ id }: { id: string }) => ({
-                type: "posts" as const,
+                type: 'posts' as const,
                 id,
               })),
-              "posts",
+              'posts',
             ]
-          : ["posts"],
+          : ['posts'],
     }),
 
     getPost: builder.query({
@@ -24,12 +24,12 @@ export const postsSlice = apiSlice.injectEndpoints({
 
     createPost: builder.mutation({
       query: (postData: Partial<ICREATEPOST | any>) => ({
-        url: "posts",
-        method: "POST",
+        url: 'posts',
+        method: 'POST',
         body: postData,
       }),
       invalidatesTags: (_result: any, _error: any, arg: any) => [
-        { type: "posts", id: arg.id },
+        { type: 'posts', id: arg.id },
       ],
     }),
 
@@ -42,23 +42,23 @@ export const postsSlice = apiSlice.injectEndpoints({
         postData: Partial<ICREATEPOST>;
       }) => ({
         url: `posts/${postId}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: postData,
       }),
 
       invalidatesTags: (_result: any, _error: any, arg: any) => [
-        { type: "posts", id: arg.id },
+        { type: 'posts', id: arg.id },
       ],
     }),
 
     deletePost: builder.mutation({
       query: (postId: string) => ({
         url: `posts/${postId}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
 
       invalidatesTags: (_result: any, _error: any, arg: any) => [
-        { type: "posts", id: arg.id },
+        { type: 'posts', id: arg.id },
       ],
     }),
   }),

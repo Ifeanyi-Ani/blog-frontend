@@ -1,14 +1,14 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import { Provider } from "react-redux";
-import { Toaster } from "react-hot-toast";
+import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
+import { Provider } from 'react-redux';
+import { Toaster } from 'react-hot-toast';
 
-import App from "./App.tsx";
-import ContextProvider from "./contexts/contextData.tsx";
-import { store } from "./app/store.ts";
-import "./index.css";
+import App from './App.tsx';
+import ContextProvider from './contexts/contextData.tsx';
+import { store } from './app/store.ts';
+import './index.css';
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
       <ContextProvider>
@@ -16,5 +16,5 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <Toaster position="top-center" />
       </ContextProvider>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode>
 );

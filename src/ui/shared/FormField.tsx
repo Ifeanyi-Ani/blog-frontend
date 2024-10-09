@@ -1,6 +1,8 @@
-import { Controller } from "react-hook-form";
-import { Input } from "./Input";
-import { LucideIcon } from "lucide-react";
+import * as React from 'react';
+import { Controller } from 'react-hook-form';
+import { LucideIcon } from 'lucide-react';
+
+import { Input } from './Input';
 
 interface FormFieldProps {
   control: any;
@@ -18,7 +20,7 @@ interface FormFieldProps {
 export const FormField: React.FC<FormFieldProps> = ({
   control,
   name,
-  type = "text",
+  type = 'text',
   placeholder,
   className,
   value,
@@ -41,15 +43,15 @@ export const FormField: React.FC<FormFieldProps> = ({
           )}
           <div className="relative">
             {Icon && (
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <Icon size={18} className="text-neonPink-300" />
               </div>
             )}
             {multiline ? (
               <textarea
                 disabled={disabled}
-                className={`w-full bg-customBlue-900 text-electricCyan-200 rounded-lg py-2 px-4 focus:outline-none focus:ring-1 focus:ring-electricCyan-500 focus:border-electricCyan-500 disabled:cursor-not-allowed disabled:opacity-50  ${
-                  Icon ? "pl-10" : ""
+                className={`w-full rounded-lg bg-customBlue-900 px-4 py-2 text-electricCyan-200 focus:border-electricCyan-500 focus:outline-none focus:ring-1 focus:ring-electricCyan-500 disabled:cursor-not-allowed disabled:opacity-50 ${
+                  Icon ? 'pl-10' : ''
                 }`}
                 rows={3}
                 defaultValue={value}
@@ -60,7 +62,7 @@ export const FormField: React.FC<FormFieldProps> = ({
                 id={name}
                 type={type}
                 placeholder={placeholder}
-                className={`w-full bg-customBlue-800 border-customBlue-700 text-electricCyan-100 placeholder-customBlue-500 focus:border-electricCyan-500 focus:ring-electricCyan-500 ${Icon && "pl-10"} ${className}`}
+                className={`w-full border-customBlue-700 bg-customBlue-800 text-electricCyan-100 placeholder-customBlue-500 focus:border-electricCyan-500 focus:ring-electricCyan-500 ${Icon && 'pl-10'} ${className}`}
                 disabled={disabled}
                 {...props}
                 {...field}

@@ -1,4 +1,4 @@
-import { apiSlice } from "../api/apiSlice";
+import { apiSlice } from '../api/apiSlice';
 
 const commentSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -9,13 +9,13 @@ const commentSlice = apiSlice.injectEndpoints({
           ? [
               ...result.map(({ id }: { id: string }) => {
                 return {
-                  type: "comments" as const,
+                  type: 'comments' as const,
                   id,
                 };
               }),
-              "comments",
+              'comments',
             ]
-          : ["coments"],
+          : ['coments'],
     }),
 
     getComment: builder.query({
@@ -23,7 +23,7 @@ const commentSlice = apiSlice.injectEndpoints({
       providesTags: (_result, _error, arg) => {
         return [
           {
-            type: "comments" as const,
+            type: 'comments' as const,
             id: arg.id,
           },
         ];
@@ -37,46 +37,46 @@ const commentSlice = apiSlice.injectEndpoints({
           ? [
               ...result.map(({ id }: { id: string }) => {
                 return {
-                  type: "comments" as const,
+                  type: 'comments' as const,
                   id,
                 };
               }),
-              "comments",
+              'comments',
             ]
-          : ["coments"],
+          : ['coments'],
     }),
     createComment: builder.mutation({
       query: ({ formData, postId }) => ({
         url: `posts/${postId}/comments`,
-        method: "POST",
+        method: 'POST',
         body: formData,
       }),
       invalidatesTags: (_result, _error, arg) => {
-        return [{ type: "comments", id: arg.id }];
+        return [{ type: 'comments', id: arg.id }];
       },
     }),
 
     createReply: builder.mutation({
       query: ({ formData, parentId }) => ({
         url: `comments/${parentId}/replies`,
-        method: "POST",
+        method: 'POST',
         body: formData,
       }),
       invalidatesTags: (_result, _error, arg) => {
-        return [{ type: "comments", id: arg.id }];
+        return [{ type: 'comments', id: arg.id }];
       },
     }),
 
     updateComment: builder.mutation({
       query: ({ formData, postId, commentId }) => ({
         url: `comments/${postId}/${commentId}`,
-        method: "PATCH",
+        method: 'PATCH',
         body: formData,
       }),
       invalidatesTags: (_result, _error, arg) => {
         return [
           {
-            type: "comments",
+            type: 'comments',
             id: arg.id,
           },
         ];
@@ -86,10 +86,10 @@ const commentSlice = apiSlice.injectEndpoints({
     deleteComment: builder.mutation({
       query: ({ postId, commentId }) => ({
         url: `comments/${postId}/${commentId}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
       invalidatesTags: (_result, _error, arg) => {
-        return [{ type: "comments", id: arg.id }];
+        return [{ type: 'comments', id: arg.id }];
       },
     }),
   }),

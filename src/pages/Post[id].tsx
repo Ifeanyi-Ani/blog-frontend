@@ -1,16 +1,16 @@
-import React from "react";
-import { ArrowLeft } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
-import { LoadingState } from "../ui/shared/LoadingState";
-import { useGetPostQuery, useGetPostsQuery } from "../features/posts/postSlice";
-import { CustomPageError } from "../ui/shared/CustomPageError";
-import { NotFoundState } from "../ui/shared/NotFoundState";
-import PostItem from "../ui/shared/PostItem";
-import { IPost } from "../types/type";
-import { BackBtn } from "../ui/shared/BackBtn";
+import * as React from 'react';
+import { useParams } from 'react-router-dom';
+
+import { LoadingState } from '../ui/shared/LoadingState';
+import { useGetPostQuery, useGetPostsQuery } from '../features/posts/postSlice';
+import { CustomPageError } from '../ui/shared/CustomPageError';
+import { NotFoundState } from '../ui/shared/NotFoundState';
+import PostItem from '../ui/shared/PostItem';
+import { IPost } from '../types/type';
+import { BackBtn } from '../ui/shared/BackBtn';
 
 interface PostPreviewProps {
-  post: IPost;
+  post?: IPost;
 }
 
 const PostPreview: React.FC<PostPreviewProps> = () => {
@@ -36,10 +36,10 @@ const PostPreview: React.FC<PostPreviewProps> = () => {
       <PostItem post={post} isPreview />
 
       <div className="mt-12">
-        <h2 className="text-2xl font-bold mb-6 text-electricCyan-300">
+        <h2 className="mb-6 text-2xl font-bold text-electricCyan-300">
           Recommended Posts
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           {posts
             ?.slice(0, 2)
             .map((rec: IPost) => <PostItem post={rec} key={rec._id} />)}

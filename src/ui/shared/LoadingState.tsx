@@ -1,9 +1,9 @@
 export const LoadingState = () => {
   return (
-    <div className="min-h-screen md:bg-gradient-to-br from-customBlue-950 via-customBlue-900 to-customBlue-800 flex items-center justify-center">
+    <div className="flex min-h-screen items-center justify-center from-customBlue-950 via-customBlue-900 to-customBlue-800 md:bg-gradient-to-br">
       <div className="text-center">
-        <div className="inline-block animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-neonPink-500"></div>
-        <div className="mt-4 text-electricCyan-300 text-xl font-semibold">
+        <div className="inline-block h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-neonPink-500"></div>
+        <div className="mt-4 text-xl font-semibold text-electricCyan-300">
           Loading Data...
         </div>
       </div>

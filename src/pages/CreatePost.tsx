@@ -1,8 +1,9 @@
-import { useAppSelector } from "../app/hook";
-import { CreatePostForm } from "../features/posts/CreatePostForm";
-import { Navigate, useNavigate } from "react-router-dom";
-import { BackBtn } from "../ui/shared/BackBtn";
-import { GlowHeading } from "../ui/shared/GlowHeading";
+import { Navigate } from 'react-router-dom';
+
+import { useAppSelector } from '../app/hook';
+import { CreatePostForm } from '../features/posts/CreatePostForm';
+import { BackBtn } from '../ui/shared/BackBtn';
+import { GlowHeading } from '../ui/shared/GlowHeading';
 
 const CreatePostPage = () => {
   const { currentUser } = useAppSelector((state) => state.auth);
