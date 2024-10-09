@@ -1,11 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { UserLogin } from "../auth/authSlice";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+import { UserLogin } from '../auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
   // baseUrl: "https://blog-backend-youe.onrender.com/",
-  baseUrl: "https://blog-backend-production-2d72.up.railway.app/",
-  // baseUrl: "http://127.0.0.1:4000/",
-  credentials: "include" as const,
+  baseUrl: 'https://blog-backend-production-2d72.up.railway.app/',
+  // baseUrl: 'http://127.0.0.1:4000/',
+  credentials: 'include' as const,
   // prepareHeaders: (headers, { getState }: { getState: any }) => {
   //   const Token = getState().auth.token;
   //   if (Token) {
@@ -21,10 +22,10 @@ const baseQueryWithReauth = async (arg: any, api: any, extraOptions: any) => {
   const result = await baseQuery(arg, api, extraOptions);
 
   if (result?.error?.status === 403) {
-    console.log("sending refresh token");
+    console.log('sending refresh token');
 
     const refreshResult = (await baseQuery(
-      "auth/refresh",
+      'auth/refresh',
       api,
       extraOptions
     )) as any;
@@ -36,13 +37,13 @@ const baseQueryWithReauth = async (arg: any, api: any, extraOptions: any) => {
         })
       );
       localStorage.setItem(
-        "currentUser",
+        'currentUser',
         JSON.parse(refreshResult.data.currentUser)
       );
       console.log(refreshResult);
     } else {
       if (refreshResult?.error?.status === 403) {
-        refreshResult.error.data.message = "Your login has expired";
+        refreshResult.error.data.message = 'Your login has expired';
       }
       return refreshResult;
     }
@@ -51,8 +52,8 @@ const baseQueryWithReauth = async (arg: any, api: any, extraOptions: any) => {
 };
 
 export const apiSlice = createApi({
-  reducerPath: "api",
+  reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ["users", "posts", "comments", "likes"],
+  tagTypes: ['users', 'posts', 'comments', 'likes'],
   endpoints: () => ({}),
 });
