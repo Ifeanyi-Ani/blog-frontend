@@ -36,7 +36,7 @@ const PostPreview: React.FC<PostPreviewProps> = () => {
       <PostItem post={post} isPreview />
 
       <div className="mt-12">
-        <h2 className="mb-6 text-2xl font-bold text-electricCyan-300">
+        <h2 className="mb-6 text-2xl font-bold text-accent-foreground">
           Recommended Posts
         </h2>
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2">

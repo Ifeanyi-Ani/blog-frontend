@@ -1,10 +1,12 @@
+import { Loader } from 'lucide-react';
+
 export const LoadingState = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center from-customBlue-950 via-customBlue-900 to-customBlue-800 md:bg-gradient-to-br">
-      <div className="text-center">
-        <div className="inline-block h-32 w-32 animate-spin rounded-full border-b-2 border-t-2 border-neonPink-500"></div>
-        <div className="mt-4 text-xl font-semibold text-electricCyan-300">
-          Loading Data...
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="flex justify-center flex-col items-center">
+        <Loader className="h-12 w-12 animate-spin text-primary" />
+        <div className="text-lg font-semibold text-primary">
+          Loading...
         </div>
       </div>
     </div>

@@ -83,39 +83,30 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     });
   };
 
-  useEffect(
-    function () {
-      if (isSuccess) {
-        toast.success('You just comment to a post');
-        setNewComment('');
-      }
-      if (error) {
-        if ('data' in error) {
-          toast.error(error?.data?.message || 'An error occured!');
-        } else {
-          toast.error('An unexpected error occured');
-        }
-      }
-    },
-    [isSuccess, error]
-  );
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Comment added successfully');
+      setNewComment('');
+    }
+    if (error) {
+      toast.error('Failed to add comment');
+    }
+  }, [isSuccess, error]);
 
-  useEffect(
-    function () {
-      if (isMounted) {
-        setComments(initialComments);
-      }
-      setMount(true);
-    },
-    [isMounted, initialComments]
-  );
+  useEffect(() => {
+    if (isMounted) {
+      setComments(initialComments);
+    }
+    setMount(true);
+  }, [isMounted, initialComments]);
 
   if (!isMounted) {
     return null;
   }
+
   return (
-    <div className="mt-8 rounded-xl border border-neonPink-700/30 bg-customBlue-900 p-6 shadow-xl">
-      <h3 className="mb-6 flex items-center text-2xl font-semibold text-neonPink-300">
+    <div className="mt-8 rounded-xl border border-border bg-card p-6 shadow-md">
+      <h3 className="mb-6 flex items-center text-2xl font-semibold text-primary">
         <MessageSquare className="mr-2" />
         Comments ({comments?.length})
       </h3>
@@ -125,18 +116,18 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           <img
             src="/path/to/user/photo.jpg"
             alt="Current User"
-            className="h-10 w-10 rounded-full border-2 border-electricCyan-500"
+            className="h-10 w-10 rounded-full border-2 border-primary"
           />
           <input
             type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Add a comment..."
-            className="flex-grow rounded-lg border border-neonPink-700/30 bg-customBlue-800 p-3 text-customBlue-100 placeholder-customBlue-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-neonPink-500"
+            className="flex-grow rounded-lg border border-input bg-background p-3 text-foreground placeholder-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring"
           />
           <button
             type="submit"
-            className="flex items-center rounded-lg bg-neonPink-600 px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-neonPink-500"
+            className="flex items-center rounded-lg bg-primary px-6 py-3 font-bold text-primary-foreground hover:bg-primary/90"
           >
             {isLoading ? (
               <span className="flex items-center justify-center">

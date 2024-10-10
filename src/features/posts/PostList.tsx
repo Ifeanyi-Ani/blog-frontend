@@ -65,19 +65,18 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
   };
 
   return (
-    <>
-      <div className="mb-8 flex flex-col items-start justify-between space-y-4 sm:flex-row sm:items-center sm:space-y-0">
-        <div className="flex items-center space-x-2 rounded-full border border-electricCyan-700 bg-customBlue-800 p-2 shadow-lg shadow-electricCyan-900/20 focus-within:border-transparent focus-within:ring-2 focus-within:ring-neonPink-500">
-          <Filter className="text-electricCyan-400" />
+    <div className="flex h-full flex-col">
+      <div className="sticky top-20 mb-8 flex flex-col z-1000 items-start justify-between space-y-4 bg-background py-12 sm:flex-row sm:items-center sm:space-y-0">
+        <div className="flex items-center space-x-2 rounded-md border border-input bg-background p-2 shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+          <Filter className="h-4 w-4 text-muted-foreground" />
           <input
             type="text"
             placeholder="Filter by tag"
             value={filterTag}
             onChange={handleFilterChange}
-            className="bg-transparent text-electricCyan-100 placeholder-electricCyan-600 focus:outline-none"
+            className="bg-transparent text-sm text-foreground placeholder-muted-foreground focus:outline-none"
           />
         </div>
-
         <SortableHeader
           sortOptions={sortOptions}
           currentSortField={sortField}
@@ -85,14 +84,14 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
           onSort={handleSort}
         />
       </div>
-
-      <div className="space-y-10">
-        {sortedAndFilteredPosts?.map((post) => (
-          <PostItem post={post} key={post._id} />
-        ))}
+      <div className="flex-grow overflow-y-auto">
+        <div className="space-y-6 p-4">
+          {sortedAndFilteredPosts?.map((post) => (
+            <PostItem post={post} key={post._id} />
+          ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
-
 export default PostList;
