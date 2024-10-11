@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import * as z from 'zod';
+import { motion } from 'framer-motion';
 
 import { FormField } from '../../ui/shared/FormField';
 import { SubmitBtn } from '../../ui/shared/SubmitBtn';
@@ -11,7 +12,7 @@ import { useSignUpMutation } from '../users/userSlice';
 
 const SignupSchema = z.object({
   username: z.string().min(3),
-  email: z.string().min(5),
+  email: z.string().email(5),
   password: z.string().min(8),
   passwordConfirm: z.string().min(8),
   dob: z.string(),
@@ -55,13 +56,17 @@ export const RegisterForm = () => {
       }
     }
   }, [isSuccess, error, navigate]);
+
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+    <motion.form
+      className="space-y-6"
+      onSubmit={handleSubmit(onSubmit)}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="space-y-2">
-        <label
-          htmlFor="username"
-          className="text-sm font-medium text-electricCyan-300"
-        >
+        <label htmlFor="username" className="text-sm text-accent-foreground">
           Username
         </label>
         <FormField
@@ -71,7 +76,7 @@ export const RegisterForm = () => {
           control={control}
         />
         {errors.username && (
-          <span className="text-xs text-customRed-400">
+          <span className="text-xs font-medium text-destructive">
             {errors.username.message}
           </span>
         )}
@@ -79,7 +84,7 @@ export const RegisterForm = () => {
       <div className="space-y-2">
         <label
           htmlFor="email"
-          className="text-sm font-medium text-electricCyan-300"
+          className="text-sm font-medium text-accent-foreground"
         >
           Email
         </label>
@@ -90,7 +95,7 @@ export const RegisterForm = () => {
           placeholder="m@example.com"
         />
         {errors.email && (
-          <span className="text-xs text-customRed-400">
+          <span className="text-xs text-destructive">
             {errors.email.message}
           </span>
         )}
@@ -98,7 +103,7 @@ export const RegisterForm = () => {
       <div className="space-y-2">
         <label
           htmlFor="password"
-          className="text-sm font-medium text-electricCyan-300"
+          className="text-sm font-medium text-accent-foreground"
         >
           Password
         </label>
@@ -109,7 +114,7 @@ export const RegisterForm = () => {
           placeholder="Enter password"
         />
         {errors.password && (
-          <span className="text-xs text-customRed-400">
+          <span className="text-xs text-destructive">
             {errors.password.message}
           </span>
         )}
@@ -117,7 +122,7 @@ export const RegisterForm = () => {
       <div className="space-y-2">
         <label
           htmlFor="passwordConfirm"
-          className="text-sm font-medium text-electricCyan-300"
+          className="text-sm font-medium text-accent-foreground"
         >
           Confirm Password
         </label>
@@ -128,7 +133,7 @@ export const RegisterForm = () => {
           placeholder="Re-type your password"
         />
         {errors.passwordConfirm && (
-          <span className="text-xs text-customRed-400">
+          <span className="text-xs text-destructive">
             {errors.passwordConfirm.message}
           </span>
         )}
@@ -136,15 +141,13 @@ export const RegisterForm = () => {
       <div className="space-y-2">
         <label
           htmlFor="dob"
-          className="text-sm font-medium text-electricCyan-300"
+          className="text-sm font-medium text-accent-foreground"
         >
           Date of Birth
         </label>
         <FormField name="dob" type="date" control={control} />
         {errors.dob && (
-          <span className="text-xs text-customRed-400">
-            {errors.dob.message}
-          </span>
+          <span className="text-xs text-destructive">{errors.dob.message}</span>
         )}
       </div>
       <SubmitBtn
@@ -153,6 +156,6 @@ export const RegisterForm = () => {
         btnText="Sign Up"
         loadingBtnText="Signing Up..."
       />
-    </form>
+    </motion.form>
   );
 };

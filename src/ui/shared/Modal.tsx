@@ -43,7 +43,7 @@ const Modal: React.FC<ModalProps> = ({
           >
             <button
               onClick={onClose}
-              className="fixed inset-0 bg-customBlue-950 bg-opacity-75 transition-opacity"
+              className="fixed inset-0 bg-opacity-75 transition-opacity"
             />
           </TransitionChild>
 
@@ -62,12 +62,12 @@ const Modal: React.FC<ModalProps> = ({
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
           >
-            <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl border-2 border-electricCyan-500 bg-customBlue-900 p-6 text-left align-middle shadow-xl transition-all">
+            <div className="my-8 inline-block w-full max-w-md transform overflow-hidden rounded-2xl border-2 border-input bg-popover p-6 text-left align-middle text-popover-foreground shadow-xl transition-all">
               <div className="mb-4 flex items-center justify-between">
                 {showBackButton ? (
                   <button
                     onClick={onBack}
-                    className="p-1 text-electricCyan-300 transition-colors hover:text-electricCyan-400"
+                    className="p-1 text-accent-foreground transition-colors"
                   >
                     <ChevronLeft size={24} />
                   </button>
@@ -76,12 +76,12 @@ const Modal: React.FC<ModalProps> = ({
                 )}
                 <DialogTitle
                   as="h3"
-                  className="text-2xl font-semibold leading-6 text-electricCyan-300"
+                  className="p-0 text-2xl font-semibold leading-6"
                 >
                   {title}
                 </DialogTitle>
                 <button
-                  className="p-1 text-neonPink-300 transition-colors hover:text-neonPink-400"
+                  className="p-1 text-destructive transition-colors hover:bg-destructive hover:text-destructive-foreground"
                   onClick={onClose}
                 >
                   <X size={24} />

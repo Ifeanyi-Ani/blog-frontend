@@ -4,7 +4,7 @@ import Navbar from './Navbar';
 
 function Layout() {
   return (
-    <div className="min-h-screen bg-background w-full text-foreground">
+    <div className="min-h-screen w-full bg-background text-foreground">
       <Navbar />
       <Outlet />
     </div>
