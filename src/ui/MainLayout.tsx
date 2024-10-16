@@ -9,7 +9,7 @@ const MainLayout = () => {
   const { data: posts } = useGetPostsQuery(null);
 
   return (
-    <div className="container mx-auto flex min-h-screen w-full max-w-screen-2xl flex-col md:flex-row">
+    <div className="container mx-auto flex min-h-screen w-full max-w-screen-2xl flex-col p-6 md:flex-row">
       <div className="relative flex h-full w-full flex-grow items-start justify-center pt-20 md:w-2/3">
         <div className="mx-auto w-full max-w-4xl space-y-8">
           <Outlet />

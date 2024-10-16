@@ -47,7 +47,7 @@ const PostList = ({ posts }: { posts: IPost[] }) => {
 
   return (
     <div className="flex h-full flex-col">
-      <div className="sticky top-16 z-40 bg-background/95 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="sticky top-20 z-40 bg-background/95 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex flex-col items-start justify-between space-y-4 px-4 sm:flex-row sm:items-center sm:space-y-0">
           <div className="flex items-center space-x-2 rounded-md border border-input bg-background p-2 shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
             <Filter className="h-4 w-4 text-muted-foreground" />

@@ -35,33 +35,31 @@ const UserProfile: React.FC = () => {
         <img
           src={user.photo}
           alt={user.username}
-          className="h-40 w-40 rounded-full border-4 border-electricCyan-500 shadow-lg shadow-electricCyan-500/50"
+          className="h-40 w-40 rounded-full border-4 border-primary shadow-lg shadow-primary/50"
         />
         <div className="flex-1 text-center md:text-left">
-          <h1 className="mb-2 bg-gradient-to-r from-neonPink-400 to-electricCyan-400 bg-clip-text text-4xl font-bold text-transparent">
+          <h1 className="mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-4xl font-bold text-transparent">
             {user.username}
           </h1>
-          <p className="mb-4 text-electricCyan-300">
-            @{user.username.toLowerCase()}
-          </p>
+          <p className="mb-4 text-secondary">@{user.username.toLowerCase()}</p>
           <div className="mb-6 flex items-center justify-center space-x-4 md:justify-start">
-            <span className="text-neonPink-300">
+            <span className="text-primary">
               <Users size={18} className="mr-2 inline" />
               {user.followers.length} followers
             </span>
-            <button className="rounded-full bg-electricCyan-600 px-4 py-2 font-bold text-customBlue-900 transition-colors duration-200 hover:bg-electricCyan-500">
+            <button className="rounded-full bg-primary px-4 py-2 font-bold text-primary-foreground transition-colors duration-200 hover:bg-primary/90">
               Follow
             </button>
           </div>
-          <p className="mb-6 text-customBlue-100">
+          <p className="mb-6 text-muted-foreground">
             Full-stack developer passionate about clean code and innovative
             solutions. Always learning, always coding.
           </p>
         </div>
       </div>
       <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-lg bg-customBlue-800 p-4 transition-all duration-200 hover:shadow-md hover:shadow-neonPink-500/20">
-          <h2 className="mb-2 text-2xl font-semibold text-neonPink-300">
+        <div className="rounded-lg bg-card p-4 shadow-md shadow-accent transition-all duration-200 hover:shadow-md hover:shadow-primary/20">
+          <h2 className="mb-2 text-2xl font-semibold text-primary">
             Recent Posts
           </h2>
           <ul className="space-y-2">
@@ -70,18 +68,15 @@ const UserProfile: React.FC = () => {
               'GraphQL vs REST',
               'Dockerizing Your App',
             ].map((post, index) => (
-              <li
-                key={index}
-                className="flex items-center text-electricCyan-200"
-              >
+              <li key={index} className="flex items-center text-secondary">
                 <Book size={16} className="mr-2" />
                 <span>{post}</span>
               </li>
             ))}
           </ul>
         </div>
-        <div className="rounded-lg bg-customBlue-800 p-4 transition-all duration-200 hover:shadow-md hover:shadow-neonPink-500/20">
-          <h2 className="mb-2 text-2xl font-semibold text-neonPink-300">
+        <div className="rounded-lg bg-card p-4 shadow-md shadow-accent transition-all duration-200 hover:shadow-md hover:shadow-primary/20">
+          <h2 className="mb-2 text-2xl font-semibold text-primary">
             Achievements
           </h2>
           <ul className="space-y-2">
@@ -92,9 +87,9 @@ const UserProfile: React.FC = () => {
             ].map((achievement, index) => (
               <li
                 key={index}
-                className="flex items-center text-electricCyan-200"
+                className="flex items-center text-card-foreground"
               >
-                <Award size={16} className="mr-2 text-customGold-400" />
+                <Award size={16} className="text-warning mr-2" />
                 <span>{achievement}</span>
               </li>
             ))}
