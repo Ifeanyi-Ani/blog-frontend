@@ -38,7 +38,7 @@
     "react-tag-input": "^6.10.3",
     "redux-persist": "^6.0.0",
     "spinners-react": "^1.0.7",
-    "universal-cookie": "^4.0.4"
+    "universal-cookie": "^7.2.1"
   },
   "devDependencies": {
     "@hookform/resolvers": "^3.9.0",
