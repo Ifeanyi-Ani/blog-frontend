@@ -3,11 +3,15 @@ import { ChevronRight, MessageSquare, ThumbsUp } from 'lucide-react';
 import { format } from 'date-fns';
 import { MenuItem, MenuItems } from '@headlessui/react';
 import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import { IPost } from '../../types/type';
 import { DropDownMenu } from './DropDownMenu';
 import CommentSection from '../../features/comments/CommentSection';
 import { useGetPostCommentsQuery } from '../../features/comments/commentSlice';
+import { useAppSelector } from '../../app/hook';
+import { CodeBlock } from '../../features/posts/SyntaxHighligher';
 
 interface PostItemProps<T extends IPost> {
   post: T;
@@ -19,6 +23,7 @@ export default function PostItem<T extends IPost>({
   isPreview = false,
 }: PostItemProps<T>) {
   const { data: initialComments } = useGetPostCommentsQuery(post?._id);
+  const { currentUser } = useAppSelector((state) => state.auth);
 
   return (
     <motion.div
@@ -26,16 +31,16 @@ export default function PostItem<T extends IPost>({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className={`p-6 transition-all duration-300 ${!isPreview && 'rounded-lg bg-card shadow-md hover:shadow-lg'}`}
+      className={`grid w-full p-6 transition-all duration-300 ${!isPreview && 'rounded-lg bg-card shadow-md hover:shadow-lg'}`}
     >
-      <div className="mb-4 flex items-start justify-between">
+      <div className="relative mb-4 flex items-start justify-between">
         <Link
           to={`/posts/${post._id}`}
-          className="text-2xl font-semibold text-primary transition-colors duration-200 hover:text-primary/80 hover:underline"
+          className="text-xl font-semibold text-primary transition-colors duration-200 hover:text-primary/80 hover:underline sm:text-2xl"
         >
           {post.title}
         </Link>
-        {isPreview && (
+        {isPreview && currentUser?.id === post.author._id && (
           <DropDownMenu>
             <MenuItems className="absolute right-0 !z-20 mt-2 w-56 origin-top-right divide-y divide-border rounded-md bg-popover shadow-lg ring-1 ring-primary/10 focus:outline-none">
               <div className="px-1 py-1">
@@ -71,11 +76,11 @@ export default function PostItem<T extends IPost>({
         )}
       </div>
 
-      <div className="mb-4 flex items-center space-x-2 text-sm text-muted-foreground">
+      <div className="mb-4 flex items-center space-x-2 text-xs text-muted-foreground sm:text-sm">
         <img
           src={post.author.photo}
           alt={post.author.username}
-          className="h-8 w-8 rounded-full border border-primary/20"
+          className="h-6 w-6 rounded-full border border-primary/20 sm:h-8 sm:w-8"
         />
         <span className="font-medium text-foreground/80">
           {post.author?.username}
@@ -85,11 +90,30 @@ export default function PostItem<T extends IPost>({
       </div>
 
       <div
-        className={`prose prose-sm mb-6 max-w-none text-foreground ${
+        className={`prose prose-sm dark:prose-invert mb-6 w-full text-foreground ${
           !isPreview && 'line-clamp-3'
         }`}
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
+      >
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            code({ node, className, children, ...props }) {
+              const match = /language-(\w+)/.exec(className || '');
+              return node && match ? (
+                <CodeBlock language={match[1]}>
+                  {String(children).replace(/\n$/, '')}
+                </CodeBlock>
+              ) : (
+                <code className={className} {...props}>
+                  {children}
+                </code>
+              );
+            },
+          }}
+        >
+          {post.content}
+        </ReactMarkdown>
+      </div>
 
       {!isPreview && (
         <Link
@@ -101,24 +125,11 @@ export default function PostItem<T extends IPost>({
         </Link>
       )}
 
-      {post.images && post.images.length > 0 && (
-        <div className="mb-6 grid grid-cols-2 gap-4">
-          {post.images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`Post ${index + 1}`}
-              className="h-48 w-full rounded-lg object-cover shadow-md transition-all duration-300 hover:scale-105 hover:shadow-lg"
-            />
-          ))}
-        </div>
-      )}
-
       <div className="mb-6 flex flex-wrap gap-2">
         {post?.tags?.map((tag) => (
           <span
             key={tag._id}
-            className="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary transition-colors duration-200 hover:bg-secondary/20"
+            className="rounded-full bg-secondary/10 px-2 py-1 text-xs font-medium text-secondary transition-colors duration-200 hover:bg-secondary/20"
           >
             {tag.text}
           </span>
@@ -127,13 +138,13 @@ export default function PostItem<T extends IPost>({
 
       <div className="flex items-center space-x-6 text-muted-foreground">
         <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-primary">
-          <ThumbsUp size={18} />
-          <span>{post.likes?.length}</span>
+          <ThumbsUp size={16} />
+          <span className="text-sm">{post.likes?.length}</span>
         </button>
 
         <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-primary">
-          <MessageSquare size={18} />
-          <span>{initialComments?.length}</span>
+          <MessageSquare size={16} />
+          <span className="text-sm">{initialComments?.length}</span>
         </button>
       </div>
 
