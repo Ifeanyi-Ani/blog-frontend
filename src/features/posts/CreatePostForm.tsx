@@ -1,29 +1,21 @@
+import * as React from "react"
+import { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMemo } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { toast } from 'react-hot-toast';
-import ReactQuill from 'react-quill';
-import { useNavigate } from 'react-router-dom';
-import { WithContext as ReactTags } from 'react-tag-input';
-import 'react-quill/dist/quill.snow.css';
 import * as z from 'zod';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import ReactMarkdown from 'react-markdown';
 
 import { useCreatePostMutation } from './postSlice';
-import { FormField } from '../../ui/shared/FormField';
-import { SubmitBtn } from '../../ui/shared/SubmitBtn';
-
-interface Tag {
-  id: string;
-  text: string;
-}
 
 const createPostSchema = z.object({
   title: z
     .string()
     .min(1, 'Title is required')
     .max(100, 'Title must be 100 characters or less'),
-  content: z.string().min(1, 'Content is required'),
-  tags: z.array(z.object({ id: z.string(), text: z.string() })).optional(),
+  content: z.string().min(3, 'Content must be at least 3 characters long'),
+  tags: z.string().optional(),
 });
 
 type CreatePostFormData = z.infer<typeof createPostSchema>;
@@ -31,27 +23,32 @@ type CreatePostFormData = z.infer<typeof createPostSchema>;
 export const CreatePostForm = () => {
   const navigate = useNavigate();
   const [createPost, { isLoading }] = useCreatePostMutation();
+  const [previewMode, setPreviewMode] = useState(false);
 
   const {
-    control,
+    register,
     handleSubmit,
-    formState: { errors },
-    setValue,
+    control,
     watch,
+    formState: { errors },
   } = useForm<CreatePostFormData>({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       title: '',
       content: '',
-      tags: [],
+      tags: '',
     },
   });
 
-  const watchedTags = watch('tags');
+  const watchContent = watch('content');
 
   const onSubmit = async (data: CreatePostFormData) => {
     try {
-      await createPost(data).unwrap();
+      const tagsArray = data.tags
+        ? data.tags.split(',').map((tag) => ({ text: tag.trim() }))
+        : [];
+
+      await createPost({ ...data, tags: tagsArray }).unwrap();
       toast.success('Post created successfully!');
       navigate('/');
     } catch (err) {
@@ -60,173 +57,96 @@ export const CreatePostForm = () => {
     }
   };
 
-  const handleTagDelete = (i: number) => {
-    const newTags = [...watchedTags];
-    newTags.splice(i, 1);
-    setValue('tags', newTags);
-  };
-
-  const handleTagAddition = (tag: Tag) => {
-    setValue('tags', [...watchedTags, tag]);
-  };
-
-  const modules = useMemo(
-    () => ({
-      toolbar: [
-        [{ header: [1, 2, 3, 4, 5, 6, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['blockquote', 'code-block'],
-        [{ script: 'sub' }, { script: 'super' }],
-        [{ indent: '-1' }, { indent: '+1' }],
-        [{ direction: 'rtl' }],
-        [{ color: [] }, { background: [] }],
-        ['link', 'image'],
-        ['clean'],
-      ],
-    }),
-    []
-  );
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6 rounded-lg bg-card p-6 shadow-md"
+    >
       <div>
         <label
           htmlFor="title"
-          className="mb-2 block text-sm font-medium text-customBlue-300"
+          className="mb-2 block text-sm font-medium text-foreground"
         >
           Title
         </label>
-        <FormField
-          name="title"
-          control={control}
-          placeholder="Enter post title"
+        <input
+          {...register('title')}
           type="text"
+          id="title"
+          placeholder="Enter post title"
+          className="w-full rounded-md border border-input bg-background px-3 py-2 text-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ring"
         />
         {errors.title && (
-          <p className="mt-1 text-xs text-red-500">{errors.title.message}</p>
+          <p className="mt-1 text-xs text-destructive">
+            {errors.title.message}
+          </p>
         )}
       </div>
 
       <div>
-        <label
-          htmlFor="content"
-          className="mb-2 block text-sm font-medium text-customBlue-300"
-        >
-          Content
-        </label>
-        <div className="h-96">
+        <div className="mb-2 flex items-center justify-between">
+          <label
+            htmlFor="content"
+            className="text-sm font-medium text-foreground"
+          >
+            Content
+          </label>
+          <button
+            type="button"
+            onClick={() => setPreviewMode(!previewMode)}
+            className="text-sm text-primary hover:text-primary/80"
+          >
+            {previewMode ? 'Edit' : 'Preview'}
+          </button>
+        </div>
+        {previewMode ? (
+          <div className="prose prose-sm dark:prose-invert min-h-[300px] w-full rounded-md border border-input bg-background p-3">
+            <ReactMarkdown>{watchContent}</ReactMarkdown>
+          </div>
+        ) : (
           <Controller
             name="content"
             control={control}
             render={({ field }) => (
-              <ReactQuill
+              <textarea
                 {...field}
-                theme="snow"
-                modules={modules}
-                className="custom-scrollbar h-full w-full overflow-hidden rounded-md border-customBlue-700 bg-customBlue-800 text-electricCyan-100 placeholder-customBlue-500 focus:border-electricCyan-500 focus:ring-electricCyan-500"
+                id="content"
+                placeholder="Write your post content here (Markdown supported)"
+                className="min-h-[300px] w-full rounded-md border border-input bg-background px-3 py-2 text-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ring"
               />
             )}
           />
-        </div>
+        )}
         {errors.content && (
-          <p className="mt-1 text-xs text-red-500">{errors.content.message}</p>
+          <p className="mt-1 text-xs text-destructive">
+            {errors.content.message}
+          </p>
         )}
       </div>
 
       <div>
-        <Controller
-          name="tags"
-          control={control}
-          render={({ field }) => (
-            <>
-              <label
-                className="mb-2 block text-sm font-medium text-customBlue-300"
-                htmlFor="tags"
-              >
-                Tags
-              </label>
-              <ReactTags
-                tags={field.value}
-                handleDelete={handleTagDelete}
-                handleAddition={handleTagAddition}
-                inputFieldPosition="bottom"
-                autocomplete
-                classNames={{
-                  tags: 'flex flex-wrap gap-2',
-                  tagInput: 'mt-2',
-                  tagInputField:
-                    'w-full rounded-md border border-customBlue-700 bg-customBlue-800 px-3 py-2 text-sm text-customBlue-100 placeholder-customBlue-500 focus:border-customBlue-500 focus:outline-none focus:ring-1 focus:ring-customBlue-500',
-                  selected:
-                    'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-customBlue-700 text-customBlue-200',
-                  remove: 'ml-1 text-customBlue-400 hover:text-customBlue-200',
-                }}
-              />
-            </>
-          )}
+        <label
+          htmlFor="tags"
+          className="mb-2 block text-sm font-medium text-foreground"
+        >
+          Tags (comma-separated)
+        </label>
+        <input
+          {...register('tags')}
+          type="text"
+          id="tags"
+          placeholder="Enter tags, separated by commas"
+          className="w-full rounded-md border border-input bg-background px-3 py-2 text-foreground focus:border-transparent focus:outline-none focus:ring-2 focus:ring-ring"
         />
       </div>
 
-      {/* TODO: Figure a way to imbed images inside the content without exceeding the limit */}
-
-      {/* <div> */}
-      {/*     <label className="block text-sm font-medium text-customBlue-300 mb-2"> */}
-      {/*         Image */}
-      {/*     </label> */}
-      {/*     <div className="flex items-center justify-center w-full"> */}
-      {/*         <label */}
-      {/*             htmlFor="dropzone-file" */}
-      {/*             className="flex flex-col items-center justify-center w-full h-64 border-2 border-customBlue-700 border-dashed rounded-lg cursor-pointer bg-customBlue-800 hover:bg-customBlue-700" */}
-      {/*         > */}
-      {/*             <div className="flex flex-col items-center justify-center pt-5 pb-6"> */}
-      {/*                 <PlusCircle className="w-10 h-10 mb-3 text-customBlue-500" /> */}
-      {/*                 <p className="mb-2 text-sm text-customBlue-400"> */}
-      {/*                     <span className="font-semibold"> */}
-      {/*                         Click to upload */}
-      {/*                     </span>{" "} */}
-      {/*                     or drag and drop */}
-      {/*                 </p> */}
-      {/*                 <p className="text-xs text-customBlue-500"> */}
-      {/*                     PNG, JPG, GIF up to 10MB */}
-      {/*                 </p> */}
-      {/*             </div> */}
-      {/*             <input */}
-      {/*                 id="dropzone-file" */}
-      {/*                 type="file" */}
-      {/*                 className="hidden" */}
-      {/*                 onChange={handleImageUpload} */}
-      {/*                 accept="image/*" */}
-      {/*                 disabled={uploadingimage} */}
-      {/*             /> */}
-      {/*         </label> */}
-      {/*     </div> */}
-      {/*     {uploadingimage && <p>Uploading image...</p>} */}
-      {/*     <div className="mt-4"> */}
-      {/*         {watchedimage && ( */}
-      {/*             <div className="relative"> */}
-      {/*                 <img */}
-      {/*                     src={watchedimage} */}
-      {/*                     alt="Uploaded preview" */}
-      {/*                     className="w-full h-24 object-cover rounded-lg" */}
-      {/*                 /> */}
-      {/*                 <button */}
-      {/*                     type="button" */}
-      {/*                     onClick={() => setValue("image", "")} // Remove the image */}
-      {/*                     className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1" */}
-      {/*                 > */}
-      {/*                     <X size={16} /> */}
-      {/*                 </button> */}
-      {/*             </div> */}
-      {/*         )} */}
-      {/*     </div> */}
-      {/* </div> */}
-
-      <SubmitBtn
+      <button
         type="submit"
-        isLoading={isLoading}
-        btnText="Create Post"
-        loadingBtnText="Creating Post..."
-      />
+        disabled={isLoading}
+        className="w-full rounded-md bg-primary py-2 text-primary-foreground transition-colors hover:bg-primary/90 disabled:opacity-50"
+      >
+        {isLoading ? 'Creating Post...' : 'Create Post'}
+      </button>
     </form>
   );
 };
