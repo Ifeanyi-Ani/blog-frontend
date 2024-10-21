@@ -17,7 +17,7 @@ const Navbar = function () {
 
   return (
     <>
-      <nav className="fixed top-0 z-50 w-full border-b bg-background py-2 shadow-md">
+      <nav className="sticky top-0 z-50 w-full border-b bg-background py-2 shadow-md">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
@@ -31,6 +31,7 @@ const Navbar = function () {
             <div className="hidden md:block">
               <form onSubmit={(e) => e.preventDefault()} className="relative">
                 <Input
+                  type="text"
                   placeholder="Search..."
                   className="w-64 rounded-full border-0 bg-secondary py-2 pl-10 pr-4 text-secondary-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring"
                 />

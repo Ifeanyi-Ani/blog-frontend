@@ -3,7 +3,34 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  h1 {
+    @apply text-4xl font-extrabold text-foreground/80;
+  }
+
+  h2 {
+    @apply mt-3 text-3xl font-bold;
+  }
+
+  h3 {
+    @apply mt-2 text-2xl font-semibold;
+  }
+
+  h4 {
+    @apply mt-2 text-xl font-medium;
+  }
+
+  h5 {
+    @apply mt-2 text-lg font-medium;
+  }
+
+  h6 {
+    @apply mt-2 text-base font-medium;
+  }
+
+  hr {
+    @apply border-accent;
+  }
+  .dark {
     --background: 210 100% 98%;
     --foreground: 210 100% 10%;
     --card: 210 100% 100%;
@@ -31,7 +58,7 @@
     --chart-5: 345 100% 50%;
   }
 
-  .dark {
+  :root {
     --background: 210 100% 8%;
     --foreground: 210 100% 95%;
     --card: 210 100% 10%;

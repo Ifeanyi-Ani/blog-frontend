@@ -9,15 +9,15 @@ const MainLayout = () => {
   const { data: posts } = useGetPostsQuery(null);
 
   return (
-    <div className="container mx-auto flex min-h-screen w-full max-w-screen-2xl flex-col p-6 md:flex-row">
-      <div className="relative flex h-full w-full flex-grow items-start justify-center pt-20 md:w-2/3">
+    <div className="container mx-auto grid min-h-screen lg:grid-cols-3 lg:gap-6">
+      <div className="w-full lg:col-span-2">
         <div className="mx-auto w-full max-w-4xl space-y-8">
           <Outlet />
         </div>
       </div>
 
-      <aside className="hidden md:block lg:w-[40%]">
-        <div className="max-w-1/3 fixed top-20 w-96 overflow-hidden bg-background p-6">
+      <aside className="hidden lg:col-span-1 lg:block">
+        <div className="custom-scrollbar sticky top-20 h-[calc(100vh-5rem)] space-y-4 overflow-y-auto pb-4">
           <Sidebar
             trendingBlogs={posts || []}
             popularUsers={popularUsers || []}
