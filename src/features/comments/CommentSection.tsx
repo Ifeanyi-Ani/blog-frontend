@@ -28,61 +28,6 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     await createComment({ formData: data, postId: postId }).unwrap();
   };
 
-  const handleLike = (commentId: string) => {
-    setComments(
-      updateCommentRecursively(comments, commentId, (comment: IComment) => ({
-        ...comment,
-        likes: comment.likes?.length + 1,
-      }))
-    );
-  };
-
-  const handleDislike = (commentId: string) => {
-    setComments(
-      updateCommentRecursively(comments, commentId, (comment) => ({
-        ...comment,
-        dislikes: comment.dislikes + 1,
-      }))
-    );
-  };
-
-  const handleReply = (commentId, replyContent) => {
-    const reply = {
-      id: Date.now(),
-      content: replyContent,
-      author: {
-        username: 'Current User',
-        photo: '/path/to/user/photo.jpg',
-      },
-      createdAt: new Date().toISOString(),
-      likes: 0,
-      dislikes: 0,
-      replies: [],
-    };
-
-    setComments(
-      updateCommentRecursively(comments, commentId, (comment) => ({
-        ...comment,
-        replies: [reply, ...(comment.replies || [])],
-      }))
-    );
-  };
-
-  const updateCommentRecursively = (comments, id, updateFn) => {
-    return comments.map((comment) => {
-      if (comment.id === id) {
-        return updateFn(comment);
-      }
-      if (comment.replies) {
-        return {
-          ...comment,
-          replies: updateCommentRecursively(comment.replies, id, updateFn),
-        };
-      }
-      return comment;
-    });
-  };
-
   useEffect(() => {
     if (isSuccess) {
       toast.success('Comment added successfully');
@@ -105,7 +50,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   }
 
   return (
-    <div className="mt-8 rounded-xl border border-border bg-card p-6 shadow-md">
+    <div className="mt-8 p-0 md:rounded-xl md:border md:border-border md:bg-card md:shadow-md">
       <h3 className="mb-6 flex items-center text-2xl font-semibold text-primary">
         <MessageSquare className="mr-2" />
         Comments ({comments?.length})
@@ -127,7 +72,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           />
           <button
             type="submit"
-            className="flex items-center rounded-lg bg-primary px-6 py-3 font-bold text-primary-foreground hover:bg-primary/90"
+            className="hidden items-center rounded-lg bg-primary px-6 py-3 font-bold text-primary-foreground hover:bg-primary/90 md:flex"
           >
             {isLoading ? (
               <span className="flex items-center justify-center">
@@ -146,14 +91,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 
       <div className="space-y-6">
         {comments?.map((comment) => (
-          <CommentItem
-            key={comment._id}
-            comment={comment}
-            onLike={handleLike}
-            onDislike={handleDislike}
-            onReply={handleReply}
-            postId={postId}
-          />
+          <CommentItem key={comment._id} comment={comment} postId={postId} />
         ))}
       </div>
     </div>

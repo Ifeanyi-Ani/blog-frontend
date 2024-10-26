@@ -22,7 +22,7 @@ export function SortableHeader<T extends SortField>({
   onSort,
 }: SortableHeaderProps<T>) {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="hidden items-center space-x-2 md:flex">
       {sortOptions.map((option) => (
         <SortButton
           key={option.field}

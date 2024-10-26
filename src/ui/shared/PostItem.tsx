@@ -31,7 +31,7 @@ export default function PostItem<T extends IPost>({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className={`grid w-full p-6 transition-all duration-300 ${!isPreview && 'rounded-lg bg-card shadow-md hover:shadow-lg'}`}
+      className={`grid w-full p-2 transition-all duration-300 ${!isPreview && 'rounded-lg bg-card shadow-md hover:shadow-lg'}`}
     >
       <div className="relative mb-4 flex items-start justify-between">
         <Link
@@ -90,7 +90,7 @@ export default function PostItem<T extends IPost>({
       </div>
 
       <div
-        className={`prose prose-sm dark:prose-invert mb-6 w-full text-foreground ${
+        className={`prose prose-sm dark:prose-invert mb-6 w-full overflow-auto text-foreground ${
           !isPreview && 'line-clamp-3'
         }`}
       >

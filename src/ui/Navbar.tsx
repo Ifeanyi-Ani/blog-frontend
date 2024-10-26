@@ -33,7 +33,7 @@ const Navbar = function () {
                 <Input
                   type="text"
                   placeholder="Search..."
-                  className="w-64 rounded-full border-0 bg-secondary py-2 pl-10 pr-4 text-secondary-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring"
+                  className="w-64 rounded-full border-0 bg-muted py-2 pl-10 pr-4 text-secondary-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring"
                 />
                 <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
               </form>

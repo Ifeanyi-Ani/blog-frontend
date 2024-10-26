@@ -48,7 +48,7 @@ const PostList = ({ posts }: { posts: IPost[] }) => {
   return (
     <div className="relative flex flex-col">
       <div className="sticky top-20 z-40 bg-background/95 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex justify-between px-4 sm:flex-row sm:items-center sm:space-x-4 sm:space-y-0">
+        <div className="flex justify-between px-1 md:flex-row md:items-center md:space-x-4 md:space-y-0 md:px-4">
           <div className="flex items-center space-x-2 rounded-md border border-input bg-background p-2 shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
             <Filter className="h-4 w-4 text-muted-foreground" />
             <input
@@ -72,7 +72,7 @@ const PostList = ({ posts }: { posts: IPost[] }) => {
       </div>
       <div className="">
         <AnimatePresence>
-          <div className="space-y-6 p-4">
+          <div className="space-y-6">
             {sortedAndFilteredPosts?.map((post) => (
               <PostItem key={post._id} post={post} />
             ))}

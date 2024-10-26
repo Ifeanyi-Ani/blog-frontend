@@ -59,7 +59,7 @@ const Modal = ({
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
             <div className="inline-block w-full max-w-md transform overflow-hidden rounded-2xl border border-border bg-card p-6 text-left align-bottom shadow-xl transition-all sm:my-8 sm:align-middle">
-              <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
+              <div className="absolute right-0 top-0 pr-4 pt-4">
                 <button
                   type="button"
                   className="rounded-md bg-card text-muted-foreground hover:text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
@@ -69,7 +69,7 @@ const Modal = ({
                   <X className="h-6 w-6" aria-hidden="true" />
                 </button>
               </div>
-              <div className="sm:flex sm:items-start">
+              <div className="">
                 {showBackButton && (
                   <button
                     onClick={onBack}
