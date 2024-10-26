@@ -92,6 +92,16 @@ const commentSlice = apiSlice.injectEndpoints({
         return [{ type: 'comments', id: arg.id }];
       },
     }),
+    likeComment: builder.mutation({
+      query: ({ formData, commentId }) => ({
+        url: `comments/${commentId}`,
+        method: 'POST',
+        body: formData,
+      }),
+      invalidatesTags: (_result, _error, arg) => {
+        return [{ type: 'comments', id: arg.id }];
+      },
+    }),
   }),
 });
 
