@@ -31,7 +31,7 @@ const PostPreview: React.FC<PostPreviewProps> = () => {
   return (
     <>
       <div className="mb-8">
-        <BackBtn text="Back to posts" to="/" />
+        <BackBtn text="Back to posts" to="/" className="text-secondary" />
       </div>
       <PostItem post={post} isPreview />
 

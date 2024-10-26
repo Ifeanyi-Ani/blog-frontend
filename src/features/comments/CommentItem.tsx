@@ -1,40 +1,33 @@
-import {
-  ThumbsUp,
-  ThumbsDown,
-  Reply,
-  X,
-  Send,
-  Loader,
-  EyeOff,
-  Eye,
-} from 'lucide-react';
+import { ThumbsUp, Reply, X, Send, Loader, EyeOff, Eye } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 
-import { useCreateReplyMutation, useGetRepliesQuery } from './commentSlice.ts';
+import {
+  useCreateReplyMutation,
+  useGetRepliesQuery,
+  useLikeCommentMutation,
+} from './commentSlice.ts';
 import { IComment } from '../../types/type.ts';
 import { LoadingState } from '../../ui/shared/LoadingState';
+import { useAppSelector } from '../../app/hook.ts';
+import { cn } from '../../lib/utils.ts';
 
 interface CommentItemProps {
   comment: IComment;
-  onLike?: (commentId: string) => void;
-  onDislike?: (commentId: string) => void;
   onReply?: (commentId: any, replyContent: any) => void;
   postId: string;
 }
 
-export const CommentItem = ({
-  comment,
-  onLike,
-  onDislike,
-  onReply,
-  postId,
-}: CommentItemProps) => {
+export const CommentItem = ({ comment, onReply, postId }: CommentItemProps) => {
   const [isReplying, setIsReplying] = useState(false);
   const [replyContent, setReplyContent] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const { currentUser } = useAppSelector((state) => state.auth);
+
   const [createReply, { isLoading, isSuccess, error }] =
     useCreateReplyMutation();
+  const [likeComment, { error: likeError }] = useLikeCommentMutation();
 
   const { data: repliesComment, isLoading: loadingReplies } =
     useGetRepliesQuery(comment?._id);
@@ -56,6 +49,14 @@ export const CommentItem = ({
     setIsExpanded(!isExpanded);
   };
 
+  const onLike = async (commentId: string) => {
+    try {
+      await likeComment(commentId).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (isSuccess) {
       toast.success('Reply added successfully');
@@ -67,6 +68,16 @@ export const CommentItem = ({
       toast.error('Failed to add reply');
     }
   }, [isSuccess, error]);
+
+  useEffect(() => {
+    if (likeError) {
+      if ('data' in likeError) {
+        toast.error(likeError.data.message || 'An error occured');
+      } else {
+        toast.error('An unexpected error occured');
+      }
+    }
+  }, [likeError]);
 
   return (
     <div
@@ -101,17 +112,13 @@ export const CommentItem = ({
           <div className="mb-3 flex items-center space-x-4 text-sm">
             <button
               onClick={() => onLike(comment._id)}
-              className="flex items-center text-muted-foreground hover:text-primary"
+              className={cn(
+                'flex items-center text-muted-foreground hover:text-primary',
+                comment.likes?.includes(currentUser?._id) && 'text-accent'
+              )}
             >
               <ThumbsUp size={14} className="mr-1" />
               {comment?.likes?.length}
-            </button>
-            <button
-              onClick={() => onDislike(comment._id)}
-              className="flex items-center text-muted-foreground hover:text-primary"
-            >
-              <ThumbsDown size={14} className="mr-1" />
-              {comment?.dislikes?.length}
             </button>
             <button
               onClick={() => setIsReplying(!isReplying)}
@@ -130,7 +137,7 @@ export const CommentItem = ({
                 className="flex items-center text-muted-foreground hover:text-primary"
               >
                 {isExpanded ? (
-                  <span className="flex text-primary">
+                  <span className="flex text-accent">
                     <EyeOff className="h-4 w-4 shrink-0" />
                     {`(${repliesComment?.length})`}
                   </span>
@@ -183,7 +190,6 @@ export const CommentItem = ({
             key={reply._id}
             comment={reply}
             onLike={onLike}
-            onDislike={onDislike}
             onReply={onReply}
             postId={postId}
           />

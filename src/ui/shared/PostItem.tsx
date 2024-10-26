@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, MessageSquare, ThumbsUp } from 'lucide-react';
 import { format } from 'date-fns';
 import { MenuItem, MenuItems } from '@headlessui/react';
@@ -12,6 +14,11 @@ import CommentSection from '../../features/comments/CommentSection';
 import { useGetPostCommentsQuery } from '../../features/comments/commentSlice';
 import { useAppSelector } from '../../app/hook';
 import { CodeBlock } from '../../features/posts/SyntaxHighligher';
+import {
+  useDeletePostMutation,
+  useLikePostMutation,
+} from '../../features/posts/postSlice';
+import { cn } from '../../lib/utils';
 
 interface PostItemProps<T extends IPost> {
   post: T;
@@ -22,9 +29,45 @@ export default function PostItem<T extends IPost>({
   post,
   isPreview = false,
 }: PostItemProps<T>) {
-  const { data: initialComments } = useGetPostCommentsQuery(post?._id);
+  const navigate = useNavigate();
   const { currentUser } = useAppSelector((state) => state.auth);
 
+  const { data: initialComments } = useGetPostCommentsQuery(post?._id);
+
+  const [likePost] = useLikePostMutation();
+  const [deletePost, { isSuccess: deleteSuccess, error: deleteError }] =
+    useDeletePostMutation();
+
+  const onLike = async (postId: string) => {
+    try {
+      await likePost(postId).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onPostDelete = async (postId: string) => {
+    try {
+      await deletePost(postId).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (deleteSuccess) {
+      toast.success('Post deleted successfully');
+      navigate('/');
+    }
+    if (deleteError) {
+      if ('data' in deleteError) {
+        toast.error(
+          deleteError.data.message || 'An error occured while deleting post'
+        );
+      } else {
+        toast.error('An unexpected error occured');
+      }
+    }
+  });
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -65,6 +108,7 @@ export default function PostItem<T extends IPost>({
                           ? 'bg-destructive text-destructive-foreground'
                           : 'text-destructive hover:bg-destructive/10'
                       } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
+                      onClick={() => onPostDelete(post._id as string)}
                     >
                       Delete
                     </button>
@@ -90,7 +134,7 @@ export default function PostItem<T extends IPost>({
       </div>
 
       <div
-        className={`prose prose-sm dark:prose-invert mb-6 w-full overflow-auto text-foreground ${
+        className={`prose prose-sm dark:prose-invert mb-6 w-full overflow-hidden text-foreground ${
           !isPreview && 'line-clamp-3'
         }`}
       >
@@ -137,7 +181,13 @@ export default function PostItem<T extends IPost>({
       </div>
 
       <div className="flex items-center space-x-6 text-muted-foreground">
-        <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-primary">
+        <button
+          className={cn(
+            'flex items-center space-x-2 transition-colors duration-200 hover:text-primary',
+            post.likes?.includes(currentUser?._id as string) && 'text-accent'
+          )}
+          onClick={() => onLike(post._id as string)}
+        >
           <ThumbsUp size={16} />
           <span className="text-sm">{post.likes?.length}</span>
         </button>

@@ -6,8 +6,6 @@ import { Plus, Search, X } from 'lucide-react';
 import { useAppSelector } from '../app/hook';
 import { Input } from './shared/Input';
 import { Account } from './shared/Account';
-import MobileNav from './MobileNav';
-import { IUser } from '../types/type';
 
 const Navbar = function () {
   const { currentUser } = useAppSelector((state) => state.auth);
@@ -71,7 +69,7 @@ const Navbar = function () {
                       <div className="relative">
                         <Input
                           placeholder="Search..."
-                          className="w-full rounded-full border-0 bg-secondary py-3 pl-10 pr-12 text-secondary-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring"
+                          className="w-full rounded-full border-0 bg-input py-3 pl-10 pr-12 text-secondary-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring"
                         />
                         <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-muted-foreground" />
                         <button
@@ -106,7 +104,7 @@ const Navbar = function () {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: '100%' }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed bottom-4 left-1/2 z-50 -translate-x-1/2 transform md:hidden"
+            className="fixed bottom-4 right-2 z-50 -translate-x-1/2 transform md:hidden"
           >
             <Link
               to="/new"

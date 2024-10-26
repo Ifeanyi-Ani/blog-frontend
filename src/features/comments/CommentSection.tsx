@@ -50,7 +50,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
   }
 
   return (
-    <div className="mt-8 p-0 md:rounded-xl md:border md:border-border md:bg-card md:shadow-md">
+    <div className="mt-8 p-0 md:rounded-xl md:border md:border-border md:bg-card md:p-2 md:shadow-md">
       <h3 className="mb-6 flex items-center text-2xl font-semibold text-primary">
         <MessageSquare className="mr-2" />
         Comments ({comments?.length})
