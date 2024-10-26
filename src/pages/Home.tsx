@@ -18,7 +18,7 @@ const Home = function () {
     );
   return (
     <>
-      <PostList posts={posts} />
+      <PostList posts={posts || []} />
     </>
   );
 };

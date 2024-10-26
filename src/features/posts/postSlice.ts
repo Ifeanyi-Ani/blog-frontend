@@ -61,6 +61,15 @@ export const postsSlice = apiSlice.injectEndpoints({
         { type: 'posts', id: arg.id },
       ],
     }),
+    likePost: builder.mutation({
+      query: (postId) => ({
+        url: `/posts/${postId}/likes`,
+        method: 'POST',
+      }),
+      invalidatesTags: (_result: any, _error: any, arg: any) => [
+        { type: 'posts', id: arg.id },
+      ],
+    }),
   }),
 });
 
@@ -70,4 +79,5 @@ export const {
   useCreatePostMutation,
   useUpdatePostMutation,
   useDeletePostMutation,
+  useLikePostMutation,
 } = postsSlice;

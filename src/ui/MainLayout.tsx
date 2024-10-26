@@ -7,18 +7,24 @@ import Sidebar from './SideBar';
 const MainLayout = () => {
   const { data: popularUsers } = useGetUsersQuery(null);
   const { data: posts } = useGetPostsQuery(null);
+
   return (
-    <div className="custom-scrollbar mx-auto grid h-full w-full max-w-screen-2xl grid-cols-[none] gap-6 overflow-y-scroll lg:grid-cols-12">
-      <main className="relative col-[1fr] min-h-screen md:px-4 md:py-6 lg:col-start-2 lg:col-end-9">
-        <div className="w-full max-w-4xl space-y-8 p-8 md:rounded-xl md:bg-customBlue-900 md:shadow-xl">
+    <div className="container mx-auto grid min-h-screen lg:grid-cols-3 lg:gap-6">
+      <div className="w-full lg:col-span-2">
+        <div className="mx-auto w-full max-w-4xl space-y-8 px-1 md:px-2">
           <Outlet />
         </div>
-      </main>
-      <aside className="no-scrollbar relative col-start-9 col-end-12 hidden w-80 overflow-y-auto lg:block">
-        <Sidebar trendingBlogs={posts} popularUsers={popularUsers} />
+      </div>
+
+      <aside className="hidden lg:col-span-1 lg:block">
+        <div className="custom-scrollbar sticky top-20 h-[calc(100vh-5rem)] space-y-4 overflow-y-auto pb-4">
+          <Sidebar
+            trendingBlogs={posts || []}
+            popularUsers={popularUsers || []}
+          />
+        </div>
       </aside>
     </div>
   );
 };
-
 export default MainLayout;

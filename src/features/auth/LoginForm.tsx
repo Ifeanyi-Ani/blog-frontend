@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import * as z from 'zod';
+import { motion } from 'framer-motion';
 
 import { ForgotPassword } from './ForgotPassword';
 import { FormField } from '../../ui/shared/FormField';
@@ -52,11 +53,17 @@ export const LoginForm = () => {
   }, [isSuccess, error, navigate]);
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+    <motion.form
+      className="space-y-6"
+      onSubmit={handleSubmit(onSubmit)}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       <div className="space-y-2">
         <label
           htmlFor="email"
-          className="text-sm font-medium text-electricCyan-300"
+          className="text-sm font-medium text-accent-foreground"
         >
           Email
         </label>
@@ -68,7 +75,7 @@ export const LoginForm = () => {
           placeholder="my@example.com"
         />
         {errors.email && (
-          <span className="text-xs text-customRed-400">
+          <span className="text-xs text-destructive">
             {errors.email.message}
           </span>
         )}
@@ -77,17 +84,11 @@ export const LoginForm = () => {
         <div className="flex items-center justify-between">
           <label
             htmlFor="password"
-            className="text-sm font-medium text-electricCyan-300"
+            className="text-sm font-medium text-accent-foreground"
           >
             Password
           </label>
-          <ForgotPassword>Forgot password</ForgotPassword>
-          {/* <Link */}
-          {/*   to="#" */}
-          {/*   className="" */}
-          {/* > */}
-          {/*   Forgot password? */}
-          {/* </Link> */}
+          <ForgotPassword>Forgot password?</ForgotPassword>
         </div>
 
         <FormField
@@ -109,6 +110,6 @@ export const LoginForm = () => {
         btnText="Login"
         loadingBtnText="Logging in"
       />
-    </form>
+    </motion.form>
   );
 };

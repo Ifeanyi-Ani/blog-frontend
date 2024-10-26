@@ -1,57 +1,42 @@
-import * as React from 'react';
 import { useState, useMemo } from 'react';
 import { Filter } from 'lucide-react';
-import { toast } from 'react-hot-toast';
+import { AnimatePresence } from 'framer-motion';
 
 import { SortDirection, SortableHeader } from '../../ui/shared/SortableHeader';
 import PostItem from '../../ui/shared/PostItem';
 import { IPost } from '../../types/type';
 
-type PostSortField = 'createdAt' | 'title';
-
-interface PostListProps {
-  posts: IPost[];
-}
-
-const sortOptions: Array<{ field: PostSortField; label: string }> = [
-  { field: 'title', label: 'Sort by Title' },
-  { field: 'createdAt', label: 'Sort by Date' },
-];
-
-const PostList: React.FC<PostListProps> = ({ posts }) => {
-  const [sortField, setSortField] = useState<PostSortField>('createdAt');
+const PostList = ({ posts }: { posts: IPost[] }) => {
+  const [sortField, setSortField] = useState<'createdAt' | 'title'>(
+    'createdAt'
+  );
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
   const [filterTag, setFilterTag] = useState('');
 
   const sortedAndFilteredPosts = useMemo(() => {
-    try {
-      const filteredPosts = filterTag
-        ? posts.filter((post) =>
-            post.tags?.some((tag) =>
-              tag.text?.toLowerCase().includes(filterTag.toLowerCase())
-            )
+    const filteredPosts = filterTag
+      ? posts.filter((post) =>
+          post.tags?.some((tag) =>
+            tag.text?.toLowerCase().includes(filterTag.toLowerCase())
           )
-        : posts;
+        )
+      : posts;
 
-      return [...filteredPosts].sort((a, b) => {
-        if (sortField === 'createdAt') {
-          const dateA = new Date(a.createdAt as string).getTime();
-          const dateB = new Date(b.createdAt as string).getTime();
-          return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
-        } else if (sortField === 'title') {
-          return sortDirection === 'asc'
-            ? a.title.localeCompare(b.title)
-            : b.title.localeCompare(a.title);
-        }
-        return 0;
-      });
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : String(err));
-      return posts;
-    }
+    return [...filteredPosts].sort((a, b) => {
+      if (sortField === 'createdAt') {
+        const dateA = new Date(a.createdAt as string).getTime();
+        const dateB = new Date(b.createdAt as string).getTime();
+        return sortDirection === 'asc' ? dateA - dateB : dateB - dateA;
+      } else if (sortField === 'title') {
+        return sortDirection === 'asc'
+          ? a.title.localeCompare(b.title)
+          : b.title.localeCompare(a.title);
+      }
+      return 0;
+    });
   }, [posts, sortField, sortDirection, filterTag]);
 
-  const handleSort = (field: PostSortField) => {
+  const handleSort = (field: 'createdAt' | 'title') => {
     if (field === sortField) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -60,39 +45,41 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
     }
   };
 
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilterTag(e.target.value);
-  };
-
   return (
-    <>
-      <div className="mb-8 flex flex-col items-start justify-between space-y-4 sm:flex-row sm:items-center sm:space-y-0">
-        <div className="flex items-center space-x-2 rounded-full border border-electricCyan-700 bg-customBlue-800 p-2 shadow-lg shadow-electricCyan-900/20 focus-within:border-transparent focus-within:ring-2 focus-within:ring-neonPink-500">
-          <Filter className="text-electricCyan-400" />
-          <input
-            type="text"
-            placeholder="Filter by tag"
-            value={filterTag}
-            onChange={handleFilterChange}
-            className="bg-transparent text-electricCyan-100 placeholder-electricCyan-600 focus:outline-none"
+    <div className="relative flex flex-col">
+      <div className="sticky top-20 z-40 bg-background/95 py-4 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+        <div className="flex justify-between px-1 md:flex-row md:items-center md:space-x-4 md:space-y-0 md:px-4">
+          <div className="flex items-center space-x-2 rounded-md border border-input bg-background p-2 shadow-sm focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+            <Filter className="h-4 w-4 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder="Filter by tag"
+              value={filterTag}
+              onChange={(e) => setFilterTag(e.target.value)}
+              className="bg-transparent text-sm text-foreground placeholder-muted-foreground focus:outline-none"
+            />
+          </div>
+          <SortableHeader
+            sortOptions={[
+              { field: 'title', label: 'Sort by Title' },
+              { field: 'createdAt', label: 'Sort by Date' },
+            ]}
+            currentSortField={sortField}
+            currentSortDirection={sortDirection}
+            onSort={handleSort}
           />
         </div>
-
-        <SortableHeader
-          sortOptions={sortOptions}
-          currentSortField={sortField}
-          currentSortDirection={sortDirection}
-          onSort={handleSort}
-        />
       </div>
-
-      <div className="space-y-10">
-        {sortedAndFilteredPosts?.map((post) => (
-          <PostItem post={post} key={post._id} />
-        ))}
+      <div className="">
+        <AnimatePresence>
+          <div className="space-y-6">
+            {sortedAndFilteredPosts?.map((post) => (
+              <PostItem key={post._id} post={post} />
+            ))}
+          </div>
+        </AnimatePresence>
       </div>
-    </>
+    </div>
   );
 };
-
 export default PostList;

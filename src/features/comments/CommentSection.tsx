@@ -28,94 +28,30 @@ const CommentSection: React.FC<CommentSectionProps> = ({
     await createComment({ formData: data, postId: postId }).unwrap();
   };
 
-  const handleLike = (commentId: string) => {
-    setComments(
-      updateCommentRecursively(comments, commentId, (comment: IComment) => ({
-        ...comment,
-        likes: comment.likes?.length + 1,
-      }))
-    );
-  };
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Comment added successfully');
+      setNewComment('');
+    }
+    if (error) {
+      toast.error('Failed to add comment');
+    }
+  }, [isSuccess, error]);
 
-  const handleDislike = (commentId: string) => {
-    setComments(
-      updateCommentRecursively(comments, commentId, (comment) => ({
-        ...comment,
-        dislikes: comment.dislikes + 1,
-      }))
-    );
-  };
-
-  const handleReply = (commentId, replyContent) => {
-    const reply = {
-      id: Date.now(),
-      content: replyContent,
-      author: {
-        username: 'Current User',
-        photo: '/path/to/user/photo.jpg',
-      },
-      createdAt: new Date().toISOString(),
-      likes: 0,
-      dislikes: 0,
-      replies: [],
-    };
-
-    setComments(
-      updateCommentRecursively(comments, commentId, (comment) => ({
-        ...comment,
-        replies: [reply, ...(comment.replies || [])],
-      }))
-    );
-  };
-
-  const updateCommentRecursively = (comments, id, updateFn) => {
-    return comments.map((comment) => {
-      if (comment.id === id) {
-        return updateFn(comment);
-      }
-      if (comment.replies) {
-        return {
-          ...comment,
-          replies: updateCommentRecursively(comment.replies, id, updateFn),
-        };
-      }
-      return comment;
-    });
-  };
-
-  useEffect(
-    function () {
-      if (isSuccess) {
-        toast.success('You just comment to a post');
-        setNewComment('');
-      }
-      if (error) {
-        if ('data' in error) {
-          toast.error(error?.data?.message || 'An error occured!');
-        } else {
-          toast.error('An unexpected error occured');
-        }
-      }
-    },
-    [isSuccess, error]
-  );
-
-  useEffect(
-    function () {
-      if (isMounted) {
-        setComments(initialComments);
-      }
-      setMount(true);
-    },
-    [isMounted, initialComments]
-  );
+  useEffect(() => {
+    if (isMounted) {
+      setComments(initialComments);
+    }
+    setMount(true);
+  }, [isMounted, initialComments]);
 
   if (!isMounted) {
     return null;
   }
+
   return (
-    <div className="mt-8 rounded-xl border border-neonPink-700/30 bg-customBlue-900 p-6 shadow-xl">
-      <h3 className="mb-6 flex items-center text-2xl font-semibold text-neonPink-300">
+    <div className="mt-8 p-0 md:rounded-xl md:border md:border-border md:bg-card md:p-2 md:shadow-md">
+      <h3 className="mb-6 flex items-center text-2xl font-semibold text-primary">
         <MessageSquare className="mr-2" />
         Comments ({comments?.length})
       </h3>
@@ -125,18 +61,18 @@ const CommentSection: React.FC<CommentSectionProps> = ({
           <img
             src="/path/to/user/photo.jpg"
             alt="Current User"
-            className="h-10 w-10 rounded-full border-2 border-electricCyan-500"
+            className="h-10 w-10 rounded-full border-2 border-primary"
           />
           <input
             type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder="Add a comment..."
-            className="flex-grow rounded-lg border border-neonPink-700/30 bg-customBlue-800 p-3 text-customBlue-100 placeholder-customBlue-400 transition-all duration-300 focus:border-transparent focus:outline-none focus:ring-2 focus:ring-neonPink-500"
+            className="flex-grow rounded-lg border border-input bg-background p-3 text-foreground placeholder-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring"
           />
           <button
             type="submit"
-            className="flex items-center rounded-lg bg-neonPink-600 px-6 py-3 font-bold text-white transition-colors duration-300 hover:bg-neonPink-500"
+            className="hidden items-center rounded-lg bg-primary px-6 py-3 font-bold text-primary-foreground hover:bg-primary/90 md:flex"
           >
             {isLoading ? (
               <span className="flex items-center justify-center">
@@ -155,14 +91,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({
 
       <div className="space-y-6">
         {comments?.map((comment) => (
-          <CommentItem
-            key={comment._id}
-            comment={comment}
-            onLike={handleLike}
-            onDislike={handleDislike}
-            onReply={handleReply}
-            postId={postId}
-          />
+          <CommentItem key={comment._id} comment={comment} postId={postId} />
         ))}
       </div>
     </div>

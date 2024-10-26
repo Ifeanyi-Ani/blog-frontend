@@ -17,10 +17,6 @@ const CreatePostPage = () => {
         <BackBtn text="Back" />
       </div>
 
-      <div className="space-y-2 text-center">
-        <GlowHeading heading="Create New Post" />
-      </div>
-
       <CreatePostForm />
     </>
   );

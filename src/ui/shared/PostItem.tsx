@@ -1,179 +1,209 @@
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { toast } from 'react-hot-toast';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ChevronRight, MessageSquare, ThumbsUp } from 'lucide-react';
 import { format } from 'date-fns';
 import { MenuItem, MenuItems } from '@headlessui/react';
+import { motion } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 import { IPost } from '../../types/type';
 import { DropDownMenu } from './DropDownMenu';
 import CommentSection from '../../features/comments/CommentSection';
 import { useGetPostCommentsQuery } from '../../features/comments/commentSlice';
+import { useAppSelector } from '../../app/hook';
+import { CodeBlock } from '../../features/posts/SyntaxHighligher';
+import {
+  useDeletePostMutation,
+  useLikePostMutation,
+} from '../../features/posts/postSlice';
+import { cn } from '../../lib/utils';
 
-interface PostItemProps {
-  post: IPost;
+interface PostItemProps<T extends IPost> {
+  post: T;
   isPreview?: boolean;
 }
 
-const PostItem: React.FC<PostItemProps> = ({ post, isPreview = false }) => {
-  const {
-    data: initialComments,
-    isLoading,
-    error,
-  } = useGetPostCommentsQuery(post?._id);
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-  const [comments, setComments] = useState([]);
-  useEffect(
-    function () {
-      if (isPreview) {
-        setComments(initialComments);
-      }
-    },
-    [isPreview]
-  );
+export default function PostItem<T extends IPost>({
+  post,
+  isPreview = false,
+}: PostItemProps<T>) {
+  const navigate = useNavigate();
+  const { currentUser } = useAppSelector((state) => state.auth);
 
+  const { data: initialComments } = useGetPostCommentsQuery(post?._id);
+
+  const [likePost] = useLikePostMutation();
+  const [deletePost, { isSuccess: deleteSuccess, error: deleteError }] =
+    useDeletePostMutation();
+
+  const onLike = async (postId: string) => {
+    try {
+      await likePost(postId).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onPostDelete = async (postId: string) => {
+    try {
+      await deletePost(postId).unwrap();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    if (deleteSuccess) {
+      toast.success('Post deleted successfully');
+      navigate('/');
+    }
+    if (deleteError) {
+      if ('data' in deleteError) {
+        toast.error(
+          deleteError.data.message || 'An error occured while deleting post'
+        );
+      } else {
+        toast.error('An unexpected error occured');
+      }
+    }
+  });
   return (
-    <div className="rounded-xl p-0 transition-all duration-300 md:bg-customBlue-900 md:p-6 md:shadow-xl">
-      <div className="mb-4 flex items-start justify-between">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.3 }}
+      className={`grid w-full p-2 transition-all duration-300 ${!isPreview && 'rounded-lg bg-card shadow-md hover:shadow-lg'}`}
+    >
+      <div className="relative mb-4 flex items-start justify-between">
         <Link
           to={`/posts/${post._id}`}
-          className="text-3xl font-semibold text-neonPink-300 transition-colors duration-200 hover:text-neonPink-200"
+          className="text-xl font-semibold text-primary transition-colors duration-200 hover:text-primary/80 hover:underline sm:text-2xl"
         >
           {post.title}
         </Link>
-        <DropDownMenu>
-          <MenuItems className="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-customBlue-700 rounded-md bg-customBlue-800 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-            <div className="px-1 py-1">
-              <MenuItem>
-                {({ focus }) => (
-                  <button
-                    className={`${
-                      focus
-                        ? 'bg-customBlue-700 text-electricCyan-300'
-                        : 'text-electricCyan-400'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
-                  >
-                    Edit
-                  </button>
-                )}
-              </MenuItem>
-              <MenuItem>
-                {({ focus }) => (
-                  <button
-                    className={`${
-                      focus
-                        ? 'bg-customBlue-700 text-customRed-300'
-                        : 'text-customRed-400'
-                    } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
-                  >
-                    Delete
-                  </button>
-                )}
-              </MenuItem>
-            </div>
-          </MenuItems>
-        </DropDownMenu>
+        {isPreview && currentUser?.id === post.author._id && (
+          <DropDownMenu>
+            <MenuItems className="absolute right-0 !z-20 mt-2 w-56 origin-top-right divide-y divide-border rounded-md bg-popover shadow-lg ring-1 ring-primary/10 focus:outline-none">
+              <div className="px-1 py-1">
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`${
+                        focus
+                          ? 'bg-accent text-accent-foreground'
+                          : 'text-foreground hover:bg-accent/10'
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
+                    >
+                      Edit
+                    </button>
+                  )}
+                </MenuItem>
+                <MenuItem>
+                  {({ focus }) => (
+                    <button
+                      className={`${
+                        focus
+                          ? 'bg-destructive text-destructive-foreground'
+                          : 'text-destructive hover:bg-destructive/10'
+                      } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
+                      onClick={() => onPostDelete(post._id as string)}
+                    >
+                      Delete
+                    </button>
+                  )}
+                </MenuItem>
+              </div>
+            </MenuItems>
+          </DropDownMenu>
+        )}
+      </div>
+
+      <div className="mb-4 flex items-center space-x-2 text-xs text-muted-foreground sm:text-sm">
+        <img
+          src={post.author.photo}
+          alt={post.author.username}
+          className="h-6 w-6 rounded-full border border-primary/20 sm:h-8 sm:w-8"
+        />
+        <span className="font-medium text-foreground/80">
+          {post.author?.username}
+        </span>
+        <span>•</span>
+        <span>{format(new Date(post.createdAt as string), 'MMM d, yyyy')}</span>
+      </div>
+
+      <div
+        className={`prose prose-sm dark:prose-invert mb-6 w-full overflow-hidden text-foreground ${
+          !isPreview && 'line-clamp-3'
+        }`}
+      >
+        <ReactMarkdown
+          remarkPlugins={[remarkGfm]}
+          components={{
+            code({ node, className, children, ...props }) {
+              const match = /language-(\w+)/.exec(className || '');
+              return node && match ? (
+                <CodeBlock language={match[1]}>
+                  {String(children).replace(/\n$/, '')}
+                </CodeBlock>
+              ) : (
+                <code className={className} {...props}>
+                  {children}
+                </code>
+              );
+            },
+          }}
+        >
+          {post.content}
+        </ReactMarkdown>
       </div>
 
       {!isPreview && (
-        <>
-          <div className="mb-4 flex items-center space-x-2 text-subtle text-electricCyan-300">
-            <img
-              src={post.author.photo}
-              alt={post.author.username}
-              className="h-8 w-8 rounded-full border-2 border-neonPink-500"
-            />
-            <span>{post.author?.username}</span>
-            <span>•</span>
-            <span>
-              {format(new Date(post.createdAt as string), 'MMM d, yyyy')}
-            </span>
-          </div>
-        </>
-      )}
-      {isPreview && (
-        <>
-          {post.images && post.images.length > 0 && (
-            <div className="mb-6 flex items-center">
-              <img
-                src={post?.author?.photo}
-                alt={post.author.username}
-                className="h-12 w-12 rounded-full border-2 border-electricCyan-500"
-              />
-              <div className="ml-4">
-                <p className="font-semibold text-electricCyan-300">
-                  {post.author.username}
-                </p>
-                <p className="text-sm text-customBlue-300">
-                  Posted on {formatDate(post.createdAt as string)} ·{' '}
-                  {Math.ceil(post.content.length / 1000)} min read
-                </p>
-              </div>
-            </div>
-          )}
-        </>
-      )}
-      <div
-        className={`prose prose-sm prose-headings:text-neonPink-300 prose-a:text-electricCyan-400 hover:prose-a:text-electricCyan-300 mb-6 max-w-none text-customBlue-100 ${!isPreview && 'line-clamp-3'}`}
-        dangerouslySetInnerHTML={{ __html: post.content }}
-      />
-      {!isPreview && (
         <Link
           to={`/posts/${post._id}`}
-          className="flex items-center text-neonPink-400 transition-colors duration-200 hover:text-neonPink-300"
+          className="flex items-center text-primary transition-colors duration-200 hover:text-primary/80"
         >
           Read More
           <ChevronRight size={16} className="ml-1" />
         </Link>
       )}
-      {post.images && post.images.length > 0 && (
-        <div className="mb-6 grid grid-cols-2 gap-4">
-          {post.images.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`Post ${index + 1}`}
-              className="h-48 w-full rounded-lg border border-neonPink-500/30 object-cover shadow-md transition-transform duration-300 hover:scale-105"
-            />
-          ))}
-        </div>
-      )}
+
       <div className="mb-6 flex flex-wrap gap-2">
         {post?.tags?.map((tag) => (
           <span
             key={tag._id}
-            className="rounded-full border border-electricCyan-700 bg-electricCyan-900 px-3 py-1 text-xs font-medium text-electricCyan-300 transition-colors duration-200 hover:bg-electricCyan-800 hover:text-electricCyan-200"
+            className="rounded-full bg-secondary/10 px-2 py-1 text-xs font-medium text-secondary transition-colors duration-200 hover:bg-secondary/20"
           >
             {tag.text}
           </span>
         ))}
       </div>
-      <div className="flex items-center space-x-6 text-neonPink-400">
-        <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-neonPink-300">
-          <ThumbsUp size={18} />
-          <span>{post.likes?.length}</span>
+
+      <div className="flex items-center space-x-6 text-muted-foreground">
+        <button
+          className={cn(
+            'flex items-center space-x-2 transition-colors duration-200 hover:text-primary',
+            post.likes?.includes(currentUser?._id as string) && 'text-accent'
+          )}
+          onClick={() => onLike(post._id as string)}
+        >
+          <ThumbsUp size={16} />
+          <span className="text-sm">{post.likes?.length}</span>
         </button>
 
-        <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-neonPink-300">
-          <MessageSquare size={18} />
-          <span>{initialComments?.length}</span>
+        <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-primary">
+          <MessageSquare size={16} />
+          <span className="text-sm">{initialComments?.length}</span>
         </button>
       </div>
+
       {isPreview && (
         <CommentSection
           initialComments={initialComments}
           postId={post._id as string}
         />
       )}
-    </div>
+    </motion.div>
   );
-};
-
-export default PostItem;
+}

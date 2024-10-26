@@ -22,7 +22,7 @@ export function SortableHeader<T extends SortField>({
   onSort,
 }: SortableHeaderProps<T>) {
   return (
-    <div className="flex items-center space-x-2">
+    <div className="hidden items-center space-x-2 md:flex">
       {sortOptions.map((option) => (
         <SortButton
           key={option.field}
@@ -56,10 +56,10 @@ function SortButton<T extends SortField>({
   return (
     <button
       onClick={onClick}
-      className={`focus-visible:ring-ring ring-offset-background inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
+      className={`inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ${
         isActive
-          ? 'bg-customBlue-700 text-customBlue-100'
-          : 'bg-customBlue-800 text-customBlue-300 hover:bg-customBlue-700 hover:text-customBlue-100'
+          ? 'bg-destructive text-destructive-foreground hover:bg-accent-foreground/50 hover:text-accent'
+          : 'bg-secondary text-secondary-foreground hover:bg-accent-foreground/50 hover:text-accent'
       } h-10 px-4 py-2`}
     >
       {label}
