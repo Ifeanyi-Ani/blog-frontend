@@ -1,19 +1,22 @@
 import { toast } from 'react-hot-toast';
 import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronRight, MessageSquare, ThumbsUp } from 'lucide-react';
-import { format } from 'date-fns';
+import {
+  ChevronRight,
+  Image,
+  MessageSquare,
+  ThumbsUp,
+  Clock,
+} from 'lucide-react';
 import { MenuItem, MenuItems } from '@headlessui/react';
 import { motion } from 'framer-motion';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
+import { formatDate as format } from '../../lib/utils';
 import { IPost } from '../../types/type';
 import { DropDownMenu } from './DropDownMenu';
 import CommentSection from '../../features/comments/CommentSection';
 import { useGetPostCommentsQuery } from '../../features/comments/commentSlice';
 import { useAppSelector } from '../../app/hook';
-import { CodeBlock } from '../../features/posts/SyntaxHighligher';
 import {
   useDeletePostMutation,
   useLikePostMutation,
@@ -31,179 +34,204 @@ export default function PostItem<T extends IPost>({
 }: PostItemProps<T>) {
   const navigate = useNavigate();
   const { currentUser } = useAppSelector((state) => state.auth);
-
   const { data: initialComments } = useGetPostCommentsQuery(post?._id);
-
   const [likePost] = useLikePostMutation();
   const [deletePost, { isSuccess: deleteSuccess, error: deleteError }] =
     useDeletePostMutation();
 
-  const onLike = async (postId: string) => {
+  const decodeHtml = (html: string) => {
+    const txt = document.createElement('textarea');
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
+  const decodedContent = decodeHtml(post.content || '');
+  const imgMatch = decodedContent.match(/<img[^>]*src=["']([^"']*)["'][^>]*>/);
+  const imgSrc = imgMatch ? imgMatch[1] : '';
+
+  const previewText = decodedContent
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .split(' ')
+    .slice(0, 30)
+    .join(' ');
+
+  const handleLike = async () => {
     try {
-      await likePost(postId).unwrap();
+      await likePost(post._id as string).unwrap();
+      toast.success('Post liked!');
     } catch (error) {
-      console.log(error);
+      toast.error('Failed to like post');
     }
   };
 
-  const onPostDelete = async (postId: string) => {
+  const handleDelete = async () => {
     try {
-      await deletePost(postId).unwrap();
+      await deletePost(post._id as string).unwrap();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
+
   useEffect(() => {
     if (deleteSuccess) {
       toast.success('Post deleted successfully');
       navigate('/');
     }
     if (deleteError) {
-      if ('data' in deleteError) {
-        toast.error(
-          deleteError.data.message || 'An error occured while deleting post'
-        );
-      } else {
-        toast.error('An unexpected error occured');
-      }
+      toast.error('Failed to delete post');
     }
-  });
+  }, [deleteSuccess, deleteError, navigate]);
+
   return (
-    <motion.div
+    <motion.article
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.3 }}
-      className={`grid w-full p-2 transition-all duration-300 ${!isPreview && 'rounded-lg bg-card shadow-md hover:shadow-lg'}`}
+      className="group relative overflow-hidden px-6"
     >
-      <div className="relative mb-4 flex items-start justify-between">
-        <Link
-          to={`/posts/${post._id}`}
-          className="text-xl font-semibold text-primary transition-colors duration-200 hover:text-primary/80 hover:underline sm:text-2xl"
-        >
-          {post.title}
-        </Link>
-        {isPreview && currentUser?.id === post.author._id && (
+      {isPreview && currentUser?.id === post.author._id && (
+        <div className="absolute right-4 top-4 z-10">
           <DropDownMenu>
-            <MenuItems className="absolute right-0 !z-20 mt-2 w-56 origin-top-right divide-y divide-border rounded-md bg-popover shadow-lg ring-1 ring-primary/10 focus:outline-none">
-              <div className="px-1 py-1">
-                <MenuItem>
-                  {({ focus }) => (
-                    <button
-                      className={`${
-                        focus
-                          ? 'bg-accent text-accent-foreground'
-                          : 'text-foreground hover:bg-accent/10'
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
-                    >
-                      Edit
-                    </button>
-                  )}
-                </MenuItem>
-                <MenuItem>
-                  {({ focus }) => (
-                    <button
-                      className={`${
-                        focus
-                          ? 'bg-destructive text-destructive-foreground'
-                          : 'text-destructive hover:bg-destructive/10'
-                      } group flex w-full items-center rounded-md px-2 py-2 text-sm transition-colors duration-200`}
-                      onClick={() => onPostDelete(post._id as string)}
-                    >
-                      Delete
-                    </button>
-                  )}
-                </MenuItem>
-              </div>
+            <MenuItems
+              className="w-fit rounded-lg bg-card p-1 shadow-xl"
+              anchor="left"
+            >
+              <MenuItem>
+                {({ focus }) => (
+                  <button
+                    className={cn(
+                      'w-full rounded-md px-3 py-2 text-sm transition-colors',
+                      focus && 'bg-primary text-primary-foreground'
+                    )}
+                  >
+                    Edit
+                  </button>
+                )}
+              </MenuItem>
+              <MenuItem>
+                {({ focus }) => (
+                  <button
+                    onClick={handleDelete}
+                    className={cn(
+                      'w-full rounded-md px-3 py-2 text-sm transition-colors',
+                      focus && 'bg-destructive text-destructive-foreground'
+                    )}
+                  >
+                    Delete
+                  </button>
+                )}
+              </MenuItem>
             </MenuItems>
           </DropDownMenu>
+        </div>
+      )}
+
+      <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <img
+            src={post.author.photo}
+            alt={post.author.username}
+            className="h-10 w-10 rounded-full object-cover ring-2 ring-primary/20"
+          />
+          <div>
+            <p className="font-medium text-primary">{post.author?.username}</p>
+            <div className="flex items-center space-x-2 text-sm text-muted-foreground dark:text-gray-400">
+              <Clock size={14} />
+              <time>{format(new Date(post.createdAt as string))}</time>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Link to={`/posts/${post._id}`} className="block">
+        <div className="grid gap-6 md:grid-cols-3">
+          <div className="md:col-span-2">
+            <h2 className="mb-4 text-2xl font-bold text-primary">
+              {post.title}
+            </h2>
+            {!isPreview && (
+              <p className="mb-4 text-muted-foreground">{previewText}...</p>
+            )}
+            <div className="flex flex-wrap gap-2">
+              {post.tags?.map((tag) => (
+                <span
+                  key={tag._id}
+                  className="rounded-full bg-secondary px-3 py-1 text-sm font-medium text-secondary-foreground"
+                >
+                  {tag.text}
+                </span>
+              ))}
+            </div>
+          </div>
+          {!isPreview && (
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg">
+              {imgSrc ? (
+                <img
+                  src={imgSrc}
+                  alt="Post cover"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+              ) : (
+                <div className="flex h-full items-center justify-center bg-gray-100 dark:bg-gray-700">
+                  <Image className="h-16 w-16 text-gray-400" />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </Link>
+
+      {isPreview && (
+        <div
+          className="prose prose-lg dark:prose-invert mt-8 max-w-none"
+          dangerouslySetInnerHTML={{ __html: decodedContent }}
+        />
+      )}
+
+      <div className="mt-6 flex items-center justify-between">
+        <div className="flex items-center space-x-4">
+          <button
+            onClick={handleLike}
+            className={cn(
+              'flex items-center space-x-2 rounded-full bg-secondary/50 px-4 py-2 hover:bg-secondary',
+              post.likes?.includes(currentUser?._id as string) &&
+                'bg-primary/10 text-primary hover:bg-primary/20'
+            )}
+          >
+            <ThumbsUp size={18} />
+            <span>{post.likes?.length || 0}</span>
+          </button>
+          <button
+            className="flex items-center space-x-2 rounded-full bg-gray-100 bg-secondary/50 px-4 py-2"
+            onClick={() => navigate(`/posts/${post._id}`)}
+          >
+            <MessageSquare size={18} />
+            <span>{initialComments?.length || 0}</span>
+          </button>
+        </div>
+
+        {!isPreview && (
+          <Link
+            to={`/posts/${post._id}`}
+            className="flex items-center space-x-2 font-medium text-accent-foreground transition-colors hover:text-accent-foreground/80"
+          >
+            <span>Read More</span>
+            <ChevronRight size={16} />
+          </Link>
         )}
       </div>
 
-      <div className="mb-4 flex items-center space-x-2 text-xs text-muted-foreground sm:text-sm">
-        <img
-          src={post.author.photo}
-          alt={post.author.username}
-          className="h-6 w-6 rounded-full border border-primary/20 sm:h-8 sm:w-8"
-        />
-        <span className="font-medium text-foreground/80">
-          {post.author?.username}
-        </span>
-        <span>•</span>
-        <span>{format(new Date(post.createdAt as string), 'MMM d, yyyy')}</span>
-      </div>
-
-      <div
-        className={`prose prose-sm dark:prose-invert mb-6 w-full overflow-hidden text-foreground ${
-          !isPreview && 'line-clamp-3'
-        }`}
-      >
-        <ReactMarkdown
-          remarkPlugins={[remarkGfm]}
-          components={{
-            code({ node, className, children, ...props }) {
-              const match = /language-(\w+)/.exec(className || '');
-              return node && match ? (
-                <CodeBlock language={match[1]}>
-                  {String(children).replace(/\n$/, '')}
-                </CodeBlock>
-              ) : (
-                <code className={className} {...props}>
-                  {children}
-                </code>
-              );
-            },
-          }}
-        >
-          {post.content}
-        </ReactMarkdown>
-      </div>
-
-      {!isPreview && (
-        <Link
-          to={`/posts/${post._id}`}
-          className="flex items-center text-primary transition-colors duration-200 hover:text-primary/80"
-        >
-          Read More
-          <ChevronRight size={16} className="ml-1" />
-        </Link>
-      )}
-
-      <div className="mb-6 flex flex-wrap gap-2">
-        {post?.tags?.map((tag) => (
-          <span
-            key={tag._id}
-            className="rounded-full bg-secondary/10 px-2 py-1 text-xs font-medium text-secondary transition-colors duration-200 hover:bg-secondary/20"
-          >
-            {tag.text}
-          </span>
-        ))}
-      </div>
-
-      <div className="flex items-center space-x-6 text-muted-foreground">
-        <button
-          className={cn(
-            'flex items-center space-x-2 transition-colors duration-200 hover:text-primary',
-            post.likes?.includes(currentUser?._id as string) && 'text-accent'
-          )}
-          onClick={() => onLike(post._id as string)}
-        >
-          <ThumbsUp size={16} />
-          <span className="text-sm">{post.likes?.length}</span>
-        </button>
-
-        <button className="flex items-center space-x-2 transition-colors duration-200 hover:text-primary">
-          <MessageSquare size={16} />
-          <span className="text-sm">{initialComments?.length}</span>
-        </button>
-      </div>
-
       {isPreview && (
-        <CommentSection
-          initialComments={initialComments}
-          postId={post._id as string}
-        />
+        <div className="mt-8 pt-8">
+          <CommentSection
+            initialComments={initialComments}
+            postId={post._id as string}
+          />
+        </div>
       )}
-    </motion.div>
+    </motion.article>
   );
 }

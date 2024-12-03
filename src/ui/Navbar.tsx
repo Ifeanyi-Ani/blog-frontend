@@ -15,7 +15,7 @@ const Navbar = function () {
 
   return (
     <>
-      <nav className="sticky top-0 z-50 w-full border-b bg-background py-2 shadow-md">
+      <nav className="sticky top-0 z-50 w-full border-b bg-primary/50 py-2 shadow-md backdrop-blur-sm">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
