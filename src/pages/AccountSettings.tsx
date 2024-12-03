@@ -33,10 +33,10 @@ const AccountSettings = () => {
   };
 
   return (
-    <div className="mt-10 min-h-screen bg-gradient-to-br from-background to-card p-6">
+    <div className="h-full bg-background">
       <div className="mx-auto max-w-6xl">
-        <div className="rounded-2xl border border-border/30 bg-card p-8 shadow-xl backdrop-blur-sm">
-          <h1 className="mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-4xl font-bold text-transparent">
+        <div className="">
+          <h1 className="mb-8 text-4xl font-bold text-primary/70">
             Account Settings
           </h1>
           <div className="flex flex-col space-y-6 md:flex-row md:space-x-8 md:space-y-0">
@@ -58,7 +58,7 @@ const AccountSettings = () => {
                 ))}
               </nav>
             </div>
-            <div className="w-full rounded-lg bg-card p-6 shadow-inner md:w-3/4">
+            <div className="h-full w-full overflow-y-scroll rounded-lg bg-card p-6 shadow-inner md:w-3/4">
               {renderTabContent()}
             </div>
           </div>

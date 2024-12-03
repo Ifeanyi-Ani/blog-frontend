@@ -30,12 +30,10 @@ const PostPreview: React.FC<PostPreviewProps> = () => {
 
   return (
     <>
-      <div className="mb-8">
-        <BackBtn text="Back to posts" to="/" className="text-secondary" />
-      </div>
+      <BackBtn text="Back to posts" to="/" />
       <PostItem post={post} isPreview />
 
-      <div className="mt-12">
+      <div className="mt-1">
         <h2 className="mb-6 text-2xl font-bold text-secondary-foreground">
           Recommended Posts
         </h2>

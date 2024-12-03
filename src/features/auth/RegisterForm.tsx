@@ -5,6 +5,7 @@ import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
+import { Fieldset, Label } from '@headlessui/react';
 
 import { FormField } from '../../ui/shared/FormField';
 import { SubmitBtn } from '../../ui/shared/SubmitBtn';
@@ -12,7 +13,7 @@ import { useSignUpMutation } from '../users/userSlice';
 
 const SignupSchema = z.object({
   username: z.string().min(3),
-  email: z.string().email(5),
+  email: z.string().email(),
   password: z.string().min(8),
   passwordConfirm: z.string().min(8),
   dob: z.string(),
@@ -65,11 +66,9 @@ export const RegisterForm = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <div className="space-y-2">
-        <label htmlFor="username" className="text-sm text-accent-foreground">
-          Username
-        </label>
+      <Fieldset className="space-y-2">
         <FormField
+          label="Username"
           name="username"
           type="text"
           placeholder="levia"
@@ -80,15 +79,10 @@ export const RegisterForm = () => {
             {errors.username.message}
           </span>
         )}
-      </div>
+      </Fieldset>
       <div className="space-y-2">
-        <label
-          htmlFor="email"
-          className="text-sm font-medium text-accent-foreground"
-        >
-          Email
-        </label>
         <FormField
+          label="Email"
           name="email"
           type="email"
           control={control}
@@ -101,13 +95,8 @@ export const RegisterForm = () => {
         )}
       </div>
       <div className="space-y-2">
-        <label
-          htmlFor="password"
-          className="text-sm font-medium text-accent-foreground"
-        >
-          Password
-        </label>
         <FormField
+          label="Password"
           name="password"
           type="password"
           control={control}
@@ -120,13 +109,8 @@ export const RegisterForm = () => {
         )}
       </div>
       <div className="space-y-2">
-        <label
-          htmlFor="passwordConfirm"
-          className="text-sm font-medium text-accent-foreground"
-        >
-          Confirm Password
-        </label>
         <FormField
+          label="Confirm Password"
           name="passwordConfirm"
           type="password"
           control={control}
@@ -139,13 +123,12 @@ export const RegisterForm = () => {
         )}
       </div>
       <div className="space-y-2">
-        <label
-          htmlFor="dob"
-          className="text-sm font-medium text-accent-foreground"
-        >
-          Date of Birth
-        </label>
-        <FormField name="dob" type="date" control={control} />
+        <FormField
+          label="Date of Birth"
+          name="dob"
+          type="date"
+          control={control}
+        />
         {errors.dob && (
           <span className="text-xs text-destructive">{errors.dob.message}</span>
         )}

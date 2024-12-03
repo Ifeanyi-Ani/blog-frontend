@@ -40,7 +40,9 @@ export function Profile<T extends IUser>({ user, children }: ProfileProps<T>) {
           </div>
         </div>
       </div>
-      <div className="rounded-lg bg-muted p-6 shadow-inner">{children}</div>
+      <div className="h-full overflow-y-scroll rounded-lg bg-muted p-6 shadow-inner">
+        {children}
+      </div>
     </div>
   );
 }
