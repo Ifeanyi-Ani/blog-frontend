@@ -44,12 +44,7 @@ export const CreatePostForm = () => {
 
   const [createPost, { isLoading }] = useCreatePostMutation();
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<CreatePostFormData>({
+  const { register, handleSubmit, setValue } = useForm<CreatePostFormData>({
     resolver: zodResolver(createPostSchema),
     defaultValues: {
       title: '',

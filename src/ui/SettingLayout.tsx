@@ -11,7 +11,7 @@ export default function SettingsLayout() {
   }
   return (
     <main className="container mx-auto min-h-screen rounded-md p-0 sm:p-2">
-      <div className="h-full w-full overflow-hidden">
+      <div className="grid w-full">
         <Outlet />
       </div>
     </main>
