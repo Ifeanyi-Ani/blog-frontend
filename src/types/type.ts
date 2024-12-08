@@ -1,3 +1,9 @@
+export type FormatState = {
+  bold: boolean;
+  italic: boolean;
+  list: boolean;
+  underline: boolean;
+};
 export interface Tag {
   _id?: string;
   id?: string;
@@ -37,6 +43,7 @@ export interface IUser {
   email: string;
   photo: string;
   role?: Role;
+  occupation?: string;
   dob: Date;
   bio: string;
   github: string;

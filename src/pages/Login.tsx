@@ -16,7 +16,7 @@ export default function LoginPage() {
         <BackBtn text="Home" to="/" />
       </div>
       <div className="space-y-2 text-center">
-        <h1 className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-5xl font-extrabold tracking-tighter text-transparent">
+        <h1 className="text-5xl font-extrabold tracking-tighter text-primary">
           Login
         </h1>
         <p className="text-sm text-muted-foreground">

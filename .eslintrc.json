@@ -35,6 +35,7 @@
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
     "react/react-in-jsx-scope": "off",
+    "jsx-a11y/heading-has-content": "off",
     "no-unused-vars": [
       "warn",
       { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }

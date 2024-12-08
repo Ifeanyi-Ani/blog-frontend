@@ -10,8 +10,8 @@ export default function SettingsLayout() {
     return <Navigate to="/" replace />;
   }
   return (
-    <main className="flex-grow overflow-y-auto">
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <main className="container mx-auto min-h-screen rounded-md p-0 sm:p-2">
+      <div className="grid w-full">
         <Outlet />
       </div>
     </main>

@@ -14,7 +14,7 @@ const VerifiyEmailSchema = z.object({
 
 type FormType = z.infer<typeof VerifiyEmailSchema>;
 
-export const VerifyEmail = ({ nextField }) => {
+export const VerifyEmail = ({ nextField }: { nextField: () => void }) => {
   const [verifyEmail, { data: response, isLoading, isSuccess, error }] =
     useVerifyEmailMutation();
   const {
@@ -57,12 +57,11 @@ export const VerifyEmail = ({ nextField }) => {
         label="Email"
       />
       {errors.email && (
-        <span className="text-xs text-customRed-400">
-          {errors.email.message}
-        </span>
+        <span className="text-xs text-destructive">{errors.email.message}</span>
       )}
       <SubmitBtn
-        type="submit"
+        type="button"
+        onClick={handleSubmit(onVerifyEmail)}
         loadingBtnText="Verifying..."
         btnText="Verify Email"
         isLoading={isLoading}

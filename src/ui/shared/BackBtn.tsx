@@ -13,7 +13,7 @@ export const BackBtn: React.FC<BackBtnProps> = ({
   text = 'Back',
 }) => {
   const navigate = useNavigate();
-  const style = `text-accent-foreground hover:text-primary transition-colors duration-200 inline-flex items-center ${className}`;
+  const style = `text-accent-foreground transition-colors duration-200 inline-flex items-center ${className}`;
   if (to) {
     return (
       <Link to={to} className={style}>

@@ -15,7 +15,7 @@ export default function SignupPage() {
         <BackBtn text="Home" to="/" />
       </div>
       <div className="space-y-2 text-center">
-        <h1 className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-5xl font-extrabold tracking-tighter text-transparent">
+        <h1 className="text-5xl font-extrabold tracking-tighter text-primary">
           Sign Up
         </h1>
         <p className="text-sm text-muted-foreground">
@@ -33,7 +33,7 @@ export default function SignupPage() {
           </span>
         </div>
       </div>
-      <button className="mt-4 w-full rounded-lg border border-input bg-secondary px-4 py-2 font-medium text-secondary-foreground transition-all hover:bg-secondary/80 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">
+      <button className="mt-4 w-full rounded-lg border border-input px-4 py-2 font-medium text-secondary-foreground transition-all hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-ring">
         Sign Up with Google
       </button>
       <div className="mt-4 text-center text-sm text-muted-foreground">

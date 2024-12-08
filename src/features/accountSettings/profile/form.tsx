@@ -52,7 +52,10 @@ export const ProfileForm = ({ user, userId }: ProfileFormProps) => {
   }, [isSuccess, error]);
 
   return (
-    <form onSubmit={handleSubmitProfile(onSubmitProfile)} className="space-y-4">
+    <form
+      onSubmit={handleSubmitProfile(onSubmitProfile)}
+      className="flex flex-col space-y-4"
+    >
       <FormField
         name="username"
         control={control}
@@ -97,7 +100,7 @@ export const ProfileForm = ({ user, userId }: ProfileFormProps) => {
         {!isEditing ? (
           <button
             type="submit"
-            className="flex items-center space-x-2 rounded-lg bg-electricCyan-600 px-4 py-2 text-customBlue-900"
+            className="flex items-center space-x-2 rounded-lg bg-primary px-4 py-2 text-primary-foreground"
           >
             <Edit2 size={18} />
             <span>Edit</span>
@@ -105,7 +108,7 @@ export const ProfileForm = ({ user, userId }: ProfileFormProps) => {
         ) : (
           <button
             type="submit"
-            className="flex items-center space-x-2 rounded-lg bg-neonPink-600 px-4 py-2 text-customBlue-900"
+            className="flex items-center space-x-2 rounded-lg bg-primary/80 px-4 py-2 text-primary-foreground"
             disabled={isLoading}
           >
             <Save size={18} />

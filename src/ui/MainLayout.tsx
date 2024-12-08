@@ -11,7 +11,7 @@ const MainLayout = () => {
   return (
     <div className="container mx-auto grid min-h-screen lg:grid-cols-3 lg:gap-6">
       <div className="w-full lg:col-span-2">
-        <div className="mx-auto w-full max-w-4xl space-y-8 px-1 md:px-2">
+        <div className="mx-auto mt-4 w-full max-w-4xl space-y-8 px-1 md:px-2">
           <Outlet />
         </div>
       </div>

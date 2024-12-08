@@ -38,10 +38,12 @@ const UserProfile: React.FC = () => {
           className="h-40 w-40 rounded-full border-4 border-primary shadow-lg shadow-primary/50"
         />
         <div className="flex-1 text-center md:text-left">
-          <h1 className="mb-2 bg-gradient-to-r from-primary to-secondary bg-clip-text text-4xl font-bold text-transparent">
-            {user.username}
-          </h1>
-          <p className="mb-4 text-secondary">@{user.username.toLowerCase()}</p>
+          <h5 className="mb-2 text-4xl font-bold text-primary/90">
+            @{user.username}
+          </h5>
+          <p className="mb-4 text-muted-foreground">
+            {user.email.toLowerCase()}
+          </p>
           <div className="mb-6 flex items-center justify-center space-x-4 md:justify-start">
             <span className="text-primary">
               <Users size={18} className="mr-2 inline" />
@@ -59,38 +61,33 @@ const UserProfile: React.FC = () => {
       </div>
       <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
         <div className="rounded-lg bg-card p-4 shadow-md shadow-accent transition-all duration-200 hover:shadow-md hover:shadow-primary/20">
-          <h2 className="mb-2 text-2xl font-semibold text-primary">
+          <h2 className="mb-2 text-2xl font-semibold text-primary/70">
             Recent Posts
           </h2>
           <ul className="space-y-2">
-            {[
-              'Optimizing React Renders',
-              'GraphQL vs REST',
-              'Dockerizing Your App',
-            ].map((post, index) => (
-              <li key={index} className="flex items-center text-secondary">
+            {user?.posts?.map((post, index) => (
+              <li
+                key={index}
+                className="flex items-center text-card-foreground"
+              >
                 <Book size={16} className="mr-2" />
-                <span>{post}</span>
+                <span>{post.title}</span>
               </li>
             ))}
           </ul>
         </div>
         <div className="rounded-lg bg-card p-4 shadow-md shadow-accent transition-all duration-200 hover:shadow-md hover:shadow-primary/20">
-          <h2 className="mb-2 text-2xl font-semibold text-primary">
+          <h2 className="mb-2 text-2xl font-semibold text-primary/70">
             Achievements
           </h2>
           <ul className="space-y-2">
-            {[
-              'Galactic Contributor',
-              'Nova Creator',
-              'Starlight Innovator',
-            ].map((achievement, index) => (
+            {Array.from({ length: 5 }).map((_, index) => (
               <li
                 key={index}
                 className="flex items-center text-card-foreground"
               >
                 <Award size={16} className="text-warning mr-2" />
-                <span>{achievement}</span>
+                <span>comming soon</span>
               </li>
             ))}
           </ul>

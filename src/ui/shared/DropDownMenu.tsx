@@ -7,20 +7,11 @@ interface DropDownMenuProps {
 }
 export const DropDownMenu: React.FC<DropDownMenuProps> = ({ children }) => {
   return (
-    <Menu as="div" className="relative inline-block text-left">
-      <MenuButton className="text-electricCyan-400 transition-colors duration-200 hover:text-electricCyan-300">
+    <Menu as="div" className="">
+      <MenuButton className="absolute right-4 top-4">
         <MoreHorizontal />
       </MenuButton>
-      <Transition
-        enter="transition ease-out duration-100"
-        enterFrom="transform opacity-0 scale-95"
-        enterTo="transform opacity-100 scale-100"
-        leave="transition ease-in duration-75"
-        leaveFrom="transform opacity-100 scale-100"
-        leaveTo="transform opacity-0 scale-95"
-      >
-        {children}
-      </Transition>
+      {children}
     </Menu>
   );
 };

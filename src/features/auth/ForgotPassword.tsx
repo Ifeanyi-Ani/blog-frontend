@@ -12,6 +12,7 @@ import { SubmitBtn } from '../../ui/shared/SubmitBtn';
 import { VerifyEmail } from '../../ui/VerifyEmail';
 import { useMutistepForm } from '../../utils/useMutistepForm';
 import { useResetPasswordMutation } from '../users/userSlice';
+import { Button } from '@headlessui/react';
 
 const FormSchema = z.object({
   pin: z.string().length(6),
@@ -54,16 +55,19 @@ export const ForgotPassword = ({ children }: { children?: ReactNode }) => {
         control={control}
         name="newPassword"
         type="password"
+        label="New Password"
         placeholder="Enter your new password"
       />
       <FormField
         control={control}
         name="confirmNewPassword"
         type="password"
+        label="Confirm New Password"
         placeholder="Confirm your new password"
       />
       <SubmitBtn
-        type="submit"
+        type="button"
+        onClick={handleSubmit(onSubmit)}
         loadingBtnText="Saving..."
         btnText="Reset Password"
         isLoading={isLoading}
@@ -109,12 +113,12 @@ export const ForgotPassword = ({ children }: { children?: ReactNode }) => {
 
   return (
     <>
-      <button
+      <Button
         onClick={() => setIsModalOpen(true)}
-        className="text-sm text-neonPink-400 transition-colors hover:text-neonPink-300"
+        className="text-sm text-accent-foreground hover:underline"
       >
         {children}
-      </button>
+      </Button>
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
